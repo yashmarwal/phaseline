@@ -31,7 +31,7 @@
     }
 
     toast.innerHTML = `
-      <span class="material-symbols-outlined ${iconColor} text-[20px]">${icon}</span>
+      <span class="material-symbols-outlined ${iconColor} text-[20px]" aria-hidden="true">${icon}</span>
       <span class="font-medium">${message}</span>
     `;
 
@@ -301,7 +301,7 @@
             </div>
           </div>
           <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors">
-            <span class="material-symbols-outlined text-[20px]">close</span>
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
           </button>
         </div>
 
@@ -346,7 +346,7 @@
           <span class="hidden sm:inline text-xs text-[#45474C]">Client project</span>
           <a href="/contact?project=${encodeURIComponent(data.title)}" class="bp-cta h-10 px-5 whitespace-nowrap max-sm:w-full max-sm:justify-center rounded-full bg-[#B8935A] text-[#0F1521] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow hover:bg-[#A6814B] transition-colors">
             <span>Get Something Like This</span>
-            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
           </a>
         </div>
       </div>
@@ -611,7 +611,7 @@
       <div class="relative w-full max-w-xl bg-[#F7F4EE] rounded-xl overflow-hidden shadow-2xl border-2 border-[#0F1521] modal-content flex flex-col">
         <div class="bg-[#0F1521] text-[#F7F4EE] px-6 py-4 flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[#B8935A]">verified</span>
+            <span class="material-symbols-outlined text-[#B8935A]" aria-hidden="true">verified</span>
             <span class="text-sm uppercase font-bold tracking-wider text-white">Message Received</span>
           </div>
           
@@ -636,11 +636,11 @@
           <div class="space-y-3 pt-2">
             <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="w-full h-12 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold text-sm flex items-center justify-center gap-2 shadow transition-transform hover:-translate-y-0.5">
               <span>Send via WhatsApp</span>
-              <span class="material-symbols-outlined text-[18px]">chat</span>
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">chat</span>
             </a>
 
             <button onclick="copyDossier()" class="w-full h-11 rounded-full bg-white hover:bg-slate-50 text-[#0F1521] border border-[#0F1521] font-semibold text-xs flex items-center justify-center gap-2 transition-colors">
-              <span class="material-symbols-outlined text-[16px]">content_copy</span>
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">content_copy</span>
               <span>Copy Summary</span>
             </button>
           </div>
