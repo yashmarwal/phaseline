@@ -58,8 +58,9 @@ const orgRef = { '@type': 'Organization', '@id': ORG, name: config.businessName,
 // icons, manifest, theme colour and font preloads: the same on every page, including the 404
 const extras = () => [
   ...(seo.preloadFonts || []).map((f) => `  <link rel="preload" href="${f}" as="font" type="font/woff2" crossorigin>`),
-  `  <link rel="icon" href="/favicon.ico" sizes="32x32">`,
-  `  <link rel="icon" type="image/svg+xml" href="/logo/app-icon.svg">`,
+  `  <link rel="icon" href="/favicon.ico" sizes="48x48">`,
+  `  <link rel="icon" type="image/svg+xml" href="/logo/favicon.svg" sizes="any">`,
+  `  <link rel="icon" type="image/png" sizes="48x48" href="/logo/favicon-48.png">`,
   `  <link rel="icon" type="image/png" sizes="192x192" href="/logo/icon-192.png">`,
   `  <link rel="apple-touch-icon" href="/logo/icon-180.png">`,
   `  <link rel="manifest" href="/manifest.webmanifest">`,
