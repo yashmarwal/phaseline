@@ -37,7 +37,7 @@ const reset = () => { aiCalls = 0; aiBody = null; aiReply = ok; aiStatus = 200; 
   assert.equal(r.code, 200); assert.equal(r.body.reply, 'Websites usually take 3 to 4 weeks.');
   assert.deepEqual(r.body.actions, ['process', 'form'], 'only real button ids are passed on');
   assert.ok(r.body.brief.includes('fabric')); assert.equal(r.body.left, 2);
-  assert.equal(aiBody.model, 'claude-haiku-5-5'); assert.ok(aiBody.max_tokens <= 250);
+  assert.equal(aiBody.model, 'claude-haiku-5-5'); assert.ok(!('temperature' in aiBody), 'Haiku 5.5 rejects the temperature setting'); assert.ok(aiBody.max_tokens <= 250);
   assert.equal(aiBody.system[0].cache_control.type, 'ephemeral', 'rules and facts are cached');
   assert.ok(/FACTS/.test(aiBody.system[0].text) && /Web Presence/.test(aiBody.system[0].text), 'the knowledge file is included');
   assert.equal(saved.length, 1); assert.equal(saved[0].length, 2, 'question and answer are saved');

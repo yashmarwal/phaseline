@@ -125,7 +125,6 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: 0.2,
         system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],   // the rules and facts rarely change, so they are cached
         messages: clean,
       }),
