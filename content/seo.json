@@ -1,0 +1,107 @@
+{
+  "themeColor": "#fcf9f3",
+  "preloadFonts": [
+    "/fonts/6b6fcaaf6b.woff2",
+    "/fonts/ebdd319644.woff2"
+  ],
+  "organization": {
+    "description": "We build websites, business systems and custom software for manufacturers, exporters, traders and service businesses across India.",
+    "addressLocality": "Delhi",
+    "addressCountry": "IN",
+    "logo": "/logo/icon-512.png",
+    "image": "/og-image.png"
+  },
+  "pages": [
+    {
+      "path": "/",
+      "file": "index",
+      "type": "WebPage"
+    },
+    {
+      "path": "/work",
+      "file": "work",
+      "type": "CollectionPage",
+      "crumb": "Work"
+    },
+    {
+      "path": "/services",
+      "file": "services",
+      "type": "WebPage",
+      "crumb": "Services",
+      "services": [
+        {
+          "name": "Web Presence",
+          "description": "A custom website that presents your business with the credibility serious buyers expect."
+        },
+        {
+          "name": "Business Systems",
+          "description": "A private operations platform that replaces registers, notebooks and scattered chats."
+        },
+        {
+          "name": "Custom Software & AI",
+          "description": "Purpose-built software for the problem no off-the-shelf tool solves."
+        }
+      ]
+    },
+    {
+      "path": "/process",
+      "file": "process",
+      "type": "WebPage",
+      "crumb": "Process"
+    },
+    {
+      "path": "/about",
+      "file": "about",
+      "type": "AboutPage",
+      "crumb": "About"
+    },
+    {
+      "path": "/contact",
+      "file": "contact",
+      "type": "ContactPage",
+      "crumb": "Contact",
+      "faq": [
+        {
+          "q": "What's the standard turnaround?",
+          "a": "3 to 8 weeks depending on service - see Services for the breakdown."
+        },
+        {
+          "q": "Do I own my website?",
+          "a": "Yes, 100%. The website files, design files and account logins are handed over to you at launch. No lock-in."
+        },
+        {
+          "q": "Can our team manage the site ourselves?",
+          "a": "Yes - lightweight admin panels are built for non-technical staff to handle updates without calling us."
+        }
+      ]
+    },
+    {
+      "path": "/privacy",
+      "file": "privacy",
+      "type": "WebPage",
+      "crumb": "Privacy Policy"
+    },
+    {
+      "path": "/terms",
+      "file": "terms",
+      "type": "WebPage",
+      "crumb": "Terms & Conditions"
+    },
+    {
+      "path": "/cookies",
+      "file": "cookies",
+      "type": "WebPage",
+      "crumb": "Cookies Policy"
+    },
+    {
+      "path": "/cancellation-and-refunds",
+      "file": "cancellation-and-refunds",
+      "type": "WebPage",
+      "crumb": "Cancellation & Refunds"
+    },
+    {
+      "file": "404",
+      "noindex": true
+    }
+  ]
+}

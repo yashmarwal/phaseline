@@ -45,6 +45,51 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/(work|logo)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/:file(styles.css|fonts.css|site.js|motion.js|phase-ai.js|phase-ai-match.js)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/ai-answers.json",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ],
   "crons": [
@@ -57,5 +102,33 @@
     "api/weekly-report.js": {
       "maxDuration": 60
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "phaseline-kohl.vercel.app"
+        }
+      ],
+      "destination": "https://www.phaseline.in/$1",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:page(work|services|process|about|contact|privacy|terms|cookies|cancellation-and-refunds).html",
+      "destination": "/:page",
+      "permanent": true
+    },
+    {
+      "source": "/:page(work|services|process|about|contact|privacy|terms|cookies|cancellation-and-refunds)/",
+      "destination": "/:page",
+      "permanent": true
+    }
+  ]
 }

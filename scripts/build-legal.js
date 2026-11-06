@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// Builds the four legal pages (public/<slug>.html), public/sitemap.xml and public/robots.txt.
+// Builds the four legal pages (public/<slug>.html), public/404.html, public/sitemap.xml and public/robots.txt.
 //   Text:    content/legal/<slug>.md   (edit these; no layout code in them)
 //   Layout:  content/legal/_layout.html (site header, footer and scripts)
 //   Values:  site.config.json           (business name, email, WhatsApp, hours, location, site URL)
 // Run with: node scripts/build-legal.js   (also runs as part of `npm run build`)
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
 const config = JSON.parse(fs.readFileSync(path.join(root, 'site.config.json'), 'utf8'));
@@ -101,7 +102,6 @@ ${secs}
   return layout
     .replace('{{TITLE}}', esc(meta.title))
     .replace('{{DESCRIPTION}}', esc(meta.description))
-    .replace('{{CANONICAL}}', `${config.siteUrl}/${meta.slug}`)
     .replace('{{MAIN}}', main);
 }
 
@@ -112,10 +112,35 @@ slugs.forEach((slug) => {
   console.log('built public/' + slug + '.html');
 });
 
+// 404 page: same header and footer, noindex (build-seo adds the robots tag and leaves it out of the sitemap)
+const link404 = (href, label) => `<a href="${href}" class="${link}">${label}</a>`;
+fs.writeFileSync(path.join(root, 'public/404.html'), layout
+  .replace('{{TITLE}}', 'Page not found')
+  .replace('{{DESCRIPTION}}', 'This page does not exist.')
+  .replace('{{MAIN}}', `  <main class="w-full pt-[78px] lg:pt-28 bg-background">
+    <section class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-24">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-on-surface" style="font-family: 'Fraunces', serif;">Page not found</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-4 leading-relaxed">That page does not exist. Try ${link404('/', 'Home')}, ${link404('/services', 'Services')}, ${link404('/work', 'Work')} or ${link404('/contact', 'Contact')}.</p>
+    </section>
+  </main>`));
+console.log('built public/404.html');
+
 // sitemap and robots (the four legal pages plus the site's own pages)
+// lastmod = date of the last git commit touching the page; where git is not available (the Vercel build) the date already in the sitemap is kept
+const sitemapFile = path.join(root, 'public/sitemap.xml');
+const prev = {};
+if (fs.existsSync(sitemapFile)) for (const m of fs.readFileSync(sitemapFile, 'utf8').matchAll(/<loc>[^<]*\/([^/<]*)<\/loc><lastmod>([^<]+)<\/lastmod>/g)) prev[m[1]] = m[2];
+const lastmod = (p) => {
+  if (slugs.includes(p)) return parse(path.join(dir, p + '.md')).meta.updated;
+  try {
+    const d = execFileSync('git', ['log', '-1', '--format=%cs', '--', `public/${p || 'index'}.html`], { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    if (d) return d;
+  } catch (e) { /* no git here */ }
+  return prev[p];
+};
+const NL = '\n';
 const pages = ['', 'work', 'services', 'process', 'about', 'contact', ...slugs];
-const today = new Date().toISOString().slice(0, 10);
-fs.writeFileSync(path.join(root, 'public/sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url><loc>${config.siteUrl}/${p}</loc>${slugs.includes(p) ? `<lastmod>${parse(path.join(dir, p + '.md')).meta.updated}</lastmod>` : ''}</url>`).join('\n')}\n</urlset>\n`);
-fs.writeFileSync(path.join(root, 'public/robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
+const urls = pages.map((p) => { const d = lastmod(p); return `  <url><loc>${config.siteUrl}/${p}</loc>${d ? `<lastmod>${d}</lastmod>` : ''}</url>`; });
+fs.writeFileSync(sitemapFile, ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...urls, '</urlset>', ''].join(NL));
+fs.writeFileSync(path.join(root, 'public/robots.txt'), ['User-agent: *', 'Allow: /', 'Disallow: /api/', '', `Sitemap: ${config.siteUrl}/sitemap.xml`, ''].join(NL));
 console.log('built public/sitemap.xml and public/robots.txt');

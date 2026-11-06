@@ -54,8 +54,8 @@
       if (!href) return;
 
       const isCurrent = 
-        (href === 'index.html' && (currentPath.endsWith('/') || currentPath.endsWith('/index') || currentPath === '')) ||
-        (href !== 'index.html' && currentPath.endsWith(href.replace('.html', '')));
+        (href === '/' && (currentPath.endsWith('/') || currentPath.endsWith('/index') || currentPath === '')) ||
+        (href !== '/' && currentPath.endsWith(href.replace('.html', '')));
 
       if (isCurrent) {
         link.classList.add('text-surface-bright', 'font-bold');
@@ -344,7 +344,7 @@
         <!-- Modal Footer -->
         <div class="bp-foot bg-[#E5E0D5] px-6 py-4 border-t border-[#0F1521]/15 flex items-center justify-between gap-4">
           <span class="hidden sm:inline text-xs text-[#45474C]">Client project</span>
-          <a href="contact.html?project=${encodeURIComponent(data.title)}" class="bp-cta h-10 px-5 whitespace-nowrap max-sm:w-full max-sm:justify-center rounded-full bg-[#B8935A] text-[#0F1521] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow hover:bg-[#A6814B] transition-colors">
+          <a href="/contact?project=${encodeURIComponent(data.title)}" class="bp-cta h-10 px-5 whitespace-nowrap max-sm:w-full max-sm:justify-center rounded-full bg-[#B8935A] text-[#0F1521] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow hover:bg-[#A6814B] transition-colors">
             <span>Get Something Like This</span>
             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
           </a>

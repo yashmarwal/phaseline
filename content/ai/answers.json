@@ -2,39 +2,39 @@
   "actions": {
     "services": {
       "label": "View services",
-      "href": "services.html"
+      "href": "/services"
     },
     "service_cards": {
       "label": "See the three services",
-      "href": "services.html#service-cards"
+      "href": "/services#service-cards"
     },
     "compare": {
       "label": "Compare services",
-      "href": "services.html#compare"
+      "href": "/services#compare"
     },
     "care": {
       "label": "About Care",
-      "href": "services.html#care"
+      "href": "/services#care"
     },
     "process": {
       "label": "See our process",
-      "href": "process.html#steps"
+      "href": "/process#steps"
     },
     "work": {
       "label": "See our work",
-      "href": "work.html#case-studies"
+      "href": "/work#case-studies"
     },
     "about": {
       "label": "About Phaseline",
-      "href": "about.html#our-story"
+      "href": "/about#our-story"
     },
     "contact": {
       "label": "Open contact page",
-      "href": "contact.html#start-project"
+      "href": "/contact#start-project"
     },
     "faq": {
       "label": "Read the FAQs",
-      "href": "contact.html#faq"
+      "href": "/contact#faq"
     },
     "terms_pay": {
       "label": "Payment terms",
