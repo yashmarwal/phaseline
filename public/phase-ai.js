@@ -17,7 +17,7 @@
   const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
   const S = { data: null, loading: null, open: false, started: false, msgs: [], aiUsed: [], left: null, brief: '', lastQuestion: '', session: '', formOpen: false };
-  let lip, scrim, drawer, log, input, sendBtn, note, leftEl;
+  let lip, scrim, drawer, log, input, sendBtn, note, leftEl, ringEl, glowEl, arcA, arcB;
 
   const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
   const norm = (p) => p.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1');
@@ -43,7 +43,7 @@
     scrim = el('div', 'pa-scrim');
     scrim.hidden = true;
 
-    drawer = el('section', 'pa', '<div class="pa-glow" aria-hidden="true"></div><div class="pa-ring" aria-hidden="true"></div>' +
+    drawer = el('section', 'pa', '<div class="pa-glow" aria-hidden="true"></div><div class="pa-ring" aria-hidden="true"><i class="pa-arc"></i><i class="pa-arc pa-long"></i></div>' +
       '<div class="pa-surface">' +
         '<div class="pa-head">' + ORB + '<div class="pa-title"><strong>Phase AI</strong><span class="pa-status">Answers in English &amp; Hinglish</span></div>' + BARS +
           '<button class="pa-close" type="button" aria-label="Close chat">&#x2715;</button></div>' +
@@ -67,6 +67,12 @@
     input = drawer.querySelector('.pa-input input');
     sendBtn = drawer.querySelector('.pa-send');
     leftEl = drawer.querySelector('.pa-left');
+    ringEl = drawer.querySelector('.pa-ring');
+    glowEl = drawer.querySelector('.pa-glow');
+    [arcA, arcB] = drawer.querySelectorAll('.pa-arc');
+    input.addEventListener('input', () => edgeKick(0.5));
+    input.addEventListener('focus', () => { edge.focus = true; });
+    input.addEventListener('blur', () => { edge.focus = false; });
 
     lip.addEventListener('click', () => (S.open ? close() : open()));
     lip.addEventListener('pointerenter', () => loadData().catch(() => {}), { once: true });
@@ -104,6 +110,44 @@
     if (window.requestIdleCallback) requestIdleCallback(prefetch, { timeout: 4000 }); else setTimeout(prefetch, 2500);
   }
 
+  // The light round the edge reacts like Bixby's: calm while idle, livelier as you type,
+  // full while Phase AI thinks, and it pulses when you send and when an answer arrives.
+  const edge = { e: 0, kick: 0, a: 0, t: 0, raf: 0, speakUntil: 0, focus: false, speak: false, n: 0, ema: 0, slow: 0, lite: 0 };
+  function edgeSet(e) {
+    ringEl.style.opacity = (0.55 + 0.45 * e).toFixed(2);
+    const g = e < 0.3 ? '0' : e < 0.65 ? '1' : '2';
+    if (drawer.dataset.glow !== g) drawer.dataset.glow = g;
+    arcB.style.opacity = Math.max(0, (e - 0.3) / 0.7).toFixed(2);       // a longer, softer tail joins in as the light gets livelier
+  }
+  function edgeTick(now) {
+    if (drawer.hidden) { edge.raf = 0; return; }
+    const ms = now - (edge.t || now);
+    const dt = Math.min(0.05, ms / 1000);
+    edge.t = now;
+    // frame-rate check: if a quarter of 120 frames in a row take longer than 33 ms, the machine is struggling, so the expensive
+    // effects are dropped (glass blur first, then the moving light). A few slow frames on a good machine change nothing.
+    if (++edge.n > 45) { edge.ema++; if (ms > 33) edge.slow++; }
+    if (edge.ema >= 120) { if (edge.slow > 30 && edge.lite < 2) { edge.lite++; drawer.dataset.lite = edge.lite; } edge.ema = 0; edge.slow = 0; }
+    const speaking = now < edge.speakUntil;
+    const target = drawer.dataset.busy === '1' ? 0.95 : speaking ? 0.7 : edge.focus ? 0.4 : 0.2;
+    edge.e += (target - edge.e) * (1 - Math.exp(-dt * 3.5));
+    edge.kick *= Math.exp(-dt * 3);
+    const e = Math.min(1, edge.e + edge.kick * 0.5 + 0.04 * Math.sin(now / 800));
+    edge.a = (edge.a + dt * (20 + 300 * e)) % 360;
+    if (edge.lite < 2) {
+      arcA.style.transform = 'rotate(' + edge.a.toFixed(1) + 'deg)';
+      arcB.style.transform = 'rotate(' + (120 - edge.a * 0.7).toFixed(1) + 'deg)';
+    }
+    edgeSet(e);
+    if (speaking !== edge.speak) { edge.speak = speaking; drawer.dataset.speak = speaking ? '1' : '0'; }
+    edge.raf = requestAnimationFrame(edgeTick);
+  }
+  function edgeStart() {
+    edge.e = 0; edge.t = 0; edge.n = 0; edge.ema = 0; edge.slow = 0;
+    if (reduced) edgeSet(0.3); else if (!edge.raf) edge.raf = requestAnimationFrame(edgeTick);
+  }
+  const edgeKick = (k) => { edge.kick = Math.min(1.2, edge.kick + k); };
+
   function place() {
     const top = Math.round(lip.getBoundingClientRect().bottom + 10);
     const vh = window.visualViewport ? visualViewport.height : innerHeight;
@@ -111,7 +155,9 @@
     const bottomGap = isPhone() && !keyboard ? 96 : 16;        // on phones keep the bottom tab bar visible
     drawer.style.setProperty('--pa-top', top + 'px');
     S.height = null;
-    drawer.style.setProperty('--pa-max', Math.max(260, vh - top - bottomGap) + 'px');
+    const maxH = Math.max(260, vh - top - bottomGap);
+    drawer.style.setProperty('--pa-max', maxH + 'px');
+    drawer.style.setProperty('--pa-d', Math.ceil(Math.hypot(Math.min(680, innerWidth - (isPhone() ? 20 : 24)), maxH)) + 'px');   // big enough that the rotating light always covers the edge
   }
 
   function open() {
@@ -125,6 +171,7 @@
     lip.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
     S.session = S.session || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+    edgeStart();
     S.settled = false;
     setTimeout(() => { S.settled = true; S.height = drawer.offsetHeight; }, 800);
     start();
@@ -181,6 +228,7 @@
     const n = el('div', 'pa-msg pa-user');
     n.textContent = text;
     log.appendChild(n);
+    edgeKick(0.9);
     S.msgs.push({ role: 'user', content: text });
     scrollLog();
   }
@@ -204,6 +252,8 @@
     log.appendChild(wrap);
     S.msgs.push({ role: 'assistant', content: text });
     const delay = reduced ? 0 : (i * (parseInt(wrap.style.getPropertyValue('--step'), 10) || 26)) / 1000 + 0.1;
+    edge.speakUntil = performance.now() + delay * 1000 + 500;
+    edgeKick(1);
     if (opts.actions && opts.actions.length) wrap.appendChild(actionRow(opts.actions, delay));
     if (opts.choices && opts.choices.length) wrap.appendChild(choiceRow(opts.choices, delay));
     if (opts.chips && opts.chips.length) wrap.appendChild(choiceRow(opts.chips, delay));
