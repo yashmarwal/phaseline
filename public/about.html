@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_standard" name="shell-type">
+  <title>About - Phaseline</title>
+  <meta name="description" content="Phaseline is a team that builds websites, business systems and custom software for Indian B2B businesses, from first call to launch, with 6 months of support included.">
+
+  <!-- Typography & Icons -->
+  <link rel="stylesheet" href="/fonts.css">
+  <link rel="icon" type="image/svg+xml" href="logo/app-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/icon-32.png">
+  <link rel="apple-touch-icon" href="logo/icon-180.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("motion");setTimeout(function(){document.documentElement.classList.remove("motion")},2500)}</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+
+  <!-- Universal Header -->
+  <header class="topbar fixed top-0 left-0 w-full z-50">
+    <div class="h-14 lg:h-16 w-full mx-auto pl-5 pr-2 lg:px-3 flex items-center justify-between">
+      <div class="flex items-center gap-space-lg">
+        <a class="wordmark" href="index.html" aria-label="Phaseline, home">Phaseline</a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 relative"><i class="nav-bubble"></i>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="index.html">Home</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="work.html">Work</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="services.html">Services</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="process.html">Process</a>
+        <a aria-current="page" class="relative z-10 px-4 py-2 rounded-full transition-colors text-white font-semibold text-sm hover:text-[#B8935A]" href="about.html">About</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="contact.html">Contact</a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-1.5 lg:gap-2">
+        <a class="inline-flex items-center justify-center h-8 px-3.5 lg:h-10 lg:px-5 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-[11px] lg:text-xs uppercase tracking-wide lg:tracking-wider hover:bg-[#fed394] transition-all shadow-[2px_2px_0px_#0F1521]" href="contact.html">
+          Start a Project
+        </a>
+        <a class="wa-chip" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" title="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Phone tab bar (static so it is there from first paint) -->
+  <nav id="tabbar" aria-label="Primary"><i class="tab-bubble" style="--i:4"></i><a href="index.html"><span class="material-symbols-outlined">home</span>Home</a><a href="work.html"><span class="material-symbols-outlined">work</span>Work</a><a href="services.html"><span class="material-symbols-outlined">category</span>Services</a><a href="process.html"><span class="material-symbols-outlined">route</span>Process</a><a href="about.html" aria-current="page"><span class="material-symbols-outlined">info</span>About</a></nav>
+  <script>try{var v=sessionStorage.getItem("tabIdx");if(v!==null)document.querySelector(".tab-bubble").style.setProperty("--i",v)}catch(e){}</script>
+
+  <!-- Main Content -->
+  <main class="w-full pt-[78px] lg:pt-28 bg-background">
+    <div class="flex flex-col w-full">
+
+      <!-- SECTION 1: STUDIO HERO -->
+      <section class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-12">
+        <div class="max-w-4xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EDE9DF] mb-4 border border-[#0F1521]/15 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#B8935A]"></span>
+            <span class="font-label-sm text-xs uppercase tracking-wider text-[#B8935A] font-bold">
+                The Studio
+              </span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-on-surface tracking-tight mb-4" style="font-family: 'Fraunces', serif; font-weight: 600;">
+            Software, Systems and Websites for Indian B2B Businesses
+          </h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+                We build websites, business systems and custom software for manufacturers, exporters, traders and service businesses across India.
+              </p>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ORIGIN & VIGNETTE -->
+      <section id="our-story" class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div class="lg:col-span-7 space-y-8">
+            <div class="space-y-3">
+              <span class="font-label-sm text-xs uppercase tracking-widest text-[#B8935A] font-bold">Our Story</span>
+              <h2 class="text-2xl sm:text-3xl text-on-surface font-bold" style="font-family: 'Fraunces', serif;">
+                Built by doing the work, not pitching it.
+              </h2>
+              <p class="font-body-md text-sm sm:text-base text-gray-700 leading-relaxed">
+                Phaseline began with real client work: a fabric trader in Surat, a screen printing manufacturer and a ladies' wear maker in Jaipur, a cotton apparel brand and a gym in Delhi. Each one needed something built around how it actually runs, not a template. We built for them one at a time, and Phaseline is the team that grew out of that work.</p>
+            </div>
+
+            <div class="p-6 md:p-8 rounded-xl bg-[#F7F4EE] border-2 border-[#0F1521] comic-panel space-y-4">
+              <div class="flex items-center gap-2 text-[#B8935A]">
+                <span class="material-symbols-outlined text-[20px]">architecture</span>
+                <span class="font-label-md text-xs uppercase tracking-wider font-bold">Why We Exist</span>
+              </div>
+              <h3 class="font-headline-sm text-xl font-bold text-on-surface" style="font-family: 'Fraunces', serif;">
+                The Gap We Close
+              </h3>
+              <p class="font-body-md text-sm text-gray-700 leading-relaxed">
+                Many Indian B2B businesses end up choosing between two poor options: a template site and borrowed tools that don't fit how they work, or an agency that charges a retainer for changes that should take an hour.
+              </p>
+              <p class="font-body-md text-sm text-gray-700 leading-relaxed">
+                Phaseline exists to close that gap: a custom website, business system or piece of software that fits how you work, that you own, with 6 months of support included.
+              </p>
+            </div>
+          </div>
+
+          <!-- Studio Desk Vignette -->
+          <div class="lg:col-span-5 flex flex-col items-center lg:items-end">
+            <div class="w-full max-w-[460px] bg-white rounded-xl p-5 border-2 border-[#0F1521] comic-panel">
+              <div class="w-full aspect-[4/3] bg-[#F7F4EE] rounded-lg p-2 flex items-center justify-center overflow-hidden border border-[#0F1521]/15">
+                <svg class="w-full h-full" fill="none" viewBox="0 0 400 300">
+                  <rect fill="#FFFFFF" height="130" rx="4" stroke="#0F1521" stroke-width="2" width="150" x="230" y="20"></rect>
+                  <path d="M 240 120 L 260 100 L 280 115 L 305 90 L 330 110 L 350 95 L 370 120" stroke="#0F1521" stroke-linecap="round" stroke-width="1.5"></path>
+                  <path d="M 285 90 L 285 70 L 305 70 L 305 90" stroke="#0F1521" stroke-width="1.5"></path>
+                  <path d="M 295 70 L 295 62" stroke="#0F1521" stroke-width="1.5"></path>
+                  <circle cx="295" cy="60" fill="#0F1521" r="1.5"></circle>
+                  <path d="M 335 110 L 335 80 Q 345 70 355 80 L 355 110" stroke="#0F1521" stroke-width="1.5"></path>
+                  <line stroke="#0F1521" stroke-dasharray="3 3" stroke-width="1.5" x1="230" x2="380" y1="85" y2="85"></line>
+                  <line stroke="#0F1521" stroke-width="1.5" x1="305" x2="305" y1="20" y2="150"></line>
+                  <rect fill="#E5E2DC" height="12" rx="2" stroke="#0F1521" stroke-width="2.5" width="360" x="20" y="180"></rect>
+                  <line stroke="#0F1521" stroke-linecap="round" stroke-width="3" x1="45" x2="45" y1="192" y2="280"></line>
+                  <line stroke="#0F1521" stroke-linecap="round" stroke-width="3" x1="355" x2="355" y1="192" y2="280"></line>
+                  <path d="M 60 180 L 95 105 L 140 105 L 105 180 Z" fill="#FFFFFF" stroke="#0F1521" stroke-width="2"></path>
+                  <path d="M 90 105 L 115 65" stroke="#0F1521" stroke-linecap="round" stroke-width="2.5"></path>
+                  <path d="M 115 65 L 145 75" stroke="#0F1521" stroke-linecap="round" stroke-width="2.5"></path>
+                  <path d="M 135 60 L 165 72 L 155 88 L 125 76 Z" fill="#B8935A" stroke="#0F1521" stroke-width="2"></path>
+                  <rect fill="#FFFFFF" height="65" rx="3" stroke="#0F1521" stroke-width="2" width="110" x="150" y="115"></rect>
+                  <rect fill="#161C28" height="57" rx="2" width="102" x="154" y="119"></rect>
+                  <rect fill="#B8935A" height="3" width="98" x="156" y="121"></rect>
+                  <line stroke="#FFFFFF" stroke-linecap="round" stroke-width="2" x1="162" x2="210" y1="133" y2="133"></line>
+                  <line stroke="#8A9A8B" stroke-linecap="round" stroke-width="1.5" x1="162" x2="195" y1="141" y2="141"></line>
+                  <line stroke="#E5E2DC" stroke-linecap="round" stroke-width="1.5" x1="162" x2="230" y1="149" y2="149"></line>
+                  <rect fill="none" height="24" rx="2" stroke="#B8935A" stroke-width="1.5" width="30" x="215" y="130"></rect>
+                  <path d="M 135 180 L 275 180 L 265 174 L 145 174 Z" fill="#E5E2DC" stroke="#0F1521" stroke-width="2"></path>
+                  <rect fill="#FFFFFF" height="28" rx="3" stroke="#0F1521" stroke-width="2" width="28" x="290" y="152"></rect>
+                  <rect fill="#B8935A" height="6" rx="1" width="22" x="293" y="155"></rect>
+                  <path d="M 318 160 Q 326 166 318 172" fill="none" stroke="#0F1521" stroke-linecap="round" stroke-width="2"></path>
+                  <ellipse cx="304" cy="179" fill="#E5E2DC" rx="18" ry="3" stroke="#0F1521" stroke-width="1.5"></ellipse>
+                </svg>
+              </div>
+              
+            </div>
+
+            <!-- Architect Signature Card -->
+            <div class="w-full max-w-[460px] mt-4 p-4 rounded-xl bg-[#EDE9DF] flex items-center justify-between border border-[#0F1521]/15 shadow-sm">
+              <div>
+                <p class="font-label-md text-sm text-on-surface font-bold">One team, start to finish</p>
+                <p class="font-body-sm text-xs text-gray-600">
+                Design, build and support, all in-house.
+              </p>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: MEASURED TRACK RECORD -->
+      <section id="at-a-glance" class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="bg-[#EDE9DF] rounded-xl p-8 md:p-12 border border-[#0F1521]/15">
+          <div class="mb-6 pb-2 border-b border-[#0F1521]/10">
+            <span class="font-label-sm text-xs uppercase tracking-widest text-[#B8935A] font-bold">At a Glance</span>
+            <h3 class="text-2xl text-on-surface font-bold mt-1" style="font-family: 'Fraunces', serif;">
+                Phaseline in Brief
+              </h3>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="space-y-1">
+              <div class="text-4xl lg:text-5xl text-[#B8935A] font-bold" style="font-family: 'Fraunces', serif;">3-8</div>
+      <p class="font-label-lg text-sm text-on-surface font-bold">Weeks to Launch</p>
+      <p class="font-body-sm text-xs text-gray-600">Websites in 3 to 4 weeks and business systems in 5 to 8, depending on scope.</p>
+            </div>
+            <div class="space-y-1">
+              <div class="text-4xl lg:text-5xl text-[#B8935A] font-bold" style="font-family: 'Fraunces', serif;">B2B</div>
+      <p class="font-label-lg text-sm text-on-surface font-bold">Our Focus</p>
+      <p class="font-body-sm text-xs text-gray-600">Manufacturers, traders and service businesses across India.</p>
+            </div>
+            <div class="space-y-1">
+              <div class="text-4xl lg:text-5xl text-[#B8935A] font-bold" style="font-family: 'Fraunces', serif;">Delhi</div>
+              <p class="font-label-lg text-sm text-on-surface font-bold">Based, Direct</p>
+              <p class="font-body-sm text-xs text-gray-600">The team you speak to is the team that builds it.</p>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: THREE NON-NEGOTIABLE OPERATING PRINCIPLES -->
+      <section id="principles" class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="max-w-2xl mb-8">
+          <span class="font-label-sm text-xs uppercase tracking-widest text-[#B8935A] font-bold">How We Work</span>
+          <h2 class="text-3xl sm:text-4xl text-on-surface font-bold mt-1" style="font-family: 'Fraunces', serif;">
+            Three Principles We Work By
+          </h2>
+        </div>
+
+        <div class="m-rail grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-[#F7F4EE] rounded-xl p-6 md:p-8 border-2 border-[#0F1521] comic-panel flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#B8935A] border border-[#0F1521]/15">
+                <span class="material-symbols-outlined text-[22px]">format_quote</span>
+              </div>
+              <span class="font-label-sm text-xs uppercase tracking-wider text-[#B8935A] font-bold">Principle 01</span>
+              <h3 class="font-headline-sm text-xl font-bold text-on-surface">Clarity Over Jargon</h3>
+              <p class="font-body-md text-sm text-gray-700 leading-relaxed">
+                We explain what we are building in plain language, and we measure success by the enquiries your business receives.
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-[#0F1521]/10">
+              <span class="font-label-sm text-xs text-on-surface font-semibold">Measured by: enquiries received</span>
+            </div>
+          </div>
+
+          <div class="bg-[#F7F4EE] rounded-xl p-6 md:p-8 border-2 border-[#0F1521] comic-panel flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#B8935A] border border-[#0F1521]/15">
+                <span class="material-symbols-outlined text-[22px]">bolt</span>
+              </div>
+              <span class="font-label-sm text-xs uppercase tracking-wider text-[#B8935A] font-bold">Principle 02</span>
+              <h3 class="font-headline-sm text-xl font-bold text-on-surface">Clear Timelines</h3>
+              <p class="font-body-md text-sm text-gray-700 leading-relaxed">
+                You know the timeline before we start: 3 to 4 weeks for a website and 5 to 8 for a business system. Custom software is timed after a consultation.
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-[#0F1521]/10">
+              
+            </div>
+          </div>
+
+          <div class="bg-[#F7F4EE] rounded-xl p-6 md:p-8 border-2 border-[#0F1521] comic-panel flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#B8935A] border border-[#0F1521]/15">
+                <span class="material-symbols-outlined text-[22px]">key</span>
+              </div>
+              <span class="font-label-sm text-xs uppercase tracking-wider text-[#B8935A] font-bold">Principle 03</span>
+              <h3 class="font-headline-sm text-xl font-bold text-on-surface">Built for Independence</h3>
+              <p class="font-body-md text-sm text-gray-700 leading-relaxed">
+                Admin panels are built so your team can update content and records without calling us for every change, and the code and data are yours once your project launches.
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-[#0F1521]/10">
+              <span class="font-label-sm text-xs text-on-surface font-semibold">Outcome: Zero vendor lock-in</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: EXECUTIVE REVIEW CALLOUT -->
+      <section class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-16 mb-8">
+        <div class="relative overflow-hidden rounded-xl bg-[#161c28] text-white p-8 md:p-14 shadow-xl border border-white/10" style="box-shadow: 4px 4px 0px #B8935A;">
+          <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="max-w-2xl space-y-3">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 text-[#fed394] text-xs uppercase tracking-widest font-bold border border-[#B8935A]/40">
+                Consultation
+              </div>
+              <h2 class="text-3xl sm:text-4xl text-white font-bold" style="font-family: 'Fraunces', serif;">
+                Book a working session with the team.
+              </h2>
+              <p class="font-body-md text-sm sm:text-base text-gray-300 max-w-xl leading-relaxed">
+                A working session to review your current setup and agree a clear scope, timeline and next steps. No sales pitch.
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-xs uppercase tracking-wider hover:bg-[#fed394] transition-all shadow" href="contact.html">
+                <span>Schedule Consultation</span>
+                <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="w-full bg-[#f6f3ed] border-t border-[#0F1521]/15">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-10 md:pt-16 pb-8 md:pb-12">
+      <div class="max-md:hidden bg-[#ebe8e2] rounded-xl p-8 mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-[#0F1521]/10">
+        <div class="space-y-1">
+          <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#785926] font-bold">Get in Touch</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Tell us what you need. We reply within 1 hour.</h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#0F1521] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#B8935A] hover:text-[#0F1521] transition-colors shadow" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-[#0F1521] font-bold text-xs uppercase tracking-wider border-2 border-[#0F1521] hover:bg-[#EDE9DF] transition-colors" href="mailto:connect@phaseline.in">Email us</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-12">
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Explore</h4>
+          <ul class="space-y-2">
+            <li><a href="work.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Selected Work</a></li>
+            <li><a href="services.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Services</a></li>
+            <li><a href="process.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Process</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">About Us</a></li>
+            
+            <li><a href="contact.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Start a Project</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Contact</h4>
+          <ul class="space-y-2">
+            
+            <li><a href="mailto:connect@phaseline.in" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">connect@phaseline.in</a></li>
+            <li><span class="font-body-sm text-body-sm text-gray-600">Phaseline, Delhi, India</span></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-[#0F1521]/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="font-body-sm text-body-sm text-gray-600">© 2026 Phaseline. All rights reserved.</p>
+        <nav aria-label="Legal">
+          <ul class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <li><a href="/privacy" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Terms</a></li>
+            <li><a href="/cookies" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cookies</a></li>
+            <li><a href="/cancellation-and-refunds" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cancellation &amp; Refunds</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script defer="" src="vendor/gsap.min.js"></script>
+  <script defer="" src="vendor/ScrollTrigger.min.js"></script>
+  <script defer="" src="vendor/SplitText.min.js"></script>
+  <script defer="" src="vendor/lenis.min.js"></script>
+  <script defer="" src="motion.js"></script>
+  <script defer="" src="phase-ai-match.js"></script>
+  <script defer="" src="phase-ai.js"></script>
+
+
+</body></html>

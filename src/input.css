@@ -1,0 +1,375 @@
+@import "./phase-ai.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Phaseline - Global Styles & Design System Utilities */
+
+/* Custom typography & root tokens */
+:root {
+  --color-primary: #0F1521;
+  --color-brass: #B8935A;
+  --color-brass-light: #FED394;
+  --color-canvas-light: #F7F4EE;
+  --color-canvas-cream: #FCF9F3;
+  --color-sage: #8A9A8B;
+  --color-terracotta: #B97A5B;
+  --color-border-dark: #0F1521;
+  --color-border-stone: #E5E0D5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Phones: nothing may widen the page sideways (stray transforms, carousels, long words) */
+html, body { overflow-x: clip; max-width: 100%; }
+html { scrollbar-gutter: stable; }
+
+/* Custom ink-line comic panel accents */
+.comic-panel {
+  border: 3px solid var(--color-primary);
+  box-shadow: 3px 3px 0px var(--color-primary);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.comic-panel:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--color-primary);
+}
+
+.comic-badge {
+  border: 2px solid var(--color-primary);
+  box-shadow: 1px 1px 0px var(--color-primary);
+}
+
+.brass-shadow {
+  box-shadow: 3px 3px 0px var(--color-brass);
+}
+
+.hard-btn {
+  border: 2px solid var(--color-primary);
+  box-shadow: 2px 2px 0px var(--color-primary);
+  transition: all 0.15s ease-out;
+}
+
+.hard-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-primary);
+}
+
+.hard-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--color-primary);
+}
+
+/* Modal backdrop & animations */
+.modal-overlay {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.modal-content { will-change: opacity; } /* GSAP drives the popup motion; a CSS transition here would fight it */
+
+/* Custom discrete scrollbar for code or modals */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 21, 33, 0.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brass);
+}
+
+/* Mobile drawer animation */
+#mobile-drawer {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Toast alert */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  border: 2px solid var(--color-primary);
+  box-shadow: 3px 3px 0px var(--color-primary);
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Phone UI (app-style layer) ---------- */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Card grids become swipeable rails under 768px */
+@media (max-width: 767px) {
+  .m-rail {
+    display: flex !important;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -1rem;
+    padding: 4px 1rem 6px;
+    scroll-padding-inline: 1rem;
+  }
+  .m-rail::-webkit-scrollbar { display: none; }
+  .m-rail > * { flex: 0 0 84%; min-width: 0; scroll-snap-align: start; margin: 0 !important; }
+}
+.m-dots { display: none; }
+@media (max-width: 767px) {
+  .m-dots { display: flex; justify-content: center; gap: 6px; padding: 10px 0 2px; }
+  .m-dots i { width: 6px; height: 6px; border-radius: 9999px; background: rgba(15, 21, 33, 0.2); transition: all 0.2s; }
+  .m-dots i.on { width: 20px; background: var(--color-brass); }
+}
+
+/* Segmented tabs (services tiers, matrix) */
+.seg { display: flex; gap: 4px; padding: 4px; border-radius: 9999px; background: #ebe8e2; border: 1px solid rgba(15, 21, 33, 0.1); }
+.seg button { flex: 1; height: 38px; border-radius: 9999px; font: 700 12px/1 Inter, system-ui, sans-serif; letter-spacing: 0.04em; color: #45474c; transition: all 0.15s; }
+.seg button[aria-pressed="true"] { background: var(--color-primary); color: #fff; box-shadow: 2px 2px 0 var(--color-brass); }
+
+/* Matrix: one tier column at a time on phones */
+@media (max-width: 767px) {
+  #matrix tr > *:nth-child(n + 2) { display: none; }
+  #matrix[data-tier="2"] tr > :nth-child(2),
+  #matrix[data-tier="3"] tr > :nth-child(3),
+  #matrix[data-tier="4"] tr > :nth-child(4) { display: table-cell; }
+}
+
+/* Bottom tab bar: floating glass pill (injected by site.js) */
+#tabbar { display: none; }
+@media (max-width: 1023px) {
+  body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  #toast-container { bottom: calc(96px + env(safe-area-inset-bottom)); right: 16px; left: 16px; }
+  #tabbar {
+    display: flex; position: fixed; z-index: 40; gap: 0; padding: 6px; isolation: isolate;
+    left: 50%; transform: translateX(-50%); width: min(calc(100% - 32px), 420px);
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    border-radius: 9999px;
+    /* clear glass: light tint, little blur; refraction comes from #lens (see site.js) */
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 55%),
+      rgba(24, 30, 44, 0.40);
+    -webkit-backdrop-filter: blur(5px) saturate(180%) brightness(1.05); backdrop-filter: blur(5px) saturate(180%) brightness(1.05);
+    box-shadow:
+      0 20px 40px -10px rgba(15, 21, 33, 0.38),
+      0 3px 8px rgba(15, 21, 33, 0.14),
+      inset 0 1px 1px rgba(255, 255, 255, 0.55),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      inset 0 0 22px rgba(255, 255, 255, 0.10);
+  }
+  #tabbar.lens { -webkit-backdrop-filter: url(#lens) blur(2px) saturate(180%) brightness(1.05); backdrop-filter: url(#lens) blur(2px) saturate(180%) brightness(1.05); }
+  /* specular rim: bright at the lit corners, fading along the sides */
+  #tabbar::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.05) 28%, rgba(255, 255, 255, 0.05) 70%, rgba(255, 255, 255, 0.75));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  #tabbar a {
+    position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 8px 0 7px; border-radius: 9999px;
+    font: 600 10px/1 Inter, system-ui, sans-serif; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.78);
+    text-shadow: 0 1px 2px rgba(15, 21, 33, 0.35);
+    transition: background 0.25s, color 0.25s, transform 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  #tabbar a:active { transform: scale(0.93); }
+  /* active tab = a raised glass bubble that slides between tabs */
+  #tabbar .tab-bubble {
+    position: absolute; z-index: -1; top: 6px; bottom: 6px; left: 6px; width: calc((100% - 12px) / 5);
+    border-radius: 9999px; pointer-events: none;
+    transform: translateX(calc(var(--i, 0) * 100%));
+    transition: transform 0.5s cubic-bezier(0.34, 1.35, 0.5, 1), opacity 0.25s;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.12));
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 4px 10px rgba(15, 21, 33, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  }
+  #tabbar a[aria-current] { color: #fff; }
+  #tabbar a[aria-current] .material-symbols-outlined { color: var(--color-brass-light); }
+  #tabbar .material-symbols-outlined { font-size: 22px; }
+}
+
+
+/* Page fade-out on internal link clicks (the entrance is handled by motion.js; header and tab bar stay put) */
+.leaving main, .leaving footer { opacity: 0; transition: opacity 0.18s ease-in; }
+
+/* ---------- Top bar: floating glass pill (phone and desktop) ---------- */
+.topbar {
+  top: 10px; left: 50%; width: min(calc(100% - 24px), 1180px); transform: translateX(-50%); isolation: isolate;
+  border: 0; border-radius: 9999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 55%),
+    rgba(24, 30, 44, 0.70);
+  -webkit-backdrop-filter: blur(5px) saturate(180%) brightness(1.05); backdrop-filter: blur(5px) saturate(180%) brightness(1.05);
+  box-shadow:
+    0 20px 40px -10px rgba(15, 21, 33, 0.38),
+    0 3px 8px rgba(15, 21, 33, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 22px rgba(255, 255, 255, 0.10);
+}
+.topbar.lens { -webkit-backdrop-filter: url(#lens-top) blur(2px) saturate(180%) brightness(1.05); backdrop-filter: url(#lens-top) blur(2px) saturate(180%) brightness(1.05); }
+.topbar::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.05) 28%, rgba(255, 255, 255, 0.05) 70%, rgba(255, 255, 255, 0.75));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.nav-bubble { position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; width: 0; opacity: 0; border-radius: 9999px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 10px rgba(15, 21, 33, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(255, 255, 255, 0.15); }
+.nav-bubble.slide { transition: left 0.5s cubic-bezier(0.34, 1.35, 0.5, 1), width 0.5s cubic-bezier(0.34, 1.35, 0.5, 1); }
+@media (min-width: 1024px) {
+  .topbar { top: 16px; width: min(calc(100% - 64px), 1180px); }
+  .topbar nav a { color: rgba(255, 255, 255, 0.94); text-shadow: 0 1px 2px rgba(15, 21, 33, 0.35); }
+  .topbar nav a:hover, .topbar nav a[aria-current] { color: #fff; }
+}
+
+
+/* Header polish (style only, nothing moves): condenses on scroll, light follows the pointer, hover lens, glint, drop-in */
+.topbar { animation: barIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; transition: background-color 0.3s, box-shadow 0.3s; }
+@keyframes barIn { from { opacity: 0; transform: translate(-50%, -22px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.topbar.scrolled { background-color: rgba(24, 30, 44, 0.78); box-shadow: 0 24px 44px -10px rgba(15, 21, 33, 0.5), 0 3px 8px rgba(15, 21, 33, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -1px 1px rgba(255, 255, 255, 0.2); }
+.topbar::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  background: radial-gradient(220px circle at var(--hx, 50%) 0%, rgba(255, 255, 255, 0.30), transparent 70%); }
+@media (hover: hover) { .topbar:hover::before { opacity: 1; } }
+.nav-hover { position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; width: 0; border-radius: 9999px; pointer-events: none; opacity: 0;
+  background: rgba(255, 255, 255, 0.14);
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s; }
+.topbar a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.topbar a[href="contact.html"].rounded-full { position: relative; overflow: hidden; }
+.topbar a[href="contact.html"].rounded-full::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-130%); transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.5) 50%, transparent 68%); }
+.topbar a[href="contact.html"].rounded-full:hover::after { transform: translateX(130%); }
+/* ---------- Motion layer ---------- */
+.motion main, .motion footer { opacity: 0; } /* held back until motion.js has set every start state, so nothing flashes then restarts */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+.marquee { flex: 1; min-width: 0; width: 100%; max-width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.marquee-track { display: flex; align-items: center; width: max-content; gap: 2.5rem; padding-right: 2.5rem; white-space: nowrap; }
+
+/* ---------- Text cards: blueprint drafting marks ---------- */
+.draft { position: relative; --p: 0; } /* --p (0-1) is driven by scroll in motion.js */
+.draft.marks::before {
+  content: ""; position: absolute; inset: calc(18px - 12px * var(--p)); pointer-events: none; opacity: var(--p); --c: var(--color-brass);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 12px 2px,    linear-gradient(var(--c), var(--c)) top left / 2px 12px,
+    linear-gradient(var(--c), var(--c)) top right / 12px 2px,   linear-gradient(var(--c), var(--c)) top right / 2px 12px,
+    linear-gradient(var(--c), var(--c)) bottom left / 12px 2px, linear-gradient(var(--c), var(--c)) bottom left / 2px 12px,
+    linear-gradient(var(--c), var(--c)) bottom right / 12px 2px, linear-gradient(var(--c), var(--c)) bottom right / 2px 12px;
+  background-repeat: no-repeat;
+}
+.draft .rule::after {
+  content: ""; display: inline-block; vertical-align: middle; width: calc(44px * var(--p)); height: 1px; margin-left: 10px; background: var(--color-brass);
+}
+@media (hover: hover) {
+  .draft { transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  .draft.marks:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--color-brass); }
+  .draft.marks:hover::before { transform: scale(0.965); }
+}
+
+
+/* Hero polish (style only): marker stroke under the gold phrase, panel art lifts on hover, button glint, visible focus */
+.hl-word { background-image: linear-gradient(var(--color-brass), var(--color-brass)); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 11%; }
+main > div > section:first-child .comic-panel svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@media (hover: hover) { main > div > section:first-child .comic-panel:hover svg { transform: translateY(-6px) scale(1.04) rotate(-1deg); } }
+main > div > section:first-child a.hard-btn { position: relative; overflow: hidden; }
+main > div > section:first-child a.hard-btn::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-130%); transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.5) 50%, transparent 68%); }
+main > div > section:first-child a.hard-btn:hover::after { transform: translateX(130%); }
+main > div > section:first-child a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
+.tw-caret { position: absolute; width: 2px; background: var(--color-primary); pointer-events: none; opacity: 0; }
+.tw-host { position: relative; }
+
+
+/* WhatsApp chip in the header: a slim glass circle, same height as the Start a Project button */
+.wa-chip {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 32px; height: 32px; border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04)), rgba(37, 211, 102, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: background 0.2s, transform 0.15s, border-color 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.wa-chip svg { width: 16px; height: 16px; fill: #3DEB7E; }
+.wa-chip:hover { background: linear-gradient(180deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.08)), rgba(37, 211, 102, 0.22); border-color: rgba(255, 255, 255, 0.5); }
+.wa-chip:active { transform: scale(0.93); }
+.wa-chip:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (min-width: 1024px) { .wa-chip { width: 40px; height: 40px; } .wa-chip svg { width: 19px; height: 19px; } }
+.topbar a[href="contact.html"].rounded-full { white-space: nowrap; }
+
+/* WhatsApp bar (Contact page): glossy green glass pill */
+.wa-bar {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 56px;
+  padding: 8px 16px 8px 12px; border-radius: 9999px; color: #fff; isolation: isolate;
+  background: linear-gradient(135deg, #12923f 0%, #0b7c36 45%, #066a2d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.55), inset 0 -2px 6px rgba(0, 55, 22, 0.35), 0 12px 26px -10px rgba(0, 140, 55, 0.6), 0 2px 6px rgba(0, 55, 22, 0.25);
+  transition: filter 0.2s, transform 0.2s;
+}
+.wa-bar::before { content: ""; position: absolute; z-index: -1; inset: 0 0 auto 0; height: 52%; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0)); }
+.wa-bar-mark { position: absolute; z-index: -1; right: -18px; top: 50%; width: 120px; height: 120px; transform: translateY(-50%); fill: #fff; opacity: 0.12; pointer-events: none; }
+.wa-bar-logo { flex: none; width: 30px; height: 30px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0, 55, 22, 0.35)); }
+.wa-bar-div { flex: none; width: 1.5px; height: 26px; border-radius: 2px; background: rgba(255, 255, 255, 0.45); }
+.wa-bar-dot { flex: none; width: 10px; height: 10px; border-radius: 9999px; background: #7dffa8; box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7); }
+.wa-bar-text { flex: 1; min-width: 0; font: 700 12px/1.25 Inter, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-shadow: 0 1px 2px rgba(0, 55, 22, 0.4); }
+.wa-bar-chat { flex: none; width: 24px; height: 24px; opacity: 0.95; }
+.wa-bar:hover { filter: brightness(1.07) saturate(1.05); transform: translateY(-1px); }
+.wa-bar:active { transform: scale(0.99); }
+.wa-bar:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+@media (max-width: 420px) { .wa-bar { gap: 8px; padding-right: 12px; } .wa-bar-dot, .wa-bar-div { display: none; } .wa-bar-text { font-size: 11px; letter-spacing: 0.04em; } }
+
+/* Split-text line masks (SplitText clips each line with inline overflow: clip): leave room below the baseline so descenders (y, g, p, j, q) are never cut */
+main [style*="overflow: clip"] { padding-top: 0.1em; margin-top: -0.1em; padding-bottom: 0.3em; margin-bottom: -0.3em; }
+
+/* ---------- Logo: the ONE place it lives ----------
+   Every page header uses <a class="wordmark">Phaseline</a>. The text stays in the HTML (screen readers, search engines);
+   this rule paints the real logo (public/logo/logo.svg, cream + brass for the dark header pill) over it.
+   To change the logo, replace public/logo/logo.svg. */
+.wordmark {
+  display: block; flex: 0 1 auto; min-width: 0; --h: 34px;
+  height: var(--h); width: calc(var(--h) * 3.138); /* logo is 702.9 x 224 */
+  background: url("logo/logo.svg") no-repeat left center / contain;
+  font-size: 0; color: transparent; overflow: hidden;
+}
+@media (max-width: 380px) { .wordmark { --h: 30px; } }
+@media (max-width: 340px) { .wordmark { --h: 25px; } }
+@media (min-width: 1024px) { .wordmark { --h: 38px; } }
+
+/* Project videos open the project when clicked */
+article[id] video[data-brag] { cursor: pointer; transition: filter 0.3s ease; }
+article[id] video[data-brag]:hover { filter: brightness(1.06) saturate(1.05); }
+article[id] video[data-brag]:focus-visible { outline: 3px solid var(--color-brass, #B8935A); outline-offset: -3px; }
+
+/* Jumps to a section (from Phase AI buttons and links) stop clear of the floating header */
+main section[id] { scroll-margin-top: 7rem; }

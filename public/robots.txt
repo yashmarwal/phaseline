@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phaseline.in/sitemap.xml

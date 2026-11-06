@@ -1,0 +1,8 @@
+node_modules
+.env
+.vercel
+public/styles.css
+brag-output*/
+.env.*
+!.env.example
+*.log

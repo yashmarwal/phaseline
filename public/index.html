@@ -1,0 +1,558 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_standard" name="shell-type">
+  <title>Phaseline - Software, Systems &amp; Websites for Indian B2B Businesses</title>
+  <meta name="description" content="Production-grade software, systems and websites for Indian B2B businesses: admin tools, business systems, and AI-powered software.">
+  
+  <!-- Typography & Icons -->
+  <link rel="stylesheet" href="/fonts.css">
+  <link rel="icon" type="image/svg+xml" href="logo/app-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/icon-32.png">
+  <link rel="apple-touch-icon" href="logo/icon-180.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("motion");setTimeout(function(){document.documentElement.classList.remove("motion")},2500)}</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+
+  <!-- Universal Header -->
+  <header class="topbar fixed top-0 left-0 w-full z-50">
+    <div class="h-14 lg:h-16 w-full mx-auto pl-5 pr-2 lg:px-3 flex items-center justify-between">
+      <div class="flex items-center gap-space-lg">
+        <a class="wordmark" href="index.html" aria-label="Phaseline, home">Phaseline</a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 relative"><i class="nav-bubble"></i>
+        <a aria-current="page" class="relative z-10 px-4 py-2 rounded-full transition-colors text-white font-semibold text-sm hover:text-[#B8935A]" href="index.html">Home</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="work.html">Work</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="services.html">Services</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="process.html">Process</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="about.html">About</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="contact.html">Contact</a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-1.5 lg:gap-2">
+        <a class="inline-flex items-center justify-center h-8 px-3.5 lg:h-10 lg:px-5 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-[11px] lg:text-xs uppercase tracking-wide lg:tracking-wider hover:bg-[#fed394] transition-all shadow-[2px_2px_0px_#0F1521]" href="contact.html">
+          Start a Project
+        </a>
+        <a class="wa-chip" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" title="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Phone tab bar (static so it is there from first paint) -->
+  <nav id="tabbar" aria-label="Primary"><i class="tab-bubble" style="--i:0"></i><a href="index.html" aria-current="page"><span class="material-symbols-outlined">home</span>Home</a><a href="work.html"><span class="material-symbols-outlined">work</span>Work</a><a href="services.html"><span class="material-symbols-outlined">category</span>Services</a><a href="process.html"><span class="material-symbols-outlined">route</span>Process</a><a href="about.html"><span class="material-symbols-outlined">info</span>About</a></nav>
+  <script>try{var v=sessionStorage.getItem("tabIdx");if(v!==null)document.querySelector(".tab-bubble").style.setProperty("--i",v)}catch(e){}</script>
+
+  <!-- Main Content -->
+  <main class="w-full pt-[78px] lg:pt-28 bg-background">
+    <div class="flex flex-col w-full">
+      
+      <!-- 1. Hero / Title Card Section -->
+      <section class="w-full bg-[#F7F4EE] px-4 sm:px-8 lg:px-12 pt-8 md:pt-12 pb-10 md:pb-16 border-b border-[#0F1521]/10">
+        <div class="max-w-[1280px] mx-auto text-left flex flex-col items-start lg:grid lg:grid-cols-12 lg:gap-x-10">
+          <h1 class="text-3xl sm:text-5xl md:text-6xl font-headline-xl text-[#0F1521] max-w-4xl tracking-tight mb-6 leading-tight lg:col-span-7 lg:row-start-2 lg:row-span-2 lg:mb-0">
+            Production-grade software, systems &amp; websites for <span class="italic text-[#B8935A]" style="font-family: 'Fraunces', serif;">Indian B2B businesses.</span>
+          </h1>
+
+          <p class="font-body-lg text-body-lg text-[#45474c] max-w-xl leading-relaxed lg:col-span-5 lg:col-start-8 lg:row-start-2 lg:self-end">
+                We engineer high-performance websites, admin tools, business systems, and AI-powered software for India's B2Bs.
+              </p>
+
+          <!-- 2. The Build Story - 4-Panel Ink-Line Comic Strip -->
+          <div class="w-full mt-14 mb-10 max-md:order-last max-md:mt-10 max-md:mb-0 lg:col-span-12 lg:row-start-4 lg:mt-16">
+            <div class="m-rail grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+              
+              <!-- Panel 1: The Problem -->
+              <div class="relative bg-[#F7F4EE] rounded-[8px] p-5 flex flex-col justify-between min-h-[360px] comic-panel">
+                <div class="inline-block self-start px-2.5 py-1 bg-white rounded-[4px] mb-3 comic-badge">
+                  <span class="font-label-sm text-[11px] font-bold tracking-wider text-[#0F1521] uppercase">THE PROBLEM</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center py-4">
+                  <!-- Vector line art: frowning owner beside blank browser wireframe -->
+                  <svg class="w-full h-44 select-none" fill="none" stroke="#0F1521" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 240 220">
+                    <rect fill="#F7F4EE" height="150" rx="4" width="120" x="110" y="20"></rect>
+                    <line x1="110" x2="230" y1="44" y2="44"></line>
+                    <circle cx="120" cy="32" fill="#0F1521" r="3"></circle>
+                    <circle cx="130" cy="32" fill="#0F1521" r="3"></circle>
+                    <circle cx="140" cy="32" fill="#0F1521" r="3"></circle>
+                    <line stroke-dasharray="4 3" x1="124" x2="190" y1="64" y2="64"></line>
+                    <line stroke-dasharray="4 3" x1="124" x2="216" y1="80" y2="80"></line>
+                    <line stroke-dasharray="4 3" x1="124" x2="170" y1="96" y2="96"></line>
+                    <rect height="30" rx="2" stroke-dasharray="3 3" width="40" x="124" y="112"></rect>
+                    <rect height="30" rx="2" stroke-dasharray="3 3" width="40" x="174" y="112"></rect>
+                    <circle cx="56" cy="48" fill="#F7F4EE" r="18"></circle>
+                    <path d="M 48 54 Q 56 50 64 54"></path>
+                    <line x1="50" x2="54" y1="44" y2="46"></line>
+                    <line x1="62" x2="58" y1="46" y2="44"></line>
+                    <circle cx="51" cy="46" fill="#0F1521" r="1"></circle>
+                    <circle cx="61" cy="46" fill="#0F1521" r="1"></circle>
+                    <path d="M 56 66 L 56 120"></path>
+                    <path d="M 38 78 C 38 72, 74 72, 74 78 L 76 100 C 76 108, 36 108, 36 100 Z" fill="#F7F4EE"></path>
+                    <line x1="38" x2="74" y1="90" y2="90"></line>
+                    <line x1="48" x2="44" y1="120" y2="190"></line>
+                    <line x1="64" x2="68" y1="120" y2="190"></line>
+                    <line x1="36" x2="46" y1="190" y2="190"></line>
+                    <line x1="66" x2="76" y1="190" y2="190"></line>
+                    <path d="M 28 32 Q 22 24 30 18 Q 36 14 42 20" stroke-dasharray="2 2"></path>
+                  </svg>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#0F1521] mt-2 font-medium">
+                A template site and borrowed tools that don't fit how your business actually runs.
+              </p>
+              </div>
+
+              <!-- Panel 2: The Meeting -->
+              <div class="relative bg-[#F7F4EE] rounded-[8px] p-5 flex flex-col justify-between min-h-[360px] comic-panel">
+                <div class="inline-block self-start px-2.5 py-1 bg-white rounded-[4px] mb-3 comic-badge">
+                  <span class="font-label-sm text-[11px] font-bold tracking-wider text-[#0F1521] uppercase">THE MEETING</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center py-4 relative">
+                  <svg class="w-full h-44 select-none" fill="none" stroke="#0F1521" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 240 220">
+                    <line x1="120" x2="120" y1="0" y2="34"></line>
+                    <path d="M 112 34 L 128 34 L 125 40 L 115 40 Z" fill="#0F1521"></path>
+                    <path d="M 114 40 C 108 46, 108 58, 120 62 C 132 58, 132 46, 126 40 Z" fill="#B8935A" stroke="#0F1521"></path>
+                    <line stroke="#B8935A" x1="102" x2="96" y1="46" y2="44"></line>
+                    <line stroke="#B8935A" x1="138" x2="144" y1="46" y2="44"></line>
+                    <line stroke="#B8935A" x1="120" x2="120" y1="66" y2="72"></line>
+                    <path d="M 30 14 H 105 A 6 6 0 0 1 111 20 V 38 A 6 6 0 0 1 105 44 H 56 L 46 54 L 48 44 H 30 A 6 6 0 0 1 24 38 V 20 A 6 6 0 0 1 30 14 Z" fill="#FFFFFF" stroke="#0F1521" stroke-width="1.5"></path>
+                    <text fill="#0F1521" font-family="Inter, sans-serif" font-size="9" font-weight="700" stroke="none" x="30" y="32">This is great!</text>
+                    <path d="M 20 134 L 220 134" stroke-width="3"></path>
+                    <line x1="40" x2="40" y1="134" y2="188"></line>
+                    <line x1="200" x2="200" y1="134" y2="188"></line>
+                    <line stroke-width="1" x1="20" x2="220" y1="144" y2="144"></line>
+                    <circle cx="56" cy="88" fill="#F7F4EE" r="16"></circle>
+                    <path d="M 52 94 Q 56 98 60 94"></path>
+                    <circle cx="51" cy="86" fill="#0F1521" r="1.2"></circle>
+                    <circle cx="61" cy="86" fill="#0F1521" r="1.2"></circle>
+                    <path d="M 40 134 C 40 110, 72 110, 72 134" fill="#F7F4EE"></path>
+                    <circle cx="184" cy="88" fill="#F7F4EE" r="16"></circle>
+                    <rect height="6" rx="1" width="7" x="175" y="84"></rect>
+                    <rect height="6" rx="1" width="7" x="186" y="84"></rect>
+                    <line x1="182" x2="186" y1="87" y2="87"></line>
+                    <path d="M 180 95 Q 184 98 188 95"></path>
+                    <path d="M 168 134 C 168 110, 200 110, 200 134" fill="#F7F4EE"></path>
+                    <rect fill="#B8935A" height="10" rx="2" stroke="#0F1521" stroke-width="1.5" width="12" x="114" y="124"></rect>
+                    <path d="M 126 126 Q 130 128 126 131" stroke="#0F1521" stroke-width="1"></path>
+                  </svg>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#0F1521] mt-2 font-medium">
+                We sit down to understand how your business runs, who it serves and where it slows down.
+              </p>
+              </div>
+
+              <!-- Panel 3: The Build -->
+              <div class="relative bg-[#F7F4EE] rounded-[8px] p-5 flex flex-col justify-between min-h-[360px] comic-panel">
+                <div class="inline-block self-start px-2.5 py-1 bg-white rounded-[4px] mb-3 comic-badge">
+                  <span class="font-label-sm text-[11px] font-bold tracking-wider text-[#0F1521] uppercase">THE BUILD</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center py-4">
+                  <svg class="w-full h-44 select-none" fill="none" stroke="#0F1521" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 240 220">
+                    <rect height="46" rx="3" stroke="#B8935A" stroke-dasharray="3 2" width="72" x="14" y="24"></rect>
+                    <line stroke="#B8935A" x1="22" x2="64" y1="36" y2="36"></line>
+                    <line stroke="#B8935A" x1="22" x2="76" y1="46" y2="46"></line>
+                    <line stroke="#B8935A" x1="22" x2="48" y1="56" y2="56"></line>
+                    <rect height="52" rx="3" stroke="#B8935A" width="74" x="156" y="18"></rect>
+                    <path d="M 166 32 L 174 38 L 166 44" stroke="#B8935A"></path>
+                    <line stroke="#B8935A" x1="178" x2="194" y1="44" y2="44"></line>
+                    <rect fill="#B8935A" height="8" rx="1" stroke="none" width="54" x="166" y="52"></rect>
+                    <path d="M 30 148 L 210 148" stroke-width="3"></path>
+                    <circle cx="120" cy="86" fill="#F7F4EE" r="16"></circle>
+                    <path d="M 112 80 Q 120 74 128 80"></path>
+                    <line stroke-width="3" x1="108" x2="108" y1="84" y2="92"></line>
+                    <line stroke-width="3" x1="132" x2="132" y1="84" y2="92"></line>
+                    <path d="M 108 84 Q 120 72 132 84"></path>
+                    <path d="M 98 148 L 104 112 Q 120 110 136 112 L 142 148" fill="#F7F4EE"></path>
+                    <line x1="106" x2="114" y1="120" y2="136"></line>
+                    <line x1="134" x2="126" y1="120" y2="136"></line>
+                    <polygon fill="#0F1521" points="106,144 134,144 140,148 100,148"></polygon>
+                    <path d="M 106 144 L 110 124 L 130 124 L 134 144 Z" fill="#F7F4EE" stroke="#0F1521"></path>
+                    <circle cx="120" cy="134" fill="#B8935A" r="2" stroke="none"></circle>
+                    <ellipse cx="60" cy="144" rx="8" ry="4" stroke="#B8935A"></ellipse>
+                    <line stroke="#B8935A" x1="60" x2="88" y1="140" y2="140"></line>
+                    <line stroke="#B8935A" x1="60" x2="88" y1="148" y2="148"></line>
+                  </svg>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#0F1521] mt-2 font-medium">
+                Everything is custom-built around your process, with a design made for your brand and enquiries that reach your phone, so nothing gets lost.
+              </p>
+              </div>
+
+              <!-- Panel 4: The Launch -->
+              <div class="relative bg-[#F7F4EE] rounded-[8px] p-5 flex flex-col justify-between min-h-[360px] comic-panel">
+                <div class="inline-block self-start px-2.5 py-1 bg-white rounded-[4px] mb-3 comic-badge">
+                  <span class="font-label-sm text-[11px] font-bold tracking-wider text-[#0F1521] uppercase">THE LAUNCH</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center py-4">
+                  <svg class="w-full h-44 select-none" fill="none" stroke="#0F1521" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 240 220">
+                    <line stroke="#B8935A" stroke-width="2" x1="120" x2="120" y1="16" y2="4"></line>
+                    <line stroke="#B8935A" stroke-width="2" x1="84" x2="74" y1="26" y2="18"></line>
+                    <line stroke="#B8935A" stroke-width="2" x1="156" x2="166" y1="26" y2="18"></line>
+                    <line stroke="#B8935A" stroke-width="2" x1="50" x2="40" y1="56" y2="52"></line>
+                    <line stroke="#B8935A" stroke-width="2" x1="190" x2="200" y1="56" y2="52"></line>
+                    <rect fill="#FFFFFF" height="96" rx="4" stroke="#0F1521" stroke-width="2" width="150" x="45" y="32"></rect>
+                    <line stroke="#0F1521" stroke-width="1.5" x1="45" x2="195" y1="50" y2="50"></line>
+                    <circle cx="55" cy="41" fill="#B8935A" r="2.5" stroke="#0F1521" stroke-width="1"></circle>
+                    <circle cx="63" cy="41" fill="#B8935A" r="2.5" stroke="#0F1521" stroke-width="1"></circle>
+                    <circle cx="71" cy="41" fill="#B8935A" r="2.5" stroke="#0F1521" stroke-width="1"></circle>
+                    <rect fill="#0F1521" height="6" rx="1" stroke="none" width="60" x="55" y="58"></rect>
+                    <rect fill="#B8935A" height="4" rx="1" stroke="none" width="40" x="55" y="68"></rect>
+                    <rect fill="#F7F4EE" height="38" rx="2" stroke="#B8935A" stroke-width="1.5" width="50" x="135" y="58"></rect>
+                    <rect fill="#B8935A" height="10" rx="5" stroke="#0F1521" stroke-width="1" width="32" x="55" y="86"></rect>
+                    <circle cx="70" cy="150" fill="#F7F4EE" r="14"></circle>
+                    <path d="M 66 154 Q 70 158 74 154"></path>
+                    <circle cx="67" cy="148" fill="#0F1521" r="1"></circle>
+                    <circle cx="73" cy="148" fill="#0F1521" r="1"></circle>
+                    <circle cx="170" cy="150" fill="#F7F4EE" r="14"></circle>
+                    <path d="M 166 154 Q 170 158 174 154"></path>
+                    <circle cx="167" cy="148" fill="#0F1521" r="1"></circle>
+                    <circle cx="173" cy="148" fill="#0F1521" r="1"></circle>
+                    <path d="M 58 172 C 58 164, 82 164, 84 176 L 108 176"></path>
+                    <path d="M 182 172 C 182 164, 158 164, 156 176 L 132 176"></path>
+                    <path d="M 108 172 L 122 178 L 132 172" stroke="#B8935A" stroke-width="3"></path>
+                    <text fill="#B8935A" font-family="Inter, sans-serif" font-size="14" font-weight="700" stroke="none" x="114" y="202">₹</text>
+                  </svg>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#0F1521] mt-2 font-medium">
+                Your solution goes live, and enquiries start reaching you on WhatsApp and email.
+              </p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 3. Dual Call to Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-start gap-3 pt-2 max-md:w-full max-md:mt-7 lg:col-span-5 lg:col-start-8 lg:row-start-3 lg:self-start lg:mt-6">
+            <a class="max-md:w-full inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-sm tracking-wide hard-btn" href="contact.html">
+              Start a Project
+              <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+            </a>
+            <a class="max-md:w-full inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-[#0F1521] font-bold text-sm tracking-wide border-2 border-[#0F1521] hover:bg-[#EDE9DF] transition-colors" href="work.html">
+              View Our Work
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Trust-Stat Row -->
+      <section class="w-full bg-[#ebe8e2] px-4 sm:px-8 lg:px-12 py-6 md:py-10 border-b border-[#0F1521]/10">
+        <div class="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 text-left divide-y md:divide-y-0 md:divide-x divide-[#0F1521]/15">
+          <div class="no-draft flex md:flex-col gap-4 md:gap-5 py-6 first:pt-0 last:pb-0 md:py-1 md:px-8 md:first:pl-0 md:last:pr-0"><div class="w-12 h-12 shrink-0 rounded-lg border-2 border-[#0F1521] bg-[#F7F4EE] shadow-[2px_2px_0_#0F1521] flex items-center justify-center"><svg class="w-7 h-7" viewBox="0 0 32 32" fill="none" stroke="#0F1521" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="11" r="5"></circle><path d="M6 27c0-7 4-10 10-10s10 3 10 10"></path><circle cx="25.5" cy="7" r="2.2" fill="#B8935A" stroke="#B8935A"></circle></svg></div><div class="space-y-1.5"><h3 class="font-headline-sm text-[19px] md:text-[21px] font-bold text-[#0F1521] leading-snug" style="font-family: 'Fraunces', serif;">Direct Team Access</h3><p class="font-body-sm text-body-sm text-[#45474c] leading-relaxed">No account managers, no outsourcing. You work directly with the people building your site.</p></div></div>
+          <div class="no-draft flex md:flex-col gap-4 md:gap-5 py-6 first:pt-0 last:pb-0 md:py-1 md:px-8 md:first:pl-0 md:last:pr-0"><div class="w-12 h-12 shrink-0 rounded-lg border-2 border-[#0F1521] bg-[#F7F4EE] shadow-[2px_2px_0_#0F1521] flex items-center justify-center"><svg class="w-7 h-7" viewBox="0 0 32 32" fill="none" stroke="#0F1521" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 27V15l8 4v-4l8 4V8h7v19Z"></path><path d="M4 27h23"></path><circle cx="23.5" cy="4.5" r="1.8" fill="#B8935A" stroke="#B8935A"></circle></svg></div><div class="space-y-1.5"><h3 class="font-headline-sm text-[19px] md:text-[21px] font-bold text-[#0F1521] leading-snug" style="font-family: 'Fraunces', serif;">Real Industries Served</h3><p class="font-body-sm text-body-sm text-[#45474c] leading-relaxed">Textiles &amp; Apparel Manufacturing, Fitness &amp; Community</p></div></div>
+          <div class="no-draft flex md:flex-col gap-4 md:gap-5 py-6 first:pt-0 last:pb-0 md:py-1 md:px-8 md:first:pl-0 md:last:pr-0"><div class="w-12 h-12 shrink-0 rounded-lg border-2 border-[#0F1521] bg-[#F7F4EE] shadow-[2px_2px_0_#0F1521] flex items-center justify-center"><svg class="w-7 h-7" viewBox="0 0 32 32" fill="none" stroke="#0F1521" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="16" r="5.5"></circle><circle cx="10.5" cy="16" r="1.6" fill="#B8935A" stroke="#B8935A"></circle><path d="M16 16h12M23 16v5M28 16v4"></path></svg></div><div class="space-y-1.5"><h3 class="font-headline-sm text-[19px] md:text-[21px] font-bold text-[#0F1521] leading-snug" style="font-family: 'Fraunces', serif;">Yours the Day You Launch</h3><p class="font-body-sm text-body-sm text-[#45474c] leading-relaxed">Everything we build is yours at launch, with no lock-in</p></div></div>
+        </div>
+      </section>
+
+      <!-- 5. "Trusted by Indian B2B businesses" Strip -->
+      <section class="w-full bg-[#f6f3ed] px-4 sm:px-8 lg:px-12 py-8 border-b border-[#0F1521]/10">
+        <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <span class="font-label-sm text-label-sm font-bold uppercase tracking-[0.15em] text-[#76777c] whitespace-nowrap">
+                TRUSTED BY INDIAN B2B BUSINESSES
+              </span>
+          <div class="flex flex-wrap items-center justify-center md:justify-end gap-x-10 gap-y-3">
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+              Mapps Creation
+            </a>
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+              Tanish Creation
+            </a>
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+              Taj Attire
+            </a>
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+              QOTN
+            </a>
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+                Fitness Future Gym
+              </a>
+            <a href="work.html" class="text-[20px] font-semibold text-[#0F1521] tracking-tight opacity-90 hover:opacity-100 hover:text-[#B8935A] transition-colors" style="font-family: 'Fraunces', serif;">
+                INS Overseas
+              </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Practice Capabilities -->
+      <section id="what-we-do" class="w-full bg-background px-4 sm:px-8 lg:px-12 py-20">
+        <div class="max-w-[1280px] mx-auto">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span class="font-label-sm text-label-sm font-bold tracking-widest text-[#B8935A] uppercase">
+                WHAT WE DO
+              </span>
+              <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-[#0F1521] mt-2">
+                Built around how your business works.
+              </h2>
+            </div>
+            <p class="font-body-md text-body-md text-[#45474c] max-w-md mt-4 md:mt-0">
+                We build the digital side of your business, made to fit the way you work.
+              </p>
+          </div>
+
+          <div class="m-rail grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Column 1 -->
+            <div class="bg-[#F7F4EE] p-8 rounded-[8px] flex flex-col justify-between comic-panel">
+              <div>
+                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-6 border-2 border-[#0F1521]">
+                  <span class="material-symbols-outlined text-[#0F1521] text-[24px]">speed</span>
+                </div>
+                <span class="font-label-sm text-label-sm font-bold text-[#B8935A] uppercase tracking-wider block mb-1">CAPABILITY 01</span>
+                <h3 class="font-headline-sm text-headline-sm text-[#0F1521] mb-3 leading-snug">
+                  Custom design, live in 3 to 4 weeks
+                </h3>
+                <p class="font-body-md text-body-md text-[#45474c] leading-relaxed">A website designed around your brand and your work, with enquiries coming straight to your WhatsApp and email.</p>
+              </div>
+              <div class="pt-6 mt-6 border-t border-[#c6c6cc]/40 flex items-center justify-between">
+                <span class="font-label-sm text-label-sm font-semibold text-[#0F1521] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-[#B8935A]">verified</span>
+                Presence website
+              </span>
+                <a href="services.html?tier=presence" class="text-xs font-bold text-[#B8935A] hover:underline">Tier I →</a>
+              </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="bg-[#F7F4EE] p-8 rounded-[8px] flex flex-col justify-between comic-panel">
+              <div>
+                <div class="w-12 h-12 rounded-full bg-[#fed394] flex items-center justify-center mb-6 border-2 border-[#0F1521]">
+                  <span class="material-symbols-outlined text-[#0F1521] text-[24px]">sync_alt</span>
+                </div>
+                <span class="font-label-sm text-label-sm font-bold text-[#B8935A] uppercase tracking-wider block mb-1">CAPABILITY 02</span>
+                <h3 class="font-headline-sm text-headline-sm text-[#0F1521] mb-3 leading-snug">
+                  A system built around your team
+                </h3>
+                <p class="font-body-md text-body-md text-[#45474c] leading-relaxed">One private place to track the work that matters, with notes and reminders, so nothing gets lost or forgotten.</p>
+              </div>
+              <div class="pt-6 mt-6 border-t border-[#c6c6cc]/40 flex items-center justify-between">
+                <span class="font-label-sm text-label-sm font-semibold text-[#0F1521] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-[#B8935A]">verified</span>
+                  Business system
+                </span>
+                <a href="services.html?tier=operations" class="text-xs font-bold text-[#B8935A] hover:underline">Tier II →</a>
+              </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="bg-[#F7F4EE] p-8 rounded-[8px] flex flex-col justify-between comic-panel">
+              <div>
+                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-6 border-2 border-[#0F1521]">
+                  <span class="material-symbols-outlined text-[#0F1521] text-[24px]">code</span>
+                </div>
+                <span class="font-label-sm text-label-sm font-bold text-[#B8935A] uppercase tracking-wider block mb-1">CAPABILITY 03</span>
+                <h3 class="font-headline-sm text-headline-sm text-[#0F1521] mb-3 leading-snug">
+                  Software made for one problem
+                </h3>
+                <p class="font-body-md text-body-md text-[#45474c] leading-relaxed">If no ready-made tool fits, we build one for you, with AI where it helps. You own the code and the data.</p>
+              </div>
+              <div class="pt-6 mt-6 border-t border-[#c6c6cc]/40 flex items-center justify-between">
+                <span class="font-label-sm text-label-sm font-semibold text-[#0F1521] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-[#B8935A]">verified</span>
+                  Online store
+                </span>
+                <a href="services.html?tier=commerce" class="text-xs font-bold text-[#B8935A] hover:underline">Tier III →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Featured Work Preview Cards -->
+      <section id="selected-work" class="w-full bg-[#f0eee8] px-4 sm:px-8 lg:px-12 py-20 border-t border-b border-[#0F1521]/10">
+        <div class="max-w-[1280px] mx-auto">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span class="font-label-sm text-label-sm font-bold tracking-widest text-[#B8935A] uppercase">SELECTED WORK</span>
+              <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-[#0F1521] mt-2">
+                Recent work from the desk.
+              </h2>
+            </div>
+            <a class="font-label-md text-label-md text-[#0F1521] font-bold flex items-center gap-1 hover:text-[#B8935A] transition-colors mt-4 md:mt-0" href="work.html">
+              See all our work
+              <span class="material-symbols-outlined text-[18px]">east</span>
+            </a>
+          </div>
+
+          <div class="m-rail grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Case Study 1: Mapps Creation -->
+            <div class="group block bg-[#F7F4EE] rounded-[8px] overflow-hidden transition-all duration-200 comic-panel cursor-pointer" onclick="openBlueprintModal('mapps')">
+              <div class="w-full h-56 bg-surface-container overflow-hidden relative">
+                <video class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="work/mapps.mp4" poster="work/mapps.jpg" muted loop playsinline preload="none" data-brag aria-label="15 second video tour of the Mapps Creation website" width="1280" height="800"></video>
+                </div>
+              <div class="p-6">
+                <span class="block mb-2 font-label-sm text-[11px] font-bold tracking-wider uppercase text-[#B8935A]">B2B TEXTILE EXPORT</span>
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-headline-sm text-headline-sm text-[#0F1521]" style="font-family: 'Fraunces', serif;">
+                    Mapps Creation
+                  </h3>
+                  <span class="material-symbols-outlined text-[#0F1521] group-hover:translate-x-1 transition-transform">arrow_outward</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#45474c] mb-4">
+                A fabric website with GSM and blend details on every fabric and a quote request button, so buyers enquire from their phone.
+              </p>
+                <div class="flex items-center gap-2">
+                  
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-label-sm bg-[#e5e2dc] text-[#1c1c18]">Surat, Gujarat</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case Study 2: Tanish Creation -->
+            <div class="group block bg-[#F7F4EE] rounded-[8px] overflow-hidden transition-all duration-200 comic-panel cursor-pointer" onclick="openBlueprintModal('tanish')">
+              <div class="w-full h-56 bg-surface-container overflow-hidden relative">
+                <video class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="work/tanish.mp4" poster="work/tanish.jpg" muted loop playsinline preload="none" data-brag aria-label="15 second video tour of the Tanish Creation website" width="1280" height="800"></video>
+                </div>
+              <div class="p-6">
+                <span class="block mb-2 font-label-sm text-[11px] font-bold tracking-wider uppercase text-[#B8935A]">MANUFACTURING &amp; SCREEN PRINTING</span>
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-headline-sm text-headline-sm text-[#0F1521]" style="font-family: 'Fraunces', serif;">
+                    Tanish Creation
+                  </h3>
+                  <span class="material-symbols-outlined text-[#0F1521] group-hover:translate-x-1 transition-transform">arrow_outward</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#45474c] mb-4">
+                A bulk order form that sends design, quantity and colour to WhatsApp, plus factory-visit booking, for a 65-year-old Jaipur screen printer.
+              </p>
+                <div class="flex items-center gap-2">
+                  
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-label-sm bg-[#e5e2dc] text-[#1c1c18]">
+                Jaipur, Rajasthan
+              </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case Study 3: QOTN -->
+            <div class="group block bg-[#F7F4EE] rounded-[8px] overflow-hidden transition-all duration-200 comic-panel cursor-pointer" onclick="openBlueprintModal('qotn')">
+              <div class="w-full h-56 bg-surface-container overflow-hidden relative">
+                <video class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="work/qotn.mp4" poster="work/qotn.jpg" muted loop playsinline preload="none" data-brag aria-label="15 second video tour of the QOTN website" width="1280" height="800"></video>
+                </div>
+              <div class="p-6">
+                <span class="block mb-2 font-label-sm text-[11px] font-bold tracking-wider uppercase text-[#B8935A]">D2C APPAREL</span>
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-headline-sm text-headline-sm text-[#0F1521]" style="font-family: 'Fraunces', serif;">
+                    QOTN
+                  </h3>
+                  <span class="material-symbols-outlined text-[#0F1521] group-hover:translate-x-1 transition-transform">arrow_outward</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-[#45474c] mb-4">
+                Pure cotton clothing brand with customer accounts, and Kaafi, an AI assistant that answers shopper questions.
+              </p>
+                <div class="flex items-center gap-2">
+                  
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-label-sm bg-[#e5e2dc] text-[#1c1c18]">
+                Jaipur, Rajasthan
+              </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Closing Conversion Banner & Direct Email Desk -->
+      <section class="w-full bg-[#0F1521] text-[#F7F4EE] px-4 sm:px-8 lg:px-12 py-20 relative overflow-hidden">
+        <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-12 relative z-10">
+          <div class="max-w-xl">
+            
+            <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-4 tracking-tight leading-tight">
+                Ready to get your website and systems built?
+              </h2>
+            <p class="font-body-md text-body-md text-[#c1c6d7] leading-relaxed">
+                Skip generic agency pitches. Speak directly with the team about your business.
+              </p>
+          </div>
+
+          <div class="w-full md:w-auto bg-[#161c28] p-8 rounded-xl flex flex-col gap-5 border border-white/10" style="box-shadow: 4px 4px 0px #B8935A;">
+            <div>
+              <span class="font-label-sm text-label-sm text-[#B8935A] font-bold uppercase tracking-wider block">Direct Desk Channel</span>
+              <a class="font-headline-sm max-md:text-[19px] text-headline-sm text-white hover:text-[#B8935A] transition-colors break-all" href="mailto:connect@phaseline.in">
+                connect@phaseline.in
+              </a>
+            </div>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <a class="max-md:w-full inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#B8935A] text-[#0F1521] font-label-md text-label-md font-bold tracking-wide hover:bg-[#fed394] transition-colors" href="contact.html">
+                Request a Site Review
+              </a>
+              <div class="flex items-center gap-2 px-3 py-2 text-[#bacbbb] text-xs font-body-sm">
+                <span class="material-symbols-outlined text-[16px] text-[#B8935A]">schedule</span>
+                Response within 1 hour
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="w-full bg-[#f6f3ed] border-t border-[#0F1521]/15">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-10 md:pt-16 pb-8 md:pb-12">
+      <div class="max-md:hidden bg-[#ebe8e2] rounded-xl p-8 mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-[#0F1521]/10">
+        <div class="space-y-1">
+          <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#785926] font-bold">Get in Touch</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Tell us what you need. We reply within 1 hour.</h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#0F1521] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#B8935A] hover:text-[#0F1521] transition-colors shadow" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-[#0F1521] font-bold text-xs uppercase tracking-wider border-2 border-[#0F1521] hover:bg-[#EDE9DF] transition-colors" href="mailto:connect@phaseline.in">Email us</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-12">
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Explore</h4>
+          <ul class="space-y-2">
+            <li><a href="work.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Selected Work</a></li>
+            <li><a href="services.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Services</a></li>
+            <li><a href="process.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Process</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">About Us</a></li>
+            
+            <li><a href="contact.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Start a Project</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Contact</h4>
+          <ul class="space-y-2">
+            
+            <li><a href="mailto:connect@phaseline.in" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">connect@phaseline.in</a></li>
+            <li><span class="font-body-sm text-body-sm text-gray-600">Phaseline, Delhi, India</span></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-[#0F1521]/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="font-body-sm text-body-sm text-gray-600">© 2026 Phaseline. All rights reserved.</p>
+        <nav aria-label="Legal">
+          <ul class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <li><a href="/privacy" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Terms</a></li>
+            <li><a href="/cookies" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cookies</a></li>
+            <li><a href="/cancellation-and-refunds" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cancellation &amp; Refunds</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script defer="" src="vendor/gsap.min.js"></script>
+  <script defer="" src="vendor/ScrollTrigger.min.js"></script>
+  <script defer="" src="vendor/SplitText.min.js"></script>
+  <script defer="" src="vendor/lenis.min.js"></script>
+  <script defer="" src="motion.js"></script>
+  <script defer="" src="phase-ai-match.js"></script>
+  <script defer="" src="phase-ai.js"></script>
+
+
+</body></html>

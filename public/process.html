@@ -1,0 +1,424 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_standard" name="shell-type">
+  <title>Our Process - Phaseline</title>
+  <meta name="description" content="A transparent, phase-driven build process designed for rapid delivery without cutting corners.">
+
+  <!-- Typography & Icons -->
+  <link rel="stylesheet" href="/fonts.css">
+  <link rel="icon" type="image/svg+xml" href="logo/app-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/icon-32.png">
+  <link rel="apple-touch-icon" href="logo/icon-180.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("motion");setTimeout(function(){document.documentElement.classList.remove("motion")},2500)}</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+
+  <!-- Universal Header -->
+  <header class="topbar fixed top-0 left-0 w-full z-50">
+    <div class="h-14 lg:h-16 w-full mx-auto pl-5 pr-2 lg:px-3 flex items-center justify-between">
+      <div class="flex items-center gap-space-lg">
+        <a class="wordmark" href="index.html" aria-label="Phaseline, home">Phaseline</a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 relative"><i class="nav-bubble"></i>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="index.html">Home</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="work.html">Work</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="services.html">Services</a>
+        <a aria-current="page" class="relative z-10 px-4 py-2 rounded-full transition-colors text-white font-semibold text-sm hover:text-[#B8935A]" href="process.html">Process</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="about.html">About</a>
+        <a class="relative z-10 px-4 py-2 rounded-full transition-colors text-gray-300 font-medium text-sm hover:text-white" href="contact.html">Contact</a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-1.5 lg:gap-2">
+        <a class="inline-flex items-center justify-center h-8 px-3.5 lg:h-10 lg:px-5 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-[11px] lg:text-xs uppercase tracking-wide lg:tracking-wider hover:bg-[#fed394] transition-all shadow-[2px_2px_0px_#0F1521]" href="contact.html">
+          Start a Project
+        </a>
+        <a class="wa-chip" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" title="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Phone tab bar (static so it is there from first paint) -->
+  <nav id="tabbar" aria-label="Primary"><i class="tab-bubble" style="--i:3"></i><a href="index.html"><span class="material-symbols-outlined">home</span>Home</a><a href="work.html"><span class="material-symbols-outlined">work</span>Work</a><a href="services.html"><span class="material-symbols-outlined">category</span>Services</a><a href="process.html" aria-current="page"><span class="material-symbols-outlined">route</span>Process</a><a href="about.html"><span class="material-symbols-outlined">info</span>About</a></nav>
+  <script>try{var v=sessionStorage.getItem("tabIdx");if(v!==null)document.querySelector(".tab-bubble").style.setProperty("--i",v)}catch(e){}</script>
+
+  <!-- Main Content -->
+  <main class="w-full pt-[78px] lg:pt-28 bg-background">
+    <div class="flex flex-col w-full">
+
+      <!-- PAGE HEADER & TELEMETRY -->
+      <section class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-12">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#0F1521]/15 pb-8">
+          <div class="max-w-3xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EDE9DF] border border-[#0F1521]/15">
+              <span class="w-2 h-2 rounded-full bg-[#B8935A] animate-pulse"></span>
+              <span class="font-label-sm text-xs uppercase tracking-wider text-[#B8935A] font-bold">
+                Our Process
+              </span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-on-surface" style="font-family: 'Fraunces', serif;">
+              How We Work
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+                Five steps from first call to launch. The timeline depends on the package: 3 to 8 weeks.
+              </p>
+          </div>
+
+          <!-- Telemetry Badge -->
+          
+        </div>
+      </section>
+
+      <!-- 5-PANEL INK-LINE COMIC STRIP -->
+      <section id="steps" class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div>
+            <span class="font-label-sm text-xs uppercase tracking-widest text-[#B8935A] font-bold">Step by Step</span>
+            <h2 class="font-headline-md text-2xl md:text-3xl font-bold text-[#0F1521] mt-1" style="font-family: 'Fraunces', serif;">
+              Five Steps, Start to Launch.
+            </h2>
+          </div>
+          
+        </div>
+
+        <!-- Comic Strip Grid -->
+        <div class="m-rail grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          
+          <!-- PANEL 1: DISCOVERY -->
+          <div class="flex flex-col bg-[#F7F4EE] rounded-[8px] border-[3px] border-[#0F1521] comic-panel overflow-hidden">
+            <div class="bg-[#F7F4EE] border-b-[2px] border-[#0F1521] px-3 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-xs uppercase tracking-wider font-bold text-[#0F1521]">01 / DISCOVERY</span>
+              <span class="w-2 h-2 rounded-full bg-[#B8935A]"></span>
+            </div>
+            <div class="w-full h-52 bg-[#F7F4EE] flex items-center justify-center p-3 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#0F1521_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <svg class="w-full h-full relative z-10" fill="none" viewBox="0 0 200 150">
+                <rect fill="#F7F4EE" height="96" rx="4" stroke="#0F1521" stroke-width="2" width="150" x="25" y="24"></rect>
+                <line stroke="#0F1521" stroke-width="2" x1="25" x2="175" y1="42" y2="42"></line>
+                <circle cx="36" cy="33" fill="#0F1521" r="3"></circle>
+                <circle cx="46" cy="33" fill="#0F1521" r="3"></circle>
+                <circle cx="56" cy="33" fill="#0F1521" r="3"></circle>
+                <rect height="24" stroke="#0F1521" stroke-dasharray="3 3" stroke-width="2" width="45" x="36" y="52"></rect>
+                <line stroke="#0F1521" stroke-width="2" x1="90" x2="162" y1="56" y2="56"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="90" x2="150" y1="66" y2="66"></line>
+                <rect height="24" stroke="#0F1521" stroke-width="2" width="126" x="36" y="84"></rect>
+                <path d="M125 142 C125 125 135 116 148 114" stroke="#0F1521" stroke-linecap="round" stroke-width="2"></path>
+                <path d="M150 115 C146 108 147 98 155 94 C163 90 171 96 172 104" stroke="#0F1521" stroke-linecap="round" stroke-width="2"></path>
+                <path d="M142 120 L118 102" stroke="#0F1521" stroke-linecap="round" stroke-width="2"></path>
+                <circle cx="95" cy="85" fill="#F7F4EE" fill-opacity="0.85" r="26" stroke="#B8935A" stroke-width="3"></circle>
+                <line stroke="#0F1521" stroke-linecap="round" stroke-width="4" x1="114" x2="132" y1="103" y2="119"></line>
+                <path d="M82 72 A18 18 0 0 1 108 72" stroke="#B8935A" stroke-linecap="round" stroke-width="2"></path>
+                <circle cx="95" cy="85" fill="#B8935A" r="3"></circle>
+                <line stroke="#0F1521" stroke-width="2" x1="95" x2="95" y1="75" y2="79"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="95" x2="95" y1="91" y2="95"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="85" x2="89" y1="85" y2="85"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="101" x2="105" y1="85" y2="85"></line>
+              </svg>
+            </div>
+            <div class="p-4 border-t-[2px] border-[#0F1521] flex-1 flex flex-col justify-between bg-white">
+              <p class="font-body-sm text-xs text-on-surface leading-snug">We learn how your business sells, who decides, and exactly what gets built.</p>
+              <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-500">
+                
+                <span class="text-[#B8935A]">Scope Signed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: DESIGN -->
+          <div class="flex flex-col bg-[#F7F4EE] rounded-[8px] border-[3px] border-[#0F1521] comic-panel overflow-hidden">
+            <div class="bg-[#F7F4EE] border-b-[2px] border-[#0F1521] px-3 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-xs uppercase tracking-wider font-bold text-[#0F1521]">02 / DESIGN</span>
+              <span class="w-2 h-2 rounded-full bg-[#B8935A]"></span>
+            </div>
+            <div class="w-full h-52 bg-[#F7F4EE] flex items-center justify-center p-3 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#0F1521_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <svg class="w-full h-full relative z-10" fill="none" viewBox="0 0 200 150">
+                <polygon fill="#F7F4EE" points="18,126 182,126 168,26 32,26" stroke="#0F1521" stroke-width="2"></polygon>
+                <polygon fill="#FFFFFF" points="46,112 154,112 144,42 56,42" stroke="#0F1521" stroke-width="2"></polygon>
+                <line stroke="#B8935A" stroke-dasharray="4 2" stroke-width="1.5" x1="72" x2="65" y1="42" y2="112"></line>
+                <line stroke="#B8935A" stroke-dasharray="4 2" stroke-width="1.5" x1="128" x2="135" y1="42" y2="112"></line>
+                <line stroke="#B8935A" stroke-width="1.5" x1="53" x2="147" y1="62" y2="62"></line>
+                <rect fill="#F7F4EE" height="28" stroke="#0F1521" stroke-width="2" width="60" x="70" y="70"></rect>
+                <line stroke="#0F1521" stroke-width="2" x1="75" x2="115" y1="78" y2="78"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="75" x2="125" y1="86" y2="86"></line>
+                <rect fill="#F7F4EE" height="96" stroke="#0F1521" stroke-width="2" width="12" x="22" y="32"></rect>
+                <rect fill="#0F1521" height="10" stroke="#0F1521" stroke-width="2" width="48" x="18" y="24"></rect>
+                <g transform="rotate(32 120 75)">
+                  <polygon fill="#B8935A" points="110,30 120,30 120,105 110,105" stroke="#0F1521" stroke-width="2"></polygon>
+                  <polygon fill="#F7F4EE" points="110,105 120,105 115,120" stroke="#0F1521" stroke-width="2"></polygon>
+                  <polygon fill="#0F1521" points="113,115 117,115 115,120"></polygon>
+                </g>
+              </svg>
+            </div>
+            <div class="p-4 border-t-[2px] border-[#0F1521] flex-1 flex flex-col justify-between bg-white">
+              <p class="font-body-sm text-xs text-on-surface leading-snug">Page sketches and full design previews for your approval.</p>
+              <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-500">
+                
+                <span class="text-[#B8935A]">Design Approved</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 3: BUILD -->
+          <div class="flex flex-col bg-[#F7F4EE] rounded-[8px] border-[3px] border-[#0F1521] comic-panel overflow-hidden">
+            <div class="bg-[#F7F4EE] border-b-[2px] border-[#0F1521] px-3 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-xs uppercase tracking-wider font-bold text-[#0F1521]">03 / BUILD</span>
+              <span class="w-2 h-2 rounded-full bg-[#B8935A]"></span>
+            </div>
+            <div class="w-full h-52 bg-[#F7F4EE] flex items-center justify-center p-3 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#0F1521_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <svg class="w-full h-full relative z-10" fill="none" viewBox="0 0 200 150">
+                <rect fill="#FFFFFF" height="96" rx="4" stroke="#0F1521" stroke-width="2" width="152" x="24" y="20"></rect>
+                <line stroke="#0F1521" stroke-width="2" x1="24" x2="176" y1="36" y2="36"></line>
+                <path d="M100 116 L100 134 M78 134 L122 134" stroke="#0F1521" stroke-linecap="round" stroke-width="2"></path>
+                <line stroke="#0F1521" stroke-width="2" x1="34" x2="62" y1="48" y2="48"></line>
+                <line stroke="#B8935A" stroke-width="2" x1="68" x2="108" y1="48" y2="48"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="42" x2="88" y1="58" y2="58"></line>
+                <line stroke="#0F1521" stroke-width="2" x1="42" x2="72" y1="68" y2="68"></line>
+                <g transform="translate(108, 48)">
+                  <rect fill="#F7F4EE" height="52" stroke="#0F1521" stroke-width="2" width="54" x="0" y="0"></rect>
+                  <rect fill="#B8935A" height="18" stroke="#0F1521" stroke-width="2" width="42" x="6" y="6"></rect>
+                  <rect fill="#0F1521" height="18" width="18" x="6" y="28"></rect>
+                  <rect height="18" stroke="#0F1521" stroke-dasharray="2 2" stroke-width="2" width="20" x="28" y="28"></rect>
+                  <path d="M22 2 L22 5" stroke="#B8935A" stroke-width="2"></path>
+                  <path d="M32 2 L32 5" stroke="#B8935A" stroke-width="2"></path>
+                </g>
+                <rect fill="#0F1521" height="10" width="144" x="28" y="102"></rect>
+                <line stroke="#B8935A" stroke-width="2" x1="32" x2="60" y1="107" y2="107"></line>
+                <line stroke="#FFFFFF" stroke-width="2" x1="64" x2="76" y1="107" y2="107"></line>
+              </svg>
+            </div>
+            <div class="p-4 border-t-[2px] border-[#0F1521] flex-1 flex flex-col justify-between bg-white">
+              <p class="font-body-sm text-xs text-on-surface leading-snug">We build every page from your approved design, including the enquiry form.</p>
+              <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-500">
+                
+                <span class="text-[#B8935A]">Preview Live</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 4: REVIEW -->
+          <div class="flex flex-col bg-[#F7F4EE] rounded-[8px] border-[3px] border-[#0F1521] comic-panel overflow-hidden">
+            <div class="bg-[#F7F4EE] border-b-[2px] border-[#0F1521] px-3 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-xs uppercase tracking-wider font-bold text-[#0F1521]">04 / REVIEW</span>
+              <span class="w-2 h-2 rounded-full bg-[#B8935A]"></span>
+            </div>
+            <div class="w-full h-52 bg-[#F7F4EE] flex items-center justify-center p-3 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#0F1521_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <svg class="w-full h-full relative z-10" fill="none" viewBox="0 0 200 150">
+                <rect fill="#F7F4EE" height="114" rx="6" stroke="#0F1521" stroke-width="2" width="116" x="42" y="24"></rect>
+                <rect fill="#FFFFFF" height="16" rx="2" stroke="#0F1521" stroke-width="2" width="52" x="74" y="16"></rect>
+                <circle cx="100" cy="22" fill="#0F1521" r="3"></circle>
+                <rect fill="#FFFFFF" height="92" stroke="#0F1521" stroke-width="1.5" width="96" x="52" y="38"></rect>
+                <rect fill="#F7F4EE" height="12" rx="2" stroke="#0F1521" stroke-width="2" width="12" x="62" y="50"></rect>
+                <path d="M64 56 L67 60 L73 52" stroke="#B8935A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                <line stroke="#0F1521" stroke-width="2" x1="80" x2="136" y1="56" y2="56"></line>
+                <rect fill="#F7F4EE" height="12" rx="2" stroke="#0F1521" stroke-width="2" width="12" x="62" y="68"></rect>
+                <path d="M64 74 L67 78 L73 70" stroke="#B8935A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                <line stroke="#0F1521" stroke-width="2" x1="80" x2="128" y1="74" y2="74"></line>
+                <rect fill="#F7F4EE" height="12" rx="2" stroke="#0F1521" stroke-width="2" width="12" x="62" y="86"></rect>
+                <path d="M64 92 L67 96 L73 88" stroke="#B8935A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                <line stroke="#0F1521" stroke-width="2" x1="80" x2="132" y1="92" y2="92"></line>
+                <circle cx="124" cy="110" r="14" stroke="#B8935A" stroke-dasharray="3 2" stroke-width="2"></circle>
+                <text fill="#B8935A" font-family="Inter" font-size="7" font-weight="bold" text-anchor="middle" x="124" y="113">PASS</text>
+                <g transform="rotate(-36 150 110)">
+                  <rect fill="#B8935A" height="60" rx="2" stroke="#0F1521" stroke-width="2" width="8" x="146" y="60"></rect>
+                  <polygon fill="#0F1521" points="146,120 154,120 150,130" stroke="#0F1521" stroke-width="2"></polygon>
+                </g>
+              </svg>
+            </div>
+            <div class="p-4 border-t-[2px] border-[#0F1521] flex-1 flex flex-col justify-between bg-white">
+              <p class="font-body-sm text-xs text-on-surface leading-snug">You check every page on your phone and ours. We test the enquiry form from start to finish.</p>
+              <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-500">
+                
+                <span class="text-[#B8935A]">Zero-Defect Check</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 5: LAUNCH -->
+          <div class="flex flex-col bg-[#F7F4EE] rounded-[8px] border-[3px] border-[#0F1521] comic-panel overflow-hidden">
+            <div class="bg-[#B8935A] border-b-[2px] border-[#0F1521] px-3 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-xs uppercase tracking-wider font-bold text-[#0F1521]">05 / LAUNCH</span>
+              <span class="material-symbols-outlined text-[14px] text-[#0F1521]">verified</span>
+            </div>
+            <div class="w-full h-52 bg-[#F7F4EE] flex items-center justify-center p-3 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#0F1521_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <svg class="w-full h-full relative z-10" fill="none" viewBox="0 0 200 150">
+                <line stroke="#B8935A" stroke-linecap="round" stroke-width="2" x1="20" x2="35" y1="40" y2="48"></line>
+                <line stroke="#B8935A" stroke-linecap="round" stroke-width="2" x1="30" x2="42" y1="18" y2="28"></line>
+                <line stroke="#B8935A" stroke-linecap="round" stroke-width="2" x1="170" x2="158" y1="20" y2="30"></line>
+                <line stroke="#B8935A" stroke-linecap="round" stroke-width="2" x1="180" x2="165" y1="44" y2="52"></line>
+                <line stroke="#B8935A" stroke-linecap="round" stroke-width="2" x1="100" x2="100" y1="10" y2="22"></line>
+                <rect fill="#FFFFFF" height="98" rx="5" stroke="#B8935A" stroke-width="3" width="144" x="28" y="32"></rect>
+                <line stroke="#B8935A" stroke-width="2" x1="28" x2="172" y1="52" y2="52"></line>
+                <circle cx="40" cy="42" fill="#B8935A" r="3"></circle>
+                <circle cx="50" cy="42" fill="#B8935A" r="3"></circle>
+                <circle cx="60" cy="42" fill="#B8935A" r="3"></circle>
+                <path d="M100 32 L100 14" stroke="#0F1521" stroke-linecap="round" stroke-width="2.5"></path>
+                <polygon fill="#B8935A" points="100,15 124,22 100,29" stroke="#0F1521" stroke-width="2"></polygon>
+                <rect fill="#F7F4EE" height="30" stroke="#0F1521" stroke-width="1.5" width="56" x="40" y="62"></rect>
+                <rect fill="#F7F4EE" height="30" stroke="#0F1521" stroke-width="1.5" width="56" x="104" y="62"></rect>
+                <path d="M44 84 Q56 70 68 76 T92 68" fill="none" stroke="#B8935A" stroke-width="2"></path>
+                <circle cx="92" cy="68" fill="#B8935A" r="2.5"></circle>
+                <g transform="translate(68, 102)">
+                  <rect fill="#0F1521" height="18" rx="9" width="64" x="0" y="0"></rect>
+                  <text fill="#F7F4EE" font-family="Inter" font-size="8" font-weight="bold" text-anchor="middle" x="32" y="12">LIVE IN PROD</text>
+                </g>
+              </svg>
+            </div>
+            <div class="p-4 border-t-[2px] border-[#0F1521] flex-1 flex flex-col justify-between bg-white">
+              <p class="font-body-sm text-xs text-on-surface leading-snug">Your domain, security certificate, visitor tracking, and all files handed over to you.</p>
+              <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-500">
+                
+                <span class="text-[#B8935A]">100% IP Handed Over</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- OPERATIONAL CLIENT GUARANTEES -->
+      <section id="commitments" class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="border-t border-[#0F1521]/15 pt-12">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+              <span class="font-label-sm text-xs uppercase tracking-widest text-[#B8935A] font-bold">Our Commitments</span>
+              <h2 class="font-headline-md text-2xl md:text-3xl font-bold text-[#0F1521] mt-1" style="font-family: 'Fraunces', serif;">
+                What You Can Count On
+              </h2>
+            </div>
+            <p class="font-body-sm text-sm text-gray-600 max-w-md">Two promises we make on every project.</p>
+          </div>
+
+          <div class="m-rail grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Guarantee Card 1 -->
+            
+
+            <!-- Guarantee Card 2 -->
+            <div class="bg-[#F7F4EE] p-6 rounded-xl border-2 border-[#0F1521] comic-panel flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center border border-[#0F1521]/20">
+                  <span class="material-symbols-outlined text-[#B8935A] text-[22px]">forum</span>
+                </div>
+                <h3 class="font-headline-sm text-xl font-bold text-[#0F1521]">Direct Team Communication</h3>
+                <p class="font-body-md text-sm text-gray-600 leading-relaxed">No junior handlers. You're in direct contact with the people building your site.</p>
+              </div>
+              <div class="mt-6 pt-3 border-t border-[#0F1521]/10 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-[#B8935A]">check_circle</span>
+                <span class="font-label-sm text-xs uppercase text-on-surface tracking-wider font-bold">Response within 1 hour</span>
+              </div>
+            </div>
+
+            <!-- Guarantee Card 3 -->
+            <div class="bg-[#F7F4EE] p-6 rounded-xl border-2 border-[#0F1521] comic-panel flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center border border-[#0F1521]/20">
+                  <span class="material-symbols-outlined text-[#B8935A] text-[22px]">key</span>
+                </div>
+                <h3 class="font-headline-sm text-xl font-bold text-[#0F1521]">Yours the Day You Launch</h3>
+                <p class="font-body-md text-sm text-gray-600 leading-relaxed">The website files, design files and account logins all belong to your business from launch day.</p>
+              </div>
+              <div class="mt-6 pt-3 border-t border-[#0F1521]/10 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-[#B8935A]">check_circle</span>
+                <span class="font-label-sm text-xs uppercase text-on-surface tracking-wider font-bold">Clean Handover</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLOSING CALL TO ACTION -->
+      <section class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-16 mb-8">
+        <div class="bg-[#161c28] text-white rounded-2xl p-8 md:p-14 relative overflow-hidden shadow-xl border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8" style="box-shadow: 4px 4px 0px #B8935A;">
+          <div class="max-w-2xl space-y-3 relative z-10">
+            <div class="inline-flex items-center gap-2 text-[#fed394] font-label-sm text-xs uppercase tracking-widest font-bold">
+              <span class="material-symbols-outlined text-[16px]">event_seat</span> Production Window Allocation
+            </div>
+            <h2 class="text-3xl md:text-5xl font-bold leading-tight" style="font-family: 'Fraunces', serif;">
+              Ready to start your build?
+            </h2>
+            <p class="font-body-lg text-sm sm:text-base text-gray-300 max-w-xl">Reserve your build slot for the next available month.</p>
+          </div>
+          <div class="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+            <a class="w-full sm:w-auto inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#B8935A] text-[#0F1521] font-bold text-xs uppercase tracking-wider hover:bg-[#fed394] transition-all shadow" href="contact.html">Reserve Your Slot<span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="w-full bg-[#f6f3ed] border-t border-[#0F1521]/15">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-10 md:pt-16 pb-8 md:pb-12">
+      <div class="max-md:hidden bg-[#ebe8e2] rounded-xl p-8 mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-[#0F1521]/10">
+        <div class="space-y-1">
+          <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#785926] font-bold">Get in Touch</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Tell us what you need. We reply within 1 hour.</h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#0F1521] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#B8935A] hover:text-[#0F1521] transition-colors shadow" href="https://wa.me/918595475007?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+          <a class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-white text-[#0F1521] font-bold text-xs uppercase tracking-wider border-2 border-[#0F1521] hover:bg-[#EDE9DF] transition-colors" href="mailto:connect@phaseline.in">Email us</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-12">
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Explore</h4>
+          <ul class="space-y-2">
+            <li><a href="work.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Selected Work</a></li>
+            <li><a href="services.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Services</a></li>
+            <li><a href="process.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Process</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">About Us</a></li>
+            
+            <li><a href="contact.html" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Start a Project</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Contact</h4>
+          <ul class="space-y-2">
+            
+            <li><a href="mailto:connect@phaseline.in" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">connect@phaseline.in</a></li>
+            <li><span class="font-body-sm text-body-sm text-gray-600">Phaseline, Delhi, India</span></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-[#0F1521]/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="font-body-sm text-body-sm text-gray-600">© 2026 Phaseline. All rights reserved.</p>
+        <nav aria-label="Legal">
+          <ul class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <li><a href="/privacy" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Terms</a></li>
+            <li><a href="/cookies" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cookies</a></li>
+            <li><a href="/cancellation-and-refunds" class="font-body-sm text-body-sm text-gray-600 hover:text-black transition-colors">Cancellation &amp; Refunds</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script defer="" src="vendor/gsap.min.js"></script>
+  <script defer="" src="vendor/ScrollTrigger.min.js"></script>
+  <script defer="" src="vendor/SplitText.min.js"></script>
+  <script defer="" src="vendor/lenis.min.js"></script>
+  <script defer="" src="motion.js"></script>
+  <script defer="" src="phase-ai-match.js"></script>
+  <script defer="" src="phase-ai.js"></script>
+
+
+</body></html>
