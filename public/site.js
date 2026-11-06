@@ -724,7 +724,48 @@
     moveNavBubble();
   }
 
-  async function go(url, push = true) {
+  // ---------- Back / Forward: every history entry remembers where the page was scrolled ----------
+  let navigating = false, saveTimer = 0, overlayBack = null, resolveBack = null;
+  const jump = (y) => (window.lenis ? window.lenis.scrollTo(y, { immediate: true }) : scrollTo(0, y));
+  const saveY = () => {
+    if (navigating) return; // while a page is being swapped the old position must not be written onto the entry we are going to
+    try { history.replaceState({ ...(history.state || {}), y: Math.round(window.scrollY) }, ""); } catch (_) { /* ignore */ }
+  };
+  addEventListener("scroll", () => { clearTimeout(saveTimer); saveTimer = setTimeout(saveY, 120); }, { passive: true });
+  addEventListener("pagehide", saveY);
+
+  // a reload (or coming back from another website) returns to the same place, not the top
+  const navType = (performance.getEntriesByType("navigation")[0] || {}).type;
+  if (history.state && history.state.overlay) history.replaceState({ ...history.state, overlay: false }, "");
+  if (history.state && history.state.y > 0 && !location.hash && (navType === "reload" || navType === "back_forward")) {
+    addEventListener("load", () => setTimeout(() => jump(history.state.y), 500), { once: true });
+  }
+
+  // an open project popup or the chat drawer gets its own history entry, so Back closes it first and leaves the page where it is
+  const overlayOpen = () =>
+    ["blueprint-modal", "confirmation-modal"].some((id) => { const m = document.getElementById(id); return m && !m.classList.contains("hidden"); }) ||
+    document.getElementById("phase-ai")?.dataset.state === "open";
+  let overlayWasOpen = false;
+  new MutationObserver((recs) => {
+    if (!recs.some((r) => ["blueprint-modal", "confirmation-modal", "phase-ai"].includes(r.target.id))) return;
+    const open = overlayOpen();
+    if (open && !overlayWasOpen) {
+      saveY();
+      if (!(history.state && history.state.overlay)) history.pushState({ ...(history.state || {}), overlay: true }, "");
+    } else if (!open && overlayWasOpen && history.state && history.state.overlay) {
+      overlayBack = new Promise((r) => { resolveBack = r; setTimeout(r, 400); });
+      history.back(); // closed with the X, Esc or a tap outside: remove the entry we added
+    }
+    overlayWasOpen = open;
+  }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["class", "data-state"] });
+
+  async function go(url, push = true, restoreY = 0) {
+    if (push) saveY();
+    navigating = true;
+    try { await swap(url, push, restoreY); } finally { navigating = false; }
+  }
+
+  async function swap(url, push, restoreY) {
     const u = new URL(url, location.href);
     const root = document.documentElement;
     root.classList.add("leaving");
@@ -732,13 +773,17 @@
     try {
       [html] = await Promise.all([load(u.href), new Promise((r) => setTimeout(r, 180))]);
     } catch (_) { location.href = u.href; return; }
+    if (overlayBack) await overlayBack;
     const doc = new DOMParser().parseFromString(html, "text/html");
     const main = doc.querySelector("main"), foot = doc.querySelector("footer");
     if (!main) { location.href = u.href; return; }
 
     window.pageMotion?.teardown();
     closeModal(); closeConfirmationModal();
-    if (push) history.pushState({}, "", u.href);
+    if (push) {
+      // from inside an open popup or the chat drawer the new page takes over that entry, so no leftover entry is left behind
+      if (history.state && history.state.overlay) history.replaceState({ y: 0 }, "", u.href); else history.pushState({ y: 0 }, "", u.href);
+    }
     lastPath = u.pathname;
     document.title = doc.title;
     document.querySelector("meta[name=description]")?.setAttribute("content", doc.querySelector("meta[name=description]")?.content || "");
@@ -755,6 +800,8 @@
     const target = u.hash && document.querySelector(u.hash);
     if (target) {
       if (window.lenis) window.lenis.scrollTo(target, { immediate: true, offset: -100 }); else { target.scrollIntoView(); scrollBy(0, -100); }
+    } else if (restoreY > 0) {
+      jump(restoreY); // Back / Forward: return to exactly where the visitor was on that page
     }
     root.classList.remove("leaving");
   }
@@ -767,7 +814,12 @@
     e.preventDefault();
     go(a.href);
   });
-  addEventListener("popstate", () => { if (location.pathname !== lastPath) go(location.href, false); });
+  addEventListener("popstate", (e) => {
+    if (resolveBack) { resolveBack(); resolveBack = null; overlayBack = null; }
+    // Back on an open popup closes the popup (the chat drawer closes itself); the page stays where it was
+    if (location.pathname === lastPath) { closeModal(); closeConfirmationModal(); return; }
+    go(location.href, false, (e.state && e.state.y) || 0);
+  });
 
   // DOM ready
   document.addEventListener('DOMContentLoaded', () => {
