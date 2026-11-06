@@ -164,7 +164,7 @@ Items marked **[VERIFY]** are specific claims (numbers, names, places, dates, pr
 
   - `HOME-5-12` D2C APPAREL **[VERIFY]**
   - `HOME-5-13` **QOTN** **[VERIFY]**
-  - `HOME-5-14` Pure cotton clothing brand with customer accounts, and Kaafi, an AI assistant that answers shopper questions.
+  - `HOME-5-14` Pure cotton clothing brand with customer accounts that keep shoppers signed in.
   - `HOME-5-15` Jaipur, Rajasthan **[VERIFY]**
 
 ### Section 6: Ready to get your website and systems built?
@@ -275,9 +275,9 @@ Items marked **[VERIFY]** are specific claims (numbers, names, places, dates, pr
   - `WORK-2-45` **QOTN** **[VERIFY]**
   - `WORK-2-46` A pure cotton D2C clothing brand (qotn.in): kurtas, shirts and dresses for men, women and kids, sold online. **[VERIFY]**
   - `WORK-2-47` Before
-  - `WORK-2-48` A young brand that needed a store shoppers could sign in to, and a way to answer their questions without a person on every chat.
+  - `WORK-2-48` A young brand that needed a store shoppers could sign in to.
   - `WORK-2-49` What we built
-  - `WORK-2-50` A store with customer accounts that keep shoppers signed in, a security check on how customer data is accessed, and Kaafi, an AI assistant that answers shopper questions.
+  - `WORK-2-50` A store with customer accounts that keep shoppers signed in, and a security check on how customer data is accessed.
   - `WORK-2-51` View Full Project
 
 **Card 6**
@@ -800,8 +800,8 @@ These come from `public/site.js`. Each popup shows the fields below. The popup a
 - `POP-4-TIME` Turnaround: undefined **[VERIFY]**
 - `POP-4-METRIC` Impact figure: undefined **[VERIFY]**
 - `POP-4-STACK` Technology list:  **[VERIFY]**
-- `POP-4-CHAL` Challenge: A young brand that needed a store shoppers could sign in to, and a way to answer their questions without a person on every chat. **[VERIFY]**
-- `POP-4-SOL` Solution: A store with customer accounts that keep shoppers signed in, a security check on how customer data is accessed, and Kaafi, an AI assistant that answers shopper questions. **[VERIFY]**
+- `POP-4-CHAL` Challenge: A young brand that needed a store shoppers could sign in to. **[VERIFY]**
+- `POP-4-SOL` Solution: A store with customer accounts that keep shoppers signed in, and a security check on how customer data is accessed. **[VERIFY]**
 - `POP-4-VID` Video: work/qotn.mp4 (15 second tour of the real site)
 
 ### Fitness Future Gym

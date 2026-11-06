@@ -255,8 +255,8 @@
           "category": "D2C Apparel",
           "location": "Jaipur, Rajasthan",
           "stack": [],
-          "challenge": "A young brand that needed a store shoppers could sign in to, and a way to answer their questions without a person on every chat.",
-          "solution": "A store with customer accounts that keep shoppers signed in, a security check on how customer data is accessed, and Kaafi, an AI assistant that answers shopper questions.",
+          "challenge": "A young brand that needed a store shoppers could sign in to.",
+          "solution": "A store with customer accounts that keep shoppers signed in, and a security check on how customer data is accessed.",
           "video": "work/qotn"
       },
       "fitness": {

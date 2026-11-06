@@ -127,7 +127,7 @@
     // frame-rate check: if a quarter of 120 frames in a row take longer than 33 ms, the machine is struggling, so the expensive
     // effects are dropped (glass blur first, then the moving light). A few slow frames on a good machine change nothing.
     if (++edge.n > 45) { edge.ema++; if (ms > 33) edge.slow++; }
-    if (edge.ema >= 120) { if (edge.slow > 30 && edge.lite < 2) { edge.lite++; drawer.dataset.lite = edge.lite; } edge.ema = 0; edge.slow = 0; }
+    if (edge.ema >= 120) { if (edge.slow > 30 && edge.lite < 2) { edge.lite++; drawer.dataset.lite = edge.lite; scrim.dataset.lite = edge.lite; } edge.ema = 0; edge.slow = 0; }
     const speaking = now < edge.speakUntil;
     const target = drawer.dataset.busy === '1' ? 0.95 : speaking ? 0.7 : edge.focus ? 0.4 : 0.2;
     edge.e += (target - edge.e) * (1 - Math.exp(-dt * 3.5));
@@ -160,9 +160,16 @@
     drawer.style.setProperty('--pa-d', Math.ceil(Math.hypot(Math.min(680, innerWidth - (isPhone() ? 20 : 24)), maxH)) + 'px');   // big enough that the rotating light always covers the edge
   }
 
+  const held = [];
+  function holdVideos(on) {
+    if (on) document.querySelectorAll('video').forEach((v) => { if (!v.paused) { v.pause(); held.push(v); } });
+    else held.splice(0).forEach((v) => v.play().catch(() => {}));
+  }
+
   function open() {
     if (S.open) return;
     S.open = true;
+    holdVideos(true);
     place();
     scrim.hidden = false;
     requestAnimationFrame(() => scrim.classList.add('on'));
@@ -186,12 +193,13 @@
     const done = () => {
       if (S.open) return;
       drawer.hidden = true; drawer.dataset.state = 'closed'; scrim.hidden = true;
+      holdVideos(false);
       document.body.style.overflow = '';
       if (!keepFocus && !immediate) lip.focus({ preventScroll: true });
       if (after) requestAnimationFrame(after);   // runs once the page can scroll again
     };
     if (immediate || reduced) done();
-    else { drawer.dataset.state = 'closing'; setTimeout(done, 400); }
+    else { drawer.dataset.state = 'closing'; setTimeout(done, 520); }
   }
 
   function trapTab(e) {
@@ -262,7 +270,7 @@
   }
 
   function showTyping() {
-    const n = el('div', 'pa-msg pa-typing', ORB + BARS + '<span>Thinking</span>');
+    const n = el('div', 'pa-msg pa-typing', ORB + '<span class="pa-think">Thinking<i></i><i></i><i></i></span>');
     n.setAttribute('role', 'status');
     log.appendChild(n); setBusy(true); scrollLog();
     return () => { n.remove(); setBusy(false); };

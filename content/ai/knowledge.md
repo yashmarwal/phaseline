@@ -42,6 +42,6 @@ Phase AI may only state what is written in this file. Anything not here is unkno
 - Mapps Creation (Surat): wholesale fabric catalogue with an enquire and bulk-quote button on every fabric.
 - Tanish Creation (Jaipur, screen printing since 1959): bulk order requests that go to WhatsApp, and factory-visit booking.
 - Taj Attire (Jaipur, ladies' wear): wholesale catalogue for kurtis, gowns and tops with quote requests and a visit booking.
-- QOTN (Jaipur, cotton clothing brand): an online store with a Find My Size tool and custom stitching.
+- QOTN (Jaipur, cotton clothing brand): an online store with customer accounts that keep shoppers signed in.
 - Fitness Future Gym (Delhi): QR check-in, fee reminders and an admin panel for the gym team.
 - INS Overseas (Sanganer, Jaipur, leather and paper exporter): an export catalogue with minimum orders and enquiries.
