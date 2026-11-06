@@ -8,7 +8,7 @@ const HOURLY_LIMIT = Number(process.env.PHASE_AI_HOURLY) || 10;        // AI mes
 const DAILY_CAP = Number(process.env.PHASE_AI_DAILY_CAP) || 300;       // AI messages for everyone in 24 hours (spending guard)
 const MAX_HISTORY = 6;           // earlier messages sent back to the AI each time
 const MAX_CHARS = 400;           // longest visitor message
-const MAX_OUTPUT_TOKENS = 220;   // keeps answers short and cheap
+const MAX_OUTPUT_TOKENS = 700;   // headroom only: the prompt keeps answers under 45 words. A low cap cut replies off mid-JSON (and the model may spend some of it thinking)
 
 const SYSTEM = `You are Phase AI, the website assistant for Phaseline. Answer questions briefly, help the visitor find the right service, and move them towards talking to the team (WhatsApp or email) or starting a project.
 
@@ -79,7 +79,14 @@ function parseReply(raw) {
     const actions = (Array.isArray(json.actions) ? json.actions : []).filter((a) => ACTION_IDS.includes(a)).slice(0, 3);
     const reply = clip(json.reply, 420);
     if (reply) return { reply, actions, brief: clip(json.brief, 500) };
-  } catch (_) { /* not JSON: use the plain text below */ }
+  } catch (_) { /* not complete JSON: see below */ }
+  // text that looks like JSON but is cut off or broken: rescue the reply if there is one, and never show raw JSON to a visitor
+  if (/^\s*(```(?:json)?\s*)?\{/.test(text)) {
+    const m = text.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)/);
+    let reply = '';
+    try { reply = m ? clip(JSON.parse('"' + m[1] + '"'), 420) : ''; } catch (_) { reply = m ? clip(m[1], 420) : ''; }
+    return reply ? { reply, actions: [], brief: '' } : null;
+  }
   const plain = clip(text.replace(/```(?:json)?/g, ''), 420);
   return plain ? { reply: plain, actions: [], brief: '' } : null;
 }
@@ -135,6 +142,7 @@ module.exports = async (req, res) => {
       return res.status(r.status === 429 || r.status === 529 ? 429 : 502).json({ error: r.status === 429 || r.status === 529 ? 'busy' : 'unavailable' });
     }
     data = await r.json();
+    if (data && data.stop_reason === 'max_tokens') console.error('anthropic reply was cut off by max_tokens');
   } catch (e) {
     console.error('anthropic call failed', e && e.message);
     return res.status(502).json({ error: 'unavailable' });

@@ -37,7 +37,7 @@ const reset = () => { aiCalls = 0; aiBody = null; aiReply = ok; aiStatus = 200; 
   assert.equal(r.code, 200); assert.equal(r.body.reply, 'Websites usually take 3 to 4 weeks.');
   assert.deepEqual(r.body.actions, ['process', 'form'], 'only real button ids are passed on');
   assert.ok(r.body.brief.includes('fabric')); assert.equal(r.body.left, 2);
-  assert.equal(aiBody.model, 'claude-haiku-5-5'); assert.ok(!('temperature' in aiBody), 'Haiku 5.5 rejects the temperature setting'); assert.ok(aiBody.max_tokens <= 250);
+  assert.equal(aiBody.model, 'claude-haiku-5-5'); assert.ok(!('temperature' in aiBody), 'Haiku 5.5 rejects the temperature setting'); assert.ok(aiBody.max_tokens >= 400 && aiBody.max_tokens <= 1000, 'enough room that a reply is never cut off, not unlimited');
   assert.equal(aiBody.system[0].cache_control.type, 'ephemeral', 'rules and facts are cached');
   assert.ok(/FACTS/.test(aiBody.system[0].text) && /Web Presence/.test(aiBody.system[0].text), 'the knowledge file is included');
   assert.equal(saved.length, 1); assert.equal(saved[0].length, 2, 'question and answer are saved');
@@ -62,6 +62,12 @@ const reset = () => { aiCalls = 0; aiBody = null; aiReply = ok; aiStatus = 200; 
   reset(); aiReply = '```json\n{"reply":"Hi there","actions":["whatsapp"],"brief":""}\n```'; r = await run(q('hi?')); assert.equal(r.body.reply, 'Hi there'); assert.deepEqual(r.body.actions, ['whatsapp']);
   reset(); aiReply = 'Plain text answer without JSON.'; r = await run(q('hi?')); assert.equal(r.body.reply, 'Plain text answer without JSON.'); assert.deepEqual(r.body.actions, []);
   reset(); aiReply = ''; r = await run(q('hi?')); assert.equal(r.code, 502);
+
+  // a reply cut off in the middle of its JSON must never reach the visitor as raw JSON
+  reset(); aiReply = '{"reply":"We do not promise a 1-week delivery. A website takes 3 to 4 weeks.","actions":["whatsapp"'; r = await run(q('1 week?'));
+  assert.equal(r.code, 200); assert.equal(r.body.reply, 'We do not promise a 1-week delivery. A website takes 3 to 4 weeks.'); assert.ok(!r.body.reply.includes('{'));
+  reset(); aiReply = '{"reply":"Half'; r = await run(q('cut early?')); assert.equal(r.code, 200); assert.equal(r.body.reply, 'Half');
+  reset(); aiReply = '{"actions":["form"],"brief":'; r = await run(q('no reply at all?')); assert.equal(r.code, 502, 'broken JSON with no reply is an error, not a visitor-facing message');
 
   // failures and guards
   reset(); aiStatus = 529; r = await run(q('busy?')); assert.equal(r.code, 429); assert.equal(r.body.error, 'busy');
