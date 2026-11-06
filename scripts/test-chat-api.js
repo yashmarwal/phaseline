@@ -5,6 +5,7 @@ process.env.ANTHROPIC_API_KEY = 'test-key';
 process.env.SUPABASE_URL = 'http://db.test';
 process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
 process.env.PHASE_AI_SALT = 'a-long-random-salt-for-tests';
+process.env.PHASE_AI_MODEL = 'claude-sonnet-5-5';   // must be ignored: Haiku only
 process.env.PHASE_AI_HOURLY = '3';
 process.env.PHASE_AI_DAILY_CAP = '1000';
 const handler = require('../api/chat.js');

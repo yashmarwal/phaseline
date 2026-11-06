@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const { KNOWLEDGE, ACTION_IDS } = require('./_knowledge.js');
 const { sb, dbReady } = require('./_db.js');
 
-const MODEL = process.env.PHASE_AI_MODEL || 'claude-haiku-5-5';
+const MODEL = 'claude-haiku-5-5';   // Phase AI uses Haiku only: fixed here on purpose, not set from an environment variable
 const HOURLY_LIMIT = Number(process.env.PHASE_AI_HOURLY) || 10;        // AI messages per visitor per hour
 const DAILY_CAP = Number(process.env.PHASE_AI_DAILY_CAP) || 300;       // AI messages for everyone in 24 hours (spending guard)
 const MAX_HISTORY = 6;           // earlier messages sent back to the AI each time
