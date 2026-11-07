@@ -1,15 +1,15 @@
-# Phaseline
+# Phaseline (Phaseline Technologies)
 
 > We build websites, business systems and custom software for manufacturers, exporters, traders and service businesses across India.
 
 ## Pages
 
-- [Home](https://www.phaseline.in/): Phaseline builds websites, business systems and custom software for manufacturers, exporters, traders and service businesses across India.
+- [Home](https://www.phaseline.in/): Phaseline Technologies builds websites, business systems and custom software for manufacturers, exporters, traders and service businesses across India.
 - [Work](https://www.phaseline.in/work): Selected websites and business systems Phaseline has built for manufacturers, traders and service businesses across India.
 - [Services](https://www.phaseline.in/services): Custom websites, admin and operations systems, and bespoke software with an AI assistant add-on. 3 to 8 weeks, you own it, 6 months support included.
 - [Process](https://www.phaseline.in/process): How Phaseline takes a website, business system or custom software from first call to launch, in 3 to 8 weeks depending on scope.
-- [About](https://www.phaseline.in/about): Phaseline is a studio in Delhi building websites, business systems and custom software for Indian B2B businesses. Design, build and support in-house.
-- [Contact](https://www.phaseline.in/contact): Tell us what you need. Start a website, business system or software project with Phaseline, a studio based in Delhi. Chat on WhatsApp or send an enquiry.
+- [About](https://www.phaseline.in/about): Phaseline is a company in Delhi building websites, business systems and custom software for Indian B2B businesses. Design, build and support in-house.
+- [Contact](https://www.phaseline.in/contact): Tell us what you need. Start a website, business system or software project with Phaseline, a company based in Delhi. Chat on WhatsApp or send an enquiry.
 
 ## Policies
 

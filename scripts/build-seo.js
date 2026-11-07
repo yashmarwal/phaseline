@@ -32,6 +32,7 @@ const problems = [];
 const mustBeVisible = (text, where) => { if (!allText.includes(norm(text))) problems.push(`${where}: "${text}" is not visible text on the site`); };
 
 mustBeVisible(seo.organization.description, 'organization.description');
+mustBeVisible(seo.organization.alternateName, 'organization.alternateName');
 mustBeVisible(config.location, 'location');
 mustBeVisible(config.hours, 'hours');
 mustBeVisible(config.contactEmail, 'email');
@@ -43,7 +44,7 @@ seo.pages.forEach((p) => {
 (seo.preloadFonts || []).forEach((f) => { if (!fs.existsSync(path.join(root, 'public', f))) problems.push(`preloadFonts: public${f} does not exist`); });
 
 const org = {
-  '@type': 'Organization', '@id': ORG, name: config.businessName, url: site + '/',
+  '@type': 'Organization', '@id': ORG, name: config.businessName, alternateName: seo.organization.alternateName, url: site + '/',
   logo: site + seo.organization.logo, image: site + seo.organization.image,
   description: seo.organization.description, email: config.contactEmail, telephone: config.whatsappNumber,
   address: { '@type': 'PostalAddress', addressLocality: seo.organization.addressLocality, addressCountry: seo.organization.addressCountry },
@@ -71,7 +72,7 @@ function graphFor(p, title, desc) {
   const url = site + (p.path === '/' ? '/' : p.path);
   const home = p.path === '/';
   const graph = [home ? org : orgRef];
-  if (home) graph.push({ '@type': 'WebSite', '@id': SITE, url: site + '/', name: config.businessName, inLanguage: LANG, publisher: { '@id': ORG } });
+  if (home) graph.push({ '@type': 'WebSite', '@id': SITE, url: site + '/', name: config.businessName, alternateName: seo.organization.alternateName, inLanguage: LANG, publisher: { '@id': ORG } });
   graph.push({ '@type': p.type, '@id': url + '#webpage', url, name: title, description: desc, inLanguage: LANG, isPartOf: { '@id': SITE }, publisher: { '@id': ORG }, ...(home ? {} : { breadcrumb: { '@id': url + '#breadcrumb' } }) });
   if (!home) graph.push({ '@type': 'BreadcrumbList', '@id': url + '#breadcrumb', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: site + '/' },
@@ -162,7 +163,7 @@ fs.writeFileSync(path.join(root, 'public/manifest.webmanifest'), JSON.stringify(
 }, null, 2) + '\n');
 
 // llms.txt for AI assistants: one line per page, taken from the page descriptions above
-const lines = [`# ${config.businessName}`, '', `> ${seo.organization.description}`, '', '## Pages', ''];
+const lines = [`# ${config.businessName} (${seo.organization.alternateName})`, '', `> ${seo.organization.description}`, '', '## Pages', ''];
 const legal = [];
 pages.filter(({ p }) => !p.noindex).forEach(({ p, desc }) => {
   (/^\/(privacy|terms|cookies|cancellation)/.test(p.path) ? legal : lines).push(`- [${p.crumb || 'Home'}](${site}${p.path === '/' ? '/' : p.path}): ${desc}`);

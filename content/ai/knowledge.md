@@ -3,6 +3,7 @@
 Phase AI may only state what is written in this file. Anything not here is unknown, and the answer is to point to the team.
 
 ## Who we are
+- Phaseline is also known as Phaseline Technologies.
 - Phaseline builds custom websites, private business systems and custom software (including AI) for Indian B2B businesses: manufacturers, exporters, traders and service businesses.
 - Our team is based in Delhi, India. We work with businesses across India.
 - This website is a marketing site, not a shop.
