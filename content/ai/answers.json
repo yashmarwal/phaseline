@@ -973,12 +973,12 @@
           "kya"
         ]
       ],
-      "answer": "Care is our optional monthly plan: content updates, security updates and search-visibility monitoring. We check your site every 5 minutes. Cancel with 30 days' notice.",
+      "answer": "Care is our monthly add-on after launch: content updates, security updates and a regular check on how you appear on Google. Your site is checked every 5 minutes, day and night; if it goes down, we respond in working hours. Cancel with 30 days' notice.",
       "actions": [
         "care",
         "form"
       ],
-      "hi": "Care hamara optional monthly plan hai: content updates, security updates aur search-visibility monitoring. Hum aapki site har 5 minute mein check karte hain. 30 din ke notice par cancel kar sakte hain."
+      "hi": "Care hamara monthly add-on hai jo launch ke baad milta hai: content updates, security updates aur Google par aap kaise dikhte hain uski regular check. Aapki site har 5 minute mein, din-raat check hoti hai; down ho jaye to hum working hours mein respond karte hain. 30 din ke notice par cancel kar sakte hain."
     },
     {
       "id": "ownership",

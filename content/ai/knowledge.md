@@ -14,7 +14,7 @@ Phase AI may only state what is written in this file. Anything not here is unkno
 - **Business Systems** (the operations service): a private operations platform that replaces registers, notebooks and scattered chats. An admin panel built around how your team works, tracking of the records your business runs on with status, notes and reminders, workflows designed around how you operate, and enquiries delivered to WhatsApp and email. Typical timeline: 5 to 8 weeks, depending on scope.
 - **Custom Software & AI** (the tailored software service): purpose-built software for one specific problem that no off-the-shelf tool solves. AI is built in where it adds real value, including assistants trained on your own information. Scoped and quoted after an initial consultation. Timeline is set after the consultation.
 - Services can be combined as a business grows.
-- **Care** (optional monthly plan): ongoing content updates, security updates and search-visibility monitoring. We check that the site is up every 5 minutes and get an alert straight away if it is not. It can be cancelled with 30 days' notice.
+- **Care** (optional monthly add-on after launch, for a website or system): monthly content updates and security updates, a regular check on how the site appears on Google (a check, not a promise of rankings), and a quarterly review of how the site looks and loads. We check that the site is up every 5 minutes, day and night. If it goes down, we are alerted and respond during working hours. It can be added to any service and cancelled with 30 days' notice.
 - An AI assistant for a client's own business is available as an add-on. Online payments are quoted separately if required.
 
 ## How a project runs
