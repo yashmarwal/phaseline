@@ -10,7 +10,11 @@
     "addressCountry": "IN",
     "logo": "/logo/icon-512.png",
     "image": "/og-image.png",
-    "alternateName": "Phaseline Technologies"
+    "alternateName": "Phaseline Technologies",
+    "sameAs": [
+      "https://www.linkedin.com/company/phaseline-technologies/",
+      "https://www.instagram.com/phaseline.in/"
+    ]
   },
   "pages": [
     {

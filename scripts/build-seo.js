@@ -33,6 +33,8 @@ const mustBeVisible = (text, where) => { if (!allText.includes(norm(text))) prob
 
 mustBeVisible(seo.organization.description, 'organization.description');
 mustBeVisible(seo.organization.alternateName, 'organization.alternateName');
+// every sameAs profile must be a real link in the footer of every page (the schema may only point where the site itself points)
+sources.forEach((h, i) => { for (const u of seo.organization.sameAs) if (!h.includes(`href="${u}"`)) problems.push(`sameAs: ${u} is not linked in the footer of page #${i}`); });
 mustBeVisible(config.location, 'location');
 mustBeVisible(config.hours, 'hours');
 mustBeVisible(config.contactEmail, 'email');
@@ -44,7 +46,7 @@ seo.pages.forEach((p) => {
 (seo.preloadFonts || []).forEach((f) => { if (!fs.existsSync(path.join(root, 'public', f))) problems.push(`preloadFonts: public${f} does not exist`); });
 
 const org = {
-  '@type': 'Organization', '@id': ORG, name: config.businessName, alternateName: seo.organization.alternateName, url: site + '/',
+  '@type': 'Organization', '@id': ORG, name: config.businessName, alternateName: seo.organization.alternateName, url: site + '/', sameAs: seo.organization.sameAs,
   logo: site + seo.organization.logo, image: site + seo.organization.image,
   description: seo.organization.description, email: config.contactEmail, telephone: config.whatsappNumber,
   address: { '@type': 'PostalAddress', addressLocality: seo.organization.addressLocality, addressCountry: seo.organization.addressCountry },
@@ -168,6 +170,7 @@ const legal = [];
 pages.filter(({ p }) => !p.noindex).forEach(({ p, desc }) => {
   (/^\/(privacy|terms|cookies|cancellation)/.test(p.path) ? legal : lines).push(`- [${p.crumb || 'Home'}](${site}${p.path === '/' ? '/' : p.path}): ${desc}`);
 });
+lines.push('', '## Profiles', '', ...seo.organization.sameAs.map((u) => `- ${u}`));
 lines.push('', '## Policies', '', ...legal, '', '## Contact', '', `- Email: ${config.contactEmail}`, `- WhatsApp: ${config.whatsappNumber}`, `- Hours: ${config.hours}`, '');
 fs.writeFileSync(path.join(root, 'public/llms.txt'), lines.join('\n'));
 
