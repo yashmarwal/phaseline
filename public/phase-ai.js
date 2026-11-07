@@ -17,7 +17,38 @@
   const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
   const S = { data: null, loading: null, open: false, started: false, msgs: [], aiUsed: [], left: null, brief: '', lastQuestion: '', session: '', formOpen: false };
-  let lip, scrim, drawer, log, input, sendBtn, note, leftEl, ringEl, glowEl, arcA, arcB;
+  let lip, scrim, drawer, log, input, sendBtn, note, leftEl, ringEl, glowEl, arcA, arcB, lipTxt;
+
+  // The tab under the header: one second after the page has loaded it drops out from under the navbar, and its line changes every 3 seconds
+  // through these ten. The line pauses while the pointer is on the tab and while the chat is open. With reduced motion the tab keeps "Chat with Phase AI".
+  const LIP_LINES = [
+    'Questions? Ask Phase AI.',
+    'Need a website? Just ask.',
+    'How long does a build take?',
+    'Curious how we work?',
+    'Ask about our services.',
+    'Who owns the code? Ask me.',
+    'Not sure where to start?',
+    'Need a business system?',
+    'Want AI for your business?',
+    'Get answers in seconds.'
+  ];
+  const LIP_EVERY = 3000, LIP_DELAY = 1000;
+  let lipTimer = 0, lipSwap = 0, lipI = 0;
+  function lipRun() { if (reduced || lipTimer || S.open || !lip || lip.classList.contains('wait')) return; lipTimer = setInterval(lipNext, LIP_EVERY); }
+  function lipHold() { clearInterval(lipTimer); lipTimer = 0; }
+  function lipNext() {
+    lipTxt.classList.add('out');
+    lipSwap = setTimeout(() => {
+      lipI = (lipI + 1) % LIP_LINES.length;
+      lipTxt.textContent = LIP_LINES[lipI];
+      lipTxt.classList.add('pre'); void lipTxt.offsetWidth; lipTxt.classList.remove('out', 'pre');   // the new line rises into place
+    }, 200);
+  }
+  function lipShow() {
+    lip.classList.remove('wait');
+    if (!reduced) { lip.classList.add('reveal'); setTimeout(() => lip.classList.remove('reveal'), 1500); lipI = 0; lipTxt.textContent = LIP_LINES[0]; lipRun(); }
+  }
 
   const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
   const norm = (p) => p.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1');
@@ -34,11 +65,20 @@
     const header = document.querySelector('header.topbar');
     if (!header) return;
 
-    lip = el('button', 'pa-lip', '<span>Chat with Phase AI</span>');
+    lip = el('button', 'pa-lip wait', '<span class="pa-lip-txt" aria-hidden="true">Chat with Phase AI</span>');
+    lip.setAttribute('aria-label', 'Chat with Phase AI');   // the spoken name stays the same while the visible line changes
+    lipTxt = lip.querySelector('.pa-lip-txt');
     lip.type = 'button';
     lip.setAttribute('aria-expanded', 'false');
     lip.setAttribute('aria-controls', 'phase-ai');
     header.appendChild(lip);
+
+    lip.addEventListener('pointerenter', lipHold);
+    lip.addEventListener('pointerleave', () => lipRun());
+    lip.addEventListener('focus', () => { if (lip.matches(':focus-visible')) lipHold(); });   // only someone using the keyboard pauses it; closing the chat hands focus back to the tab without a pause
+    lip.addEventListener('blur', () => lipRun());
+    const lipGo = () => setTimeout(lipShow, LIP_DELAY);
+    if (document.readyState === 'complete') lipGo(); else addEventListener('load', lipGo, { once: true });
 
     scrim = el('div', 'pa-scrim');
     scrim.hidden = true;
@@ -169,6 +209,7 @@
   function open() {
     if (S.open) return;
     S.open = true;
+    lipHold();
     holdVideos(true);
     place();
     scrim.hidden = false;
@@ -188,6 +229,7 @@
   function close(immediate, keepFocus, after) {
     if (!S.open) return;
     S.open = false;
+    lipRun();
     lip.setAttribute('aria-expanded', 'false');
     scrim.classList.remove('on');
     const done = () => {

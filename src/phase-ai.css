@@ -14,6 +14,23 @@
 .pa-lip:hover, .pa-lip[aria-expanded="true"] { color: #fff; box-shadow: 0 16px 30px -12px rgba(184, 147, 90, 0.5), inset 0 -1px 0 rgba(210, 174, 109, 0.7); }
 .pa-lip:focus-visible { outline: 2px solid #D2AE6D; outline-offset: 2px; }
 
+/* The tab grows out of the header pill in two beats: it drops out of the pill's centre as a narrow tongue, then spreads to its full width.
+   It animates its own width and height ("wait" is the hidden state, "reveal" runs the opening), so the rounded corners and the shadow stay whole throughout.
+   The line of text arrives once the shape has settled. */
+.pa-lip { --pa-x: 30px; --pa-h: 32px; transition: box-shadow 0.45s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease; }
+.pa-lip.wait { visibility: hidden; pointer-events: none; left: 42%; right: 42%; height: 0; }
+.pa-lip.reveal { animation: pa-lip-open 1.3s both; }
+@keyframes pa-lip-open {
+  0%   { left: 42%; right: 42%; height: 0; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+  38%  { left: 31%; right: 31%; height: var(--pa-h); animation-timing-function: cubic-bezier(0.5, 0, 0.15, 1); }   /* beat one: dropped out of the pill, still narrow */
+  100% { left: var(--pa-x); right: var(--pa-x); height: var(--pa-h); }   /* beat two: spread to full width */
+}
+.pa-lip.reveal .pa-lip-txt { animation: pa-lip-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s backwards; }
+@keyframes pa-lip-in { from { opacity: 0; transform: translateY(9px); } }
+.pa-lip-txt { display: block; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32, 0.72, 0, 1); }
+.pa-lip-txt.out { opacity: 0; transform: translateY(-7px); }
+.pa-lip-txt.pre { opacity: 0; transform: translateY(7px); transition: none; }
+
 /* the logo orb: cut in the middle, the two halves slide past each other, left and right */
 .pa-orb { width: 16px; height: 16px; flex: none; overflow: visible; }
 .pa-orb .pa-t { animation: pa-slide-t 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
@@ -157,6 +174,7 @@
 
 @media (max-width: 767px) {
   .pa-lip { left: 22px; right: 22px; height: 28px; font-size: 10.5px; letter-spacing: 0.15em; border-radius: 0 0 22px 22px; }
+  .pa-lip { --pa-x: 22px; --pa-h: 28px; }
   .pa { width: calc(100vw - 20px); border-radius: 32px; }
   .pa-ring { border-radius: 32px; } .pa-glow { border-radius: 36px; }
   .pa-surface { border-radius: 30px; }
