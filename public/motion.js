@@ -282,5 +282,10 @@
     ctx = gsap.context(() => init());
   };
   window.pageMotion = { enter, teardown };
-  Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 700))]).then(enter);
+  // legal pages (data-quick) are shown after 1 s at most; if that time ran out before the animations were ready, leave this page plain
+  // rather than hiding text that is already on screen. Later pages reached from here animate as usual.
+  Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 700))]).then(() => {
+    if (root.hasAttribute('data-quick') && !root.classList.contains('motion')) return;
+    enter();
+  });
 })();
