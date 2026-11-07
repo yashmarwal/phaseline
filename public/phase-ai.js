@@ -82,7 +82,7 @@
     drawer.addEventListener('keydown', trapTab);
     drawer.addEventListener('click', onLink);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.open) close(); });
-    addEventListener('popstate', () => close(true));
+    addEventListener('popstate', () => close()); // Back closes it with the same closing animation as the X
     addEventListener('resize', () => S.open && place());
     if (window.visualViewport) visualViewport.addEventListener('resize', () => S.open && place());
 
