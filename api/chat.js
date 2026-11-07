@@ -165,7 +165,8 @@ module.exports = async (req, res) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' },
         body: JSON.stringify([
-          { session, visitor, role: 'user', content: clean[clean.length - 1].content, page },
+          // both rows must have the same fields: the database refuses a batch whose rows differ ("All object keys must match")
+          { session, visitor, role: 'user', content: clean[clean.length - 1].content, page, input_tokens: null, output_tokens: null },
           { session, visitor, role: 'assistant', content: out.reply, page, input_tokens: data?.usage?.input_tokens ?? null, output_tokens: data?.usage?.output_tokens ?? null },
         ]),
         signal: AbortSignal.timeout(4000),

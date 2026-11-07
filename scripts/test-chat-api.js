@@ -43,6 +43,7 @@ const reset = () => { aiCalls = 0; aiBody = null; aiReply = ok; aiStatus = 200; 
   assert.equal(saved.length, 1); assert.equal(saved[0].length, 2, 'question and answer are saved');
   assert.ok(/^[0-9a-f]{32}$/.test(saved[0][0].visitor) && !JSON.stringify(saved).includes('1.2.3.4'), 'the visitor address is never stored');
   assert.equal(saved[0][1].output_tokens, 40);
+  assert.deepEqual(Object.keys(saved[0][0]).sort(), Object.keys(saved[0][1]).sort(), 'both rows have exactly the same fields: the real database (PostgREST) rejects a mixed batch with "All object keys must match"');
 
   // limit: 3 per hour (set above), counted per visitor
   reset(); for (let i = 0; i < 3; i++) assert.equal((await run(q('hello ' + i))).code, 200);
