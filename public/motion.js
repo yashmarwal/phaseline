@@ -58,8 +58,6 @@
         });
       }
     }
-    // section headings: masked line reveal as they scroll in
-    $$('h2', main).forEach((h) => once(h, () => revealLines(h), 'top 90%'));
 
     // cards and panels: batched fade-up (stack cards on Services are driven by their own script)
     const all = $$(".comic-panel, article, .m-rail > *, section .grid > div", main).filter((el) => !el.closest(".card-item, #matrix"));
@@ -119,6 +117,8 @@
     }
 
     draftCards();
+    // section headings: masked line reveal as they scroll in (headings inside a drafted card are revealed by the card's own timeline: splitting them twice left the inner copy hidden after a Services tab switch)
+    $$('h2', main).filter((h) => !h.closest('.draft')).forEach((h) => once(h, () => revealLines(h), 'top 90%'));
     const stopInk = inkLines();
     ScrollTrigger.refresh();
     done(); // every start state is set: reveal the page
