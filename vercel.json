@@ -5,6 +5,14 @@
     {
       "source": "/:page(work|services|process|about|contact|privacy|terms|cookies|cancellation-and-refunds)",
       "destination": "/:page.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/:slug([a-z0-9-]+)",
+      "destination": "/blog/:slug.html"
     }
   ],
   "headers": [
@@ -128,6 +136,21 @@
     {
       "source": "/:page(work|services|process|about|contact|privacy|terms|cookies|cancellation-and-refunds)/",
       "destination": "/:page",
+      "permanent": true
+    },
+    {
+      "source": "/blog/index.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug([a-z0-9-]+).html",
+      "destination": "/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog",
       "permanent": true
     }
   ]

@@ -130,7 +130,10 @@ console.log('built public/404.html');
 const sitemapFile = path.join(root, 'public/sitemap.xml');
 const prev = {};
 if (fs.existsSync(sitemapFile)) for (const m of fs.readFileSync(sitemapFile, 'utf8').matchAll(/<loc>[^<]*\/([^/<]*)<\/loc><lastmod>([^<]+)<\/lastmod>/g)) prev[m[1]] = m[2];
+const blog = require('./lib-blog.js').loadPosts();
 const lastmod = (p) => {
+  if (p === 'blog' && blog.length) return blog.map((b) => b.updated).sort().pop();
+  const bp = blog.find((b) => 'blog/' + b.slug === p); if (bp) return bp.updated;
   if (slugs.includes(p)) return parse(path.join(dir, p + '.md')).meta.updated;
   try {
     const d = execFileSync('git', ['log', '-1', '--format=%cs', '--', `public/${p || 'index'}.html`], { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
@@ -139,7 +142,7 @@ const lastmod = (p) => {
   return prev[p];
 };
 const NL = '\n';
-const pages = ['', 'work', 'services', 'process', 'about', 'contact', ...slugs];
+const pages = ['', 'work', 'services', 'process', 'about', 'contact', ...slugs, ...(blog.length ? ['blog', ...blog.map((b) => 'blog/' + b.slug)] : [])];
 const urls = pages.map((p) => { const d = lastmod(p); return `  <url><loc>${config.siteUrl}/${p}</loc>${d ? `<lastmod>${d}</lastmod>` : ''}</url>`; });
 fs.writeFileSync(sitemapFile, ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...urls, '</urlset>', ''].join(NL));
 fs.writeFileSync(path.join(root, 'public/robots.txt'), ['User-agent: *', 'Allow: /', 'Disallow: /api/', '', `Sitemap: ${config.siteUrl}/sitemap.xml`, ''].join(NL));

@@ -3,11 +3,11 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/apply-config.js && node scripts/build-legal.js && node scripts/build-ai.js && tailwindcss -i src/input.css -o public/styles.css --minify && node scripts/build-seo.js",
+    "build": "node scripts/apply-config.js && node scripts/build-legal.js && node scripts/build-ai.js && node scripts/build-blog.js && tailwindcss -i src/input.css -o public/styles.css --minify && node scripts/build-seo.js",
     "dev": "tailwindcss -i src/input.css -o public/styles.css --watch & vercel dev",
     "legal": "node scripts/build-legal.js",
-    "config": "node scripts/apply-config.js && node scripts/build-legal.js && node scripts/build-ai.js && node scripts/build-seo.js",
-    "seo": "node scripts/build-legal.js && node scripts/build-seo.js",
+    "config": "node scripts/apply-config.js && node scripts/build-legal.js && node scripts/build-ai.js && node scripts/build-blog.js && node scripts/build-seo.js",
+    "seo": "node scripts/build-legal.js && node scripts/build-blog.js && node scripts/build-seo.js",
     "test": "node scripts/test-contact-api.js && node scripts/test-chat-api.js && node scripts/test-phase-ai-match.js && node scripts/test-weekly-report.js"
   },
   "devDependencies": {

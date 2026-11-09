@@ -21,12 +21,19 @@ const LANG = 'en-IN';
 
 const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&#0?39;|&rsquo;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-const norm = (s) => unesc(s).replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').trim();
-const file = (name) => path.join(root, 'public', name + '.html');
+const norm = (s) => unesc(s).replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').replace(/ ([.,;:!?])/g, '$1').trim();
+const file =(name) => path.join(root, 'public', name + '.html');
 const visible = (html) => norm(html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' '));
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-const sources = fs.readdirSync(path.join(root, 'public')).filter((f) => f.endsWith('.html')).map((f) => fs.readFileSync(path.join(root, 'public', f), 'utf8'));
+// the blog: its index and every post are pages too (their html is built by build-blog.js; the head is added here)
+const { CATEGORIES, loadPosts } = require('./lib-blog.js');
+const blogPosts = loadPosts();
+seo.pages.push({ path: '/blog', file: 'blog/index', type: 'CollectionPage', crumb: 'Blog' });
+blogPosts.forEach((b) => seo.pages.push({ path: '/blog/' + b.slug, file: 'blog/' + b.slug, type: 'WebPage', crumb: b.seoTitle, post: b, faq: b.faq.length ? b.faq : undefined }));
+const blogDir = path.join(root, 'public/blog');
+const blogFiles = fs.existsSync(blogDir) ? fs.readdirSync(blogDir).filter((f) => f.endsWith('.html')).map((f) => path.join('blog', f)) : [];
+const sources = fs.readdirSync(path.join(root, 'public')).filter((f) => f.endsWith('.html')).concat(blogFiles).map((f) => fs.readFileSync(path.join(root, 'public', f), 'utf8'));
 const allText = sources.map(visible).join(' | ');
 const problems = [];
 const mustBeVisible = (text, where) => { if (!allText.includes(norm(text))) problems.push(`${where}: "${text}" is not visible text on the site`); };
@@ -78,7 +85,8 @@ function graphFor(p, title, desc) {
   graph.push({ '@type': p.type, '@id': url + '#webpage', url, name: title, description: desc, inLanguage: LANG, isPartOf: { '@id': SITE }, publisher: { '@id': ORG }, ...(home ? {} : { breadcrumb: { '@id': url + '#breadcrumb' } }) });
   if (!home) graph.push({ '@type': 'BreadcrumbList', '@id': url + '#breadcrumb', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: site + '/' },
-    { '@type': 'ListItem', position: 2, name: p.crumb, item: url }] });
+    ...(p.post ? [{ '@type': 'ListItem', position: 2, name: 'Blog', item: site + '/blog' }, { '@type': 'ListItem', position: 3, name: p.crumb, item: url }] : [{ '@type': 'ListItem', position: 2, name: p.crumb, item: url }])] });
+  if (p.post) graph.push({ '@type': 'BlogPosting', '@id': url + '#article', headline: p.post.title, description: desc, datePublished: p.post.date, dateModified: p.post.updated, inLanguage: LANG, author: { '@type': 'Organization', '@id': ORG, name: config.businessName }, publisher: { '@id': ORG }, mainEntityOfPage: { '@id': url + '#webpage' }, image: [site + seo.organization.image], articleSection: CATEGORIES[p.post.category].label, keywords: p.post.keywords.join(', '), wordCount: p.post.words });
   (p.services || []).forEach((s) => graph.push({ '@type': 'Service', '@id': `${url}#service-${slug(s.name)}`, name: s.name, description: s.description, provider: { '@id': ORG }, areaServed: { '@type': 'Country', name: 'India' } }));
   if (p.faq) graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
   return graph;
@@ -92,7 +100,7 @@ function blockFor(p, title, desc) {
     ...extras(),
     `  <meta name="robots" content="index, follow, max-image-preview:large">`,
     `  <link rel="canonical" href="${url}">`,
-    `  <meta property="og:type" content="website">`,
+    `  <meta property="og:type" content="${p.post ? 'article' : 'website'}">`,
     `  <meta property="og:site_name" content="${esc(config.businessName)}">`,
     `  <meta property="og:locale" content="en_IN">`,
     `  <meta property="og:url" content="${url}">`,
@@ -101,6 +109,7 @@ function blockFor(p, title, desc) {
     `  <meta property="og:image" content="${img}">`,
     `  <meta property="og:image:width" content="1200">`,
     `  <meta property="og:image:height" content="630">`,
+    ...(p.post ? [`  <meta property="article:published_time" content="${p.post.date}">`, `  <meta property="article:modified_time" content="${p.post.updated}">`, `  <meta property="article:section" content="${esc(CATEGORIES[p.post.category].label)}">`, ...p.post.keywords.map((k) => `  <meta property="article:tag" content="${esc(k)}">`)] : []),
     `  <meta name="twitter:card" content="summary_large_image">`,
     `  <meta name="twitter:title" content="${esc(title)}">`,
     `  <meta name="twitter:description" content="${esc(desc)}">`,
@@ -167,10 +176,11 @@ fs.writeFileSync(path.join(root, 'public/manifest.webmanifest'), JSON.stringify(
 // llms.txt for AI assistants: one line per page, taken from the page descriptions above
 const lines = [`# ${config.businessName} (${seo.organization.alternateName})`, '', `> ${seo.organization.description}`, '', '## Pages', ''];
 const legal = [];
-pages.filter(({ p }) => !p.noindex).forEach(({ p, desc }) => {
+pages.filter(({ p }) => !p.noindex && !p.file.startsWith('blog/')).forEach(({ p, desc }) => {
   (/^\/(privacy|terms|cookies|cancellation)/.test(p.path) ? legal : lines).push(`- [${p.crumb || 'Home'}](${site}${p.path === '/' ? '/' : p.path}): ${desc}`);
 });
 lines.push('', '## Profiles', '', ...seo.organization.sameAs.map((u) => `- ${u}`));
+lines.push('', '## Blog', '', `- [The Phaseline Blog](${site}/blog): guides and case studies on websites, business systems, AI and growing a B2B business online in India.`, ...blogPosts.map((b) => `- [${b.title}](${site}/blog/${b.slug}): ${b.description}`));
 lines.push('', '## Policies', '', ...legal, '', '## Contact', '', `- Email: ${config.contactEmail}`, `- WhatsApp: ${config.whatsappNumber}`, `- Hours: ${config.hours}`, '');
 fs.writeFileSync(path.join(root, 'public/llms.txt'), lines.join('\n'));
 

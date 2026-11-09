@@ -373,3 +373,20 @@ article[id] video[data-brag]:focus-visible { outline: 3px solid var(--color-bras
 
 /* Jumps to a section (from Phase AI buttons and links) stop clear of the floating header */
 main section[id] { scroll-margin-top: 7rem; }
+
+/* ---------- Blog articles (scripts/build-blog.js wraps every post in .blog-prose) ---------- */
+.blog-prose { font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 1.0625rem; line-height: 1.8; color: #2b2d33; }
+.blog-prose > * + * { margin-top: 1.25rem; }
+.blog-prose h2 { font-family: Newsreader, Georgia, serif; font-weight: 600; font-size: 1.85rem; line-height: 1.2; letter-spacing: -0.01em; color: #0F1521; margin-top: 2.75rem; scroll-margin-top: 7rem; }
+.blog-prose h3 { font-family: Newsreader, Georgia, serif; font-weight: 600; font-size: 1.35rem; line-height: 1.3; color: #0F1521; margin-top: 2rem; scroll-margin-top: 7rem; }
+.blog-prose a { color: #785926; text-decoration: underline; text-decoration-color: #B8935A; text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: color 0.2s ease; }
+.blog-prose a:hover { color: #0F1521; }
+.blog-prose strong { color: #0F1521; font-weight: 600; }
+.blog-prose ul, .blog-prose ol { padding-left: 1.5rem; }
+.blog-prose ul { list-style: disc; }
+.blog-prose ol { list-style: decimal; }
+.blog-prose li + li { margin-top: 0.5rem; }
+.blog-prose li::marker { color: #B8935A; }
+.blog-prose blockquote { border-left: 3px solid #B8935A; padding: 0.25rem 0 0.25rem 1.25rem; font-family: Newsreader, Georgia, serif; font-size: 1.3rem; line-height: 1.55; color: #3a3d44; }
+.blog-prose code { background: #ebe8e2; padding: 0.1em 0.38em; border-radius: 4px; font-size: 0.9em; }
+@media (max-width: 640px) { .blog-prose { font-size: 1rem; } .blog-prose h2 { font-size: 1.6rem; } }
