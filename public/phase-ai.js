@@ -34,21 +34,46 @@
     'Get answers in seconds.'
   ];
   const LIP_EVERY = 3000, LIP_DELAY = 1000;
-  let lipTimer = 0, lipSwap = 0, lipI = 0;
-  function lipRun() { if (reduced || lipTimer || S.open || !lip || lip.classList.contains('wait')) return; lipTimer = setInterval(lipNext, LIP_EVERY); }
+  // The peek lasts 3 s: it opens (0.6 s), says its first line, swaps to the second at 1.7 s, and starts closing at 2.5 s (closed by 3.0 s).
+  const PEEK_AT = 5000, PEEK_OPEN = 2500, PEEK_END = 3000, PEEK_SWAP = 1700;
+  const PEEK_SUB = ['Phase AI can answer in seconds.', 'Start a chat right here.'];
+  let lipTimer = 0, lipSwap = 0, lipI = 0, peeking = false, peekHover = false, peekT1 = 0, peekT2 = 0, peekT3 = 0, peekSwap = 0, peekSub;
+  function lipRun() { if (reduced || lipTimer || S.open || peeking || !lip || lip.classList.contains('wait')) return; lipTimer = setInterval(lipNext, LIP_EVERY); }
   function lipHold() { clearInterval(lipTimer); lipTimer = 0; }
-  function lipNext() {
-    lipTxt.classList.add('out');
+  function lipSet(text) {
+    clearTimeout(lipSwap); lipTxt.classList.add('out');
     lipSwap = setTimeout(() => {
-      lipI = (lipI + 1) % LIP_LINES.length;
-      lipTxt.textContent = LIP_LINES[lipI];
+      lipTxt.textContent = text;
       lipTxt.classList.add('pre'); void lipTxt.offsetWidth; lipTxt.classList.remove('out', 'pre');   // the new line rises into place
     }, 200);
   }
+  function lipNext() { lipI = (lipI + 1) % LIP_LINES.length; lipSet(LIP_LINES[lipI]); }
   function lipShow() {
     lip.classList.remove('wait');
     if (!reduced) { lip.classList.add('reveal'); setTimeout(() => lip.classList.remove('reveal'), 1500); lipI = 0; lipTxt.textContent = LIP_LINES[0]; lipRun(); }
   }
+
+  // The peek: 5 s after every page load (every visit, every refresh) the tab opens downward to greet the visitor and show where to click, then closes (2 s in all).
+  // Not with reduced motion, not if the chat is open or has been used, and while the pointer is on it the close waits for the pointer to leave.
+  function peekStart() {
+    if (reduced || peeking || !lip || S.open || S.started || lip.classList.contains('wait') || document.hidden) return;
+    peeking = true; lipHold(); lipSet('Chat with Phase AI');
+    peekSub.textContent = PEEK_SUB[0];
+    lip.classList.add('peek');
+    peekT1 = setTimeout(peekClose, PEEK_OPEN);
+    peekT3 = setTimeout(() => peekSubSet(PEEK_SUB[1]), PEEK_SWAP);
+  }
+  function peekClose() {
+    if (peekHover) return;                                  // the pointer is on it: it closes shortly after the pointer leaves
+    lip.classList.remove('peek');
+    peekT2 = setTimeout(peekEnd, PEEK_END - PEEK_OPEN);
+  }
+  function peekSubSet(text) {
+    clearTimeout(peekSwap); peekSub.classList.add('out');
+    peekSwap = setTimeout(() => { peekSub.textContent = text; peekSub.classList.add('pre'); void peekSub.offsetWidth; peekSub.classList.remove('out', 'pre'); }, 200);
+  }
+  function peekEnd() { peeking = false; lipNext(); lipRun(); }   // the rotation carries on with the NEXT line, so no line repeats
+  function peekAbort() { if (!peeking) return; clearTimeout(peekT1); clearTimeout(peekT2); clearTimeout(peekT3); clearTimeout(peekSwap); lip.classList.remove('peek'); peeking = false; peekHover = false; }
 
   const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
   const norm = (p) => p.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1');
@@ -65,19 +90,27 @@
     const header = document.querySelector('header.topbar');
     if (!header) return;
 
-    lip = el('button', 'pa-lip wait', '<span class="pa-lip-txt" aria-hidden="true">Chat with Phase AI</span>');
+    lip = el('button', 'pa-lip wait', '<span class="pa-lip-row"><span class="pa-lip-txt" aria-hidden="true">Chat with Phase AI</span></span>' +
+      '<span class="pa-peek" aria-hidden="true">' + '<span class="pa-peek-copy"><b>Got a project in mind?</b><span class="pa-peek-sub">' + PEEK_SUB[0] + '</span></span>' +
+      '<span class="pa-mascot-wrap"><svg class="pa-mascot" viewBox="0 0 94 92" aria-hidden="true" focusable="false"><defs><radialGradient id="pa-mg-d" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#FFF8EF"/><stop offset=".6" stop-color="#F8E9D8"/><stop offset="1" stop-color="#EBD3BD"/></radialGradient><linearGradient id="pa-mg-ds" x1="0" y1="0" x2="0" y2="1"><stop offset=".7" stop-color="#9A6A3C" stop-opacity="0"/><stop offset="1" stop-color="#9A6A3C" stop-opacity=".2"/></linearGradient><linearGradient id="pa-mg-b" x1="0" y1="0" x2=".25" y2="1"><stop offset="0" stop-color="#F3BC68"/><stop offset=".55" stop-color="#E8A84F"/><stop offset="1" stop-color="#D88F3C"/></linearGradient><linearGradient id="pa-mg-bs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6B3A0B" stop-opacity=".3"/><stop offset=".22" stop-color="#6B3A0B" stop-opacity="0"/></linearGradient><clipPath id="pa-mg-m"><path d="M34.5 58Q47.8 60.6 61.1 57.4C61.2 66.2 55.4 72.4 47.8 72.4C40.2 72.4 34.6 66.2 34.5 58Z"/></clipPath></defs><ellipse class="pa-m-shadow" cx="46" cy="89.6" rx="30" ry="2.4" fill="#000" opacity=".3"/><g class="pa-m-body"><g class="pa-m-bottom"><path d="M7.8 52.7H84.5A38.35 34.2 0 0 1 7.8 52.7Z" fill="url(#pa-mg-b)"/><path d="M7.8 52.7H84.5A38.35 34.2 0 0 1 7.8 52.7Z" fill="url(#pa-mg-bs)"/><g class="pa-m-mouth"><path d="M34.5 58Q47.8 60.6 61.1 57.4C61.2 66.2 55.4 72.4 47.8 72.4C40.2 72.4 34.6 66.2 34.5 58Z" fill="#4A1C1C"/><ellipse cx="47.8" cy="72.2" rx="9.2" ry="5.4" fill="#E5695A" clip-path="url(#pa-mg-m)"/><ellipse cx="46.2" cy="70.2" rx="4.2" ry="1.5" fill="#F58C7A" opacity=".75" clip-path="url(#pa-mg-m)"/></g></g><g class="pa-m-top"><path d="M7 48.5A39 39 0 0 1 85 48.5Z" fill="url(#pa-mg-d)"/><path d="M7 48.5A39 39 0 0 1 85 48.5Z" fill="url(#pa-mg-ds)"/><g class="pa-m-brows" fill="none" stroke="#17141B" stroke-width="2.9" stroke-linecap="round"><path d="M23.2 29C25.8 24.6 30.2 22.8 34 24.6"/><path d="M59.4 22.6C63 21 67 22.2 69.8 25.6"/></g><g class="pa-m-eyes"><g class="pa-m-eye"><ellipse cx="33.4" cy="38.8" rx="5.5" ry="7.3" fill="#15131A"/><ellipse cx="35.3" cy="35" rx="1.55" ry="1.95" fill="#fff"/></g><g class="pa-m-eye"><ellipse cx="63" cy="38" rx="5.5" ry="7.3" fill="#15131A"/><ellipse cx="64.9" cy="34.2" rx="1.55" ry="1.95" fill="#fff"/></g></g></g></g><g class="pa-m-dashes" fill="none" stroke="#F4B95B" stroke-width="4" stroke-linecap="round"><path class="pa-m-d1" d="M77.6 4.8L74.8 12.4"/><path class="pa-m-d2" d="M86 10.6L81 16.6"/><path class="pa-m-d3" d="M82.4 21.4L88.8 19.8"/></g></svg></span></span>');
     lip.setAttribute('aria-label', 'Chat with Phase AI');   // the spoken name stays the same while the visible line changes
     lipTxt = lip.querySelector('.pa-lip-txt');
+    peekSub = lip.querySelector('.pa-peek-sub');
     lip.type = 'button';
     lip.setAttribute('aria-expanded', 'false');
     lip.setAttribute('aria-controls', 'phase-ai');
     header.appendChild(lip);
 
-    lip.addEventListener('pointerenter', lipHold);
-    lip.addEventListener('pointerleave', () => lipRun());
+    lip.addEventListener('pointerenter', () => { lipHold(); if (peeking) peekHover = true; });
+    lip.addEventListener('pointermove', (e) => {   // the mascot's eyes follow the pointer
+      if (!peeking) return;
+      const m = lip.querySelector('.pa-mascot'), r = m.getBoundingClientRect(), c = (v, lim) => Math.max(-lim, Math.min(lim, v));
+      m.style.setProperty('--mx', c((e.clientX - (r.left + r.width / 2)) / 50, 3.2).toFixed(2) + 'px'); m.style.setProperty('--my', c((e.clientY - (r.top + r.height / 2)) / 35, 2.4).toFixed(2) + 'px');
+    });
+    lip.addEventListener('pointerleave', () => { if (peeking) { peekHover = false; if (lip.classList.contains('peek')) { clearTimeout(peekT1); peekT1 = setTimeout(peekClose, 400); } } lipRun(); });
     lip.addEventListener('focus', () => { if (lip.matches(':focus-visible')) lipHold(); });   // only someone using the keyboard pauses it; closing the chat hands focus back to the tab without a pause
     lip.addEventListener('blur', () => lipRun());
-    const lipGo = () => setTimeout(lipShow, LIP_DELAY);
+    const lipGo = () => { setTimeout(lipShow, LIP_DELAY); setTimeout(peekStart, PEEK_AT); };
     if (document.readyState === 'complete') lipGo(); else addEventListener('load', lipGo, { once: true });
 
     scrim = el('div', 'pa-scrim');
@@ -209,7 +242,7 @@
   function open() {
     if (S.open) return;
     S.open = true;
-    lipHold();
+    lipHold(); peekAbort();
     holdVideos(true);
     place();
     scrim.hidden = false;

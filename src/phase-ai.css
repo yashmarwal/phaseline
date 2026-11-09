@@ -17,7 +17,7 @@
 /* The tab grows out of the header pill in two beats: it drops out of the pill's centre as a narrow tongue, then spreads to its full width.
    It animates its own width and height ("wait" is the hidden state, "reveal" runs the opening), so the rounded corners and the shadow stay whole throughout.
    The line of text arrives once the shape has settled. */
-.pa-lip { --pa-x: 30px; --pa-h: 32px; transition: box-shadow 0.45s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease; }
+.pa-lip { --pa-x: 30px; --pa-h: 32px; --pa-peek: 54px; transition: box-shadow 0.45s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease, height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
 .pa-lip.wait { visibility: hidden; pointer-events: none; left: 42%; right: 42%; height: 0; }
 .pa-lip.reveal { animation: pa-lip-open 1.3s both; }
 @keyframes pa-lip-open {
@@ -30,6 +30,51 @@
 .pa-lip-txt { display: block; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32, 0.72, 0, 1); }
 .pa-lip-txt.out { opacity: 0; transform: translateY(-7px); }
 .pa-lip-txt.pre { opacity: 0; transform: translateY(7px); transition: none; }
+
+/* The peek: the tab opens downward for two seconds (open 0.6 s, hold, close 0.5 s) with a greeting and a brass arrow that shows where to click. */
+.pa-lip-row { position: absolute; left: 0; right: 0; top: 0; height: var(--pa-h); display: flex; align-items: center; justify-content: center; }
+.pa-lip.peek { height: calc(var(--pa-h) + var(--pa-peek)); box-shadow: 0 18px 38px -12px rgba(184, 147, 90, 0.6), inset 0 -1px 0 rgba(221, 187, 124, 0.95); transition: box-shadow 0.5s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease, height 0.6s cubic-bezier(0.22, 1, 0.36, 1); }   /* a brass glow along the edge while it is open */
+.pa-peek { position: absolute; left: 0; right: 0; top: var(--pa-h); height: var(--pa-peek); display: flex; align-items: center; justify-content: center; gap: 12px; padding: 0 18px 6px; text-transform: none; letter-spacing: 0; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; }
+.pa-lip.peek .pa-peek { opacity: 1; transform: none; transition: opacity 0.35s ease 0.22s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s; }
+.pa-lip::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; background: linear-gradient(180deg, #0C111B, #131A28 70%, #0E141E); }   /* a solid backing, so the page behind never shows through the open peek */
+.pa-lip.peek::before { opacity: 0.98; transition-duration: 0.35s; }
+/* edge light: a bright streak travels along the strip's edge, left to right and back again, while the peek is open */
+.pa-lip::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2.5px; pointer-events: none; opacity: 0; background: linear-gradient(100deg, transparent 0%, rgba(221, 187, 124, 0) 22%, rgba(236, 205, 140, 0.85) 42%, #FFF6DC 50%, rgba(236, 205, 140, 0.85) 58%, rgba(221, 187, 124, 0) 78%, transparent 100%) -122% 0 / 55% 100% no-repeat; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; }
+.pa-lip.peek::after { opacity: 1; animation: pa-beam 1.05s cubic-bezier(0.45, 0, 0.2, 1) 0.35s 2 alternate both; }
+@keyframes pa-beam { from { background-position: -122% 0; } to { background-position: 222% 0; } }
+.pa-peek-copy { display: grid; gap: 4px; text-align: left; min-width: 190px; }   /* as wide as the longer line, so nothing shifts when the second line arrives */
+.pa-peek-copy b { font: 600 16px/1.1 Newsreader, Georgia, serif; letter-spacing: -0.005em; color: #F5EFE3; }   /* the same serif as the site's headings */
+.pa-peek-sub { font: 500 12px/1.15 Inter, sans-serif; letter-spacing: 0.01em; color: rgba(233, 226, 210, 0.82); white-space: nowrap; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32, 0.72, 0, 1); }   /* Inter, like the nav */
+.pa-peek-sub.out { opacity: 0; transform: translateY(-5px); }
+.pa-peek-sub.pre { opacity: 0; transform: translateY(5px); transition: none; }
+/* The mascot (the Phaseline split disc as a friendly character): it pops in, its brows lift, its lid and mouth move as if it is talking while the lines show,
+   it blinks and bobs, its three excited dashes flash, and its eyes follow the pointer. */
+.pa-mascot-wrap { flex: none; width: 50px; height: 49px; display: block; margin-right: -2px; }
+.pa-mascot { width: 100%; height: 100%; overflow: visible; --mx: 0px; --my: 0px; }
+.pa-m-eyes { transform: translate(var(--mx), var(--my)); transition: transform 0.14s ease-out; }
+.pa-m-eye { transform-box: fill-box; transform-origin: center; }
+.pa-m-body, .pa-m-top, .pa-m-mouth, .pa-m-brows, .pa-m-shadow { transform-box: view-box; }
+.pa-m-top { transform-origin: 46px 48px; } .pa-m-mouth { transform-origin: 47.8px 58px; } .pa-m-brows { transform-origin: 46px 26px; } .pa-m-shadow { transform-origin: 46px 89.6px; }
+.pa-m-dashes path { transform-box: fill-box; transform-origin: 20% 90%; }
+.pa-lip.peek .pa-mascot-wrap { animation: pa-m-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
+.pa-lip.peek .pa-m-body { animation: pa-m-bob 1.4s ease-in-out 1.1s infinite; }
+.pa-lip.peek .pa-m-shadow { animation: pa-m-shade 1.4s ease-in-out 1.1s infinite; }
+.pa-lip.peek .pa-m-eye { animation: pa-m-blink 1.3s ease-in-out 0.3s infinite; }
+.pa-lip.peek .pa-m-brows { animation: pa-m-brows 1.2s ease-in-out 0.5s both; }
+.pa-lip.peek .pa-m-top { animation: pa-m-chat 2.8s ease-in-out 0.15s both; }
+.pa-lip.peek .pa-m-mouth { animation: pa-m-talk 2.8s ease-in-out 0.15s both; }
+.pa-lip.peek .pa-m-dashes path { animation: pa-m-dash 0.75s ease-out 0.7s 2 backwards; }
+.pa-lip.peek .pa-m-d2 { animation-delay: 0.8s; } .pa-lip.peek .pa-m-d3 { animation-delay: 0.9s; }
+.pa-lip.peek:hover .pa-m-body { animation: pa-m-hop 0.5s ease-out; }
+@keyframes pa-m-pop { from { opacity: 0; transform: translateY(10px) scale(0.35) rotate(-14deg); } to { opacity: 1; transform: none; } }
+@keyframes pa-m-bob { 50% { transform: translateY(-2.4px); } }
+@keyframes pa-m-shade { 50% { transform: scaleX(0.86); opacity: 0.18; } }
+@keyframes pa-m-blink { 0%, 86%, 100% { transform: scaleY(1); } 92% { transform: scaleY(0.08); } }
+@keyframes pa-m-brows { 0%, 100% { transform: translateY(0); } 30%, 60% { transform: translateY(-2.2px); } }
+@keyframes pa-m-talk { 0%, 25%, 54%, 71%, 100% { transform: scaleY(1); } 29%, 39%, 49%, 75%, 85% { transform: scaleY(0.55); } 34%, 44%, 80%, 90% { transform: scaleY(1); } }
+@keyframes pa-m-chat { 0%, 25%, 54%, 71%, 100% { transform: none; } 29%, 39%, 49%, 75%, 85% { transform: translateY(0.9px) rotate(0.6deg); } 34%, 44%, 80%, 90% { transform: translateY(-0.9px) rotate(-0.8deg); } }
+@keyframes pa-m-dash { 0% { opacity: 0; transform: scale(0.2); } 40% { opacity: 1; transform: scale(1.12); } 75% { opacity: 1; transform: scale(1); } 100% { opacity: 0.12; transform: scale(1); } }
+@keyframes pa-m-hop { 40% { transform: translateY(-4px); } 100% { transform: none; } }
 
 /* the logo orb: cut in the middle, the two halves slide past each other, left and right */
 .pa-orb { width: 16px; height: 16px; flex: none; overflow: visible; }
@@ -174,7 +219,10 @@
 
 @media (max-width: 767px) {
   .pa-lip { left: 22px; right: 22px; height: 28px; font-size: 10.5px; letter-spacing: 0.15em; border-radius: 0 0 22px 22px; }
-  .pa-lip { --pa-x: 22px; --pa-h: 28px; }
+  .pa-lip { --pa-x: 22px; --pa-h: 28px; --pa-peek: 52px; }
+  .pa-peek { gap: 10px; padding: 0 14px 6px; }
+  .pa-peek-sub { font-size: 11.5px; }
+  .pa-peek-copy { min-width: 184px; }
   .pa { width: calc(100vw - 20px); border-radius: 32px; }
   .pa-ring { border-radius: 32px; } .pa-glow { border-radius: 36px; }
   .pa-surface { border-radius: 30px; }
