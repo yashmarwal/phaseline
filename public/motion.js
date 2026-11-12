@@ -30,15 +30,7 @@
   const VERT = 0.85; // scroll-to-reveal travel is 15% gentler on vertical scroll (phone swipe reveals keep full strength)
   const once = (el, fn, start = 'top 88%') => ScrollTrigger.create({ trigger: el, start, once: true, onEnter: fn });
 
-  function revealLines(el, delay = 0) {
-    SplitText.create(el, {
-      type: 'lines',
-      mask: 'lines',
-      autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.lines, { yPercent: 140 * VERT, duration: 1, ease: 'expo.out', stagger: 0.08, delay }),
-    });
-  }
+  const PHONE = '(max-width: 767px)';
 
   function init() {
     // hero headline
@@ -59,22 +51,23 @@
       }
     }
 
-    // cards and panels: batched fade-up (stack cards on Services are driven by their own script)
-    const all = $$(".comic-panel, article, .m-rail > *, section .grid > div", main).filter((el) => !el.closest(".card-item, #matrix"));
+    // cards and panels: batched fade-up, once (stack cards on Services are driven by their own script; a post's own <article> wrapper is the page, not a card)
+    const all = $$(".comic-panel, article, .m-rail > *, section .grid > div", main).filter((el) => !el.closest(".card-item, #matrix") && !el.matches("main > article"));
     const cards = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
     gsap.set(cards, { opacity: 0, y: 48 * VERT, transition: "none" });
     ScrollTrigger.batch(cards, {
-      start: "top 90%",
+      start: "top 92%",
       once: true,
-      onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", stagger: 0.12, clearProps: "opacity,transform,transition" }),
+      onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.1, clearProps: "opacity,transform,transition" }),
     });
 
-    // body copy: gentle rise
+    // body copy: gentle rise, once (not the intro lines under the page title: the page-load animation already owns those)
+    const intro = main.querySelector('h1')?.parentElement;
     $$('section > div > p, section > div > div > p', main)
-      .filter((p) => !p.dataset.typed && !p.closest('.comic-panel, article, .m-rail, .card-item, #matrix'))
+      .filter((p) => !p.dataset.typed && p.parentElement !== intro && !p.closest('.comic-panel, article, .m-rail, .card-item, #matrix'))
       .forEach((p) => {
         gsap.set(p, { opacity: 0, y: 22 * VERT });
-        once(p, () => gsap.to(p, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', clearProps: 'all' }), 'top 92%');
+        once(p, () => gsap.to(p, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all' }), 'top 94%');
       });
 
     // count-up stats
@@ -117,66 +110,87 @@
     }
 
     draftCards();
-    // section headings: masked line reveal as they scroll in (headings inside a drafted card are revealed by the card's own timeline: splitting them twice left the inner copy hidden after a Services tab switch)
-    $$('h2', main).filter((h) => !h.closest('.draft')).forEach((h) => once(h, () => revealLines(h), 'top 90%'));
+    // section headings: masked line rise, once
+    $$('h2', main).filter((h) => !h.closest('.m-rail, .card-item')).forEach((h) => {
+      let played = false;
+      SplitText.create(h, {
+        type: 'lines', mask: 'lines', autoSplit: true,
+        onSplit: (self) => {
+          if (played) return;
+          return gsap.from(self.lines, {
+            yPercent: 119, duration: 0.9, ease: 'expo.out', stagger: 0.07,
+            scrollTrigger: { trigger: h, start: 'top 94%', once: true, onEnter: () => (played = true) },
+          });
+        },
+      });
+    });
     const stopInk = inkLines();
     ScrollTrigger.refresh();
     done(); // every start state is set: reveal the page
     return () => stopInk();
   }
 
-  // ---------- text cards: blueprint drafting marks + editorial text reveal, scrubbed by scroll ----------
-  // one timeline per card, tied to scroll position (scrolling back un-sets it): corner marks close in,
-  // the label tightens, the headline and description rise line by line, the footer row fades up
+  // ---------- text cards: blueprint drafting marks + editorial text, driven by HORIZONTAL scrolling only ----------
+  // A card in a swipeable row on a phone draws itself as the row slides it in sideways: its marks close in, the label tightens, the headline and description rise line by line,
+  // the footer fades up (vertical scrolling only gates it, so it waits until the row is on screen). No card animates with vertical scrolling: every other card, and every card
+  // on a wider screen, is plain, with its marks drawn and its text simply there.
+  let mmCards;
   function draftCards() {
+    const swipeable = [];
     $$(".m-rail > *, section .grid > div, .card-item, .text-card", main)
       .filter((c) => !c.matches(".no-draft") && c.querySelector("h2, h3, h4") && c.querySelector("p") && !c.querySelector("img, video") && !c.querySelector("svg.w-full") && !c.closest("#matrix"))
       .forEach((card) => {
         card.classList.add("draft");
-        // corner marks only on real cards (own padding of 20px+); plain text columns just get the text animation
+        // corner marks only on real cards (own padding of 20px+)
         const cs0 = getComputedStyle(card);
         if (parseFloat(cs0.paddingLeft) >= 20 && parseFloat(cs0.paddingTop) >= 20) card.classList.add("marks");
         // plain label only: pills (rounded-full chips) keep their own width, so the dimension line is never added inside them
         const eyebrow = [...card.querySelectorAll("span.uppercase, p.uppercase")].find((e) => !e.classList.contains("rounded-full") && !e.closest(".rounded-full"));
         eyebrow?.classList.add("rule");
-        const head = card.querySelector("h2, h3, h4");
-        const para = card.querySelector("p:not(.uppercase)");
-        const foot = card.querySelector(".border-t");
-
-        SplitText.create([head, para], {
-          type: "lines",
-          mask: "lines",
-          autoSplit: true,
-          onSplit: (self) => {
-            const hl = self.lines.filter((l) => head.contains(l));
-            const pl = self.lines.filter((l) => para.contains(l));
-            const swipe = matchMedia("(max-width: 767px)").matches && card.parentElement.classList.contains("m-rail");
-            const tl = gsap.timeline(swipe ? { paused: true } : { scrollTrigger: { trigger: card, start: "top 90%", end: "top 40%", scrub: 0.7 } });
-            tl.to(card, { "--p": 1, ease: "none", duration: 0.7 }, 0);
-            if (eyebrow) tl.from(eyebrow, { letterSpacing: "0.45em", opacity: 0, duration: 0.35, ease: "power2.out" }, 0.05);
-            const k = swipe ? 1 : VERT; // swipe cards on phones are revealed by horizontal movement: unchanged
-            tl.from(hl, { yPercent: 140 * k, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 0.15);
-            tl.from(pl, { yPercent: 140 * k, duration: 0.4, ease: "power3.out", stagger: 0.07 }, 0.32);
-            if (foot) tl.from(foot, { opacity: 0, y: 14 * k, duration: 0.3, ease: "power2.out" }, 0.7);
-            if (swipe) {
-              // phones: the card draws itself as it slides in horizontally; vertical position only gates it
-              let v = 0;
-              const vt = ScrollTrigger.create({ trigger: card, start: "top 92%", end: "top 55%", onUpdate: (s) => { v = s.progress; card._upd(); } });
-              card._upd = () => {
-                const vw = innerWidth, left = card.getBoundingClientRect().left;
-                const h = gsap.utils.clamp(0, 1, (vw * 0.9 - left) / (vw * 0.7));
-                gsap.to(tl, { progress: Math.min(v, h), duration: 0.3, ease: "power2.out", overwrite: true });
-              };
-              card._upd();
-              return { revert: () => { vt.kill(); tl.revert(); card._upd = null; } };
-            }
-            return tl;
-          },
-        });
+        if (card.parentElement.classList.contains("m-rail")) swipeable.push(card);
+        else card.style.setProperty("--p", "1");   // plain card: marks drawn, nothing to animate
       });
+    // a row's cards: swipe-driven on phones, plain (drawn) on wider screens; follows the window if it crosses the phone breakpoint
+    mmCards = gsap.matchMedia();
+    mmCards.add({ phone: PHONE, wide: "(min-width: 768px)" }, (mc) => {
+      if (!mc.conditions.phone) { gsap.set(swipeable, { "--p": 1 }); return; }
+      swipeable.forEach(swipeCard);
+    });
     $$(".m-rail").forEach((rail) =>
       rail.addEventListener("scroll", () => [...rail.children].forEach((c) => c._upd?.()), { passive: true })
     );
+  }
+
+  function swipeCard(card) {
+    const head = card.querySelector("h2, h3, h4");
+    const para = card.querySelector("p:not(.uppercase)");
+    const foot = card.querySelector(".border-t");
+    const eyebrow = card.querySelector(".rule");
+    SplitText.create([head, para], {
+      type: "lines",
+      mask: "lines",
+      autoSplit: true,
+      onSplit: (self) => {
+        const hl = self.lines.filter((l) => head.contains(l));
+        const pl = self.lines.filter((l) => para.contains(l));
+        const tl = gsap.timeline({ paused: true });
+        tl.to(card, { "--p": 1, ease: "none", duration: 0.7 }, 0);
+        if (eyebrow) tl.from(eyebrow, { letterSpacing: "0.45em", opacity: 0, duration: 0.35, ease: "power2.out" }, 0.05);
+        tl.from(hl, { yPercent: 140, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 0.15);
+        tl.from(pl, { yPercent: 140, duration: 0.4, ease: "power3.out", stagger: 0.07 }, 0.32);
+        if (foot) tl.from(foot, { opacity: 0, y: 14, duration: 0.3, ease: "power2.out" }, 0.7);
+        // the card draws itself as it slides in horizontally; vertical position only gates it
+        let v = 0;
+        const vt = ScrollTrigger.create({ trigger: card, start: "top 92%", end: "top 55%", onUpdate: (s) => { v = s.progress; card._upd(); } });
+        card._upd = () => {
+          const vw = innerWidth, left = card.getBoundingClientRect().left;
+          const h = gsap.utils.clamp(0, 1, (vw * 0.9 - left) / (vw * 0.7));
+          gsap.to(tl, { progress: Math.min(v, h), duration: 0.3, ease: "power2.out", overwrite: true });
+        };
+        card._upd();
+        return { revert: () => { vt.kill(); tl.revert(); card._upd = null; } };
+      },
+    });
   }
 
   // ---------- ink-line drawing for the comic-panel illustrations ----------
@@ -272,6 +286,8 @@
   // ---------- page lifecycle: runs on first load and again after every client-side page swap ----------
   let ctx;
   const teardown = () => {
+    mmCards?.revert();
+    mmCards = null;
     ctx?.revert();
     ctx = null;
     ScrollTrigger.getAll().forEach((t) => t.kill());
