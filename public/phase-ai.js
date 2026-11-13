@@ -79,6 +79,7 @@
   const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
   const norm = (p) => p.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1');
   const pageKey = () => { const p = norm(location.pathname).replace(/^\//, ''); return ['services', 'work', 'process', 'contact'].includes(p) ? p : 'default'; };
+  const lockScroll = (on) => (window.lockScroll ? window.lockScroll('chat', on) : (document.body.style.overflow = on ? 'hidden' : ''));   // shared lock: see site.js
   const isPhone = () => matchMedia('(max-width: 767px)').matches;
 
   function loadData() {
@@ -218,7 +219,9 @@
   const edgeKick = (k) => { edge.kick = Math.min(1.2, edge.kick + k); };
 
   function place() {
-    const top = Math.round(lip.getBoundingClientRect().bottom + 10);
+    // measured from the tab's RESTING height (--pa-h), not its bottom edge: while the peek is showing the tab is stretched taller, and it shrinks back as the chat opens
+    const rest = parseFloat(getComputedStyle(lip).getPropertyValue('--pa-h')) || lip.offsetHeight;
+    const top = Math.round(lip.getBoundingClientRect().top + rest + 10);
     const vh = window.visualViewport ? visualViewport.height : innerHeight;
     const keyboard = window.visualViewport && vh < innerHeight - 120;
     const bottomGap = isPhone() && !keyboard ? 96 : 16;        // on phones keep the bottom tab bar visible
@@ -235,8 +238,10 @@
     else held.splice(0).forEach((v) => v.play().catch(() => {}));
   }
 
+  let closeTimer = 0;   // the pending "finish closing" step: a reopen or a second close replaces it, so an old close can never cut a newer one short
   function open() {
     if (S.open) return;
+    clearTimeout(closeTimer);
     S.open = true;
     lipHold(); peekAbort();
     holdVideos(true);
@@ -246,7 +251,7 @@
     drawer.hidden = false;
     drawer.dataset.state = 'open';
     lip.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    lockScroll(true);
     S.session = S.session || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
     edgeStart();
     S.settled = false;
@@ -265,12 +270,12 @@
       if (S.open) return;
       drawer.hidden = true; drawer.dataset.state = 'closed'; scrim.hidden = true;
       holdVideos(false);
-      document.body.style.overflow = '';
+      lockScroll(false);
       if (!keepFocus && !immediate) lip.focus({ preventScroll: true });
       if (after) requestAnimationFrame(after);   // runs once the page can scroll again
     };
     if (immediate || reduced) done();
-    else { drawer.dataset.state = 'closing'; setTimeout(done, 520); }
+    else { drawer.dataset.state = 'closing'; clearTimeout(closeTimer); closeTimer = setTimeout(done, 520); }
   }
 
   function trapTab(e) {
@@ -300,7 +305,13 @@
   // ---------- the conversation ----------
   function scrollLog() { requestAnimationFrame(() => { log.scrollTo({ top: log.scrollHeight, behavior: reduced ? 'auto' : 'smooth' }); }); }
   function clearChips() { log.querySelectorAll('.pa-chips').forEach((n) => n.remove()); }
-  function setBusy(on) { drawer.dataset.busy = on ? '1' : '0'; sendBtn.disabled = on; }
+  // STATE "busy": the chat is locked while ANY job is running. Each job (a question being answered, the form being sent) holds the lock under its own name,
+  // so one finishing cannot unlock the chat while the other is still going.
+  const busyBy = new Set();
+  function setBusy(on, who = 'turn') {
+    if (on) busyBy.add(who); else busyBy.delete(who);
+    drawer.dataset.busy = busyBy.size ? '1' : '0'; sendBtn.disabled = busyBy.size > 0;
+  }
   const fill = (s, vars = {}) => String(s).replace(/\{\{(\w+)\}\}/g, (m, k) => (vars[k] != null ? vars[k] : m));
 
   function addUser(text) {
@@ -343,8 +354,8 @@
   function showTyping() {
     const n = el('div', 'pa-msg pa-typing', ORB + '<span class="pa-think">Thinking<i></i><i></i><i></i></span>');
     n.setAttribute('role', 'status');
-    log.appendChild(n); setBusy(true); scrollLog();
-    return () => { n.remove(); setBusy(false); };
+    log.appendChild(n); setBusy(true, 'turn'); scrollLog();
+    return () => { n.remove(); setBusy(false, 'turn'); };
   }
 
   const whatsappMsg = () => (S.lastQuestion ? `Hi Phaseline, I was chatting with Phase AI. My question: ${S.lastQuestion}` : "Hi, I'd like to discuss a project.");
@@ -513,18 +524,18 @@
     f.dataset.sending = '1';
     const btn = f.querySelector('button[type="submit"]');
     btn.disabled = true; btn.textContent = 'Sending...';
-    setBusy(true);
+    setBusy(true, 'form');
     try {
       await window.sendLead({ name, company, email, phone, details: '[Via Phase AI chat] ' + details, elapsed: Date.now() - Number(f.dataset.t0 || Date.now()), trap: f.querySelector('.hp').value });
     } catch (_) {
-      setBusy(false);
+      setBusy(false, 'form');
       delete f.dataset.sending; btn.disabled = false; btn.textContent = 'Send to the team';
       err.hidden = false; err.textContent = 'That did not go through. Please try again, or message the team directly.';
       holder.appendChild(actionRow(['whatsapp', 'email'], 0));
       scrollLog();
       return;
     }
-    setBusy(false);
+    setBusy(false, 'form');
     S.formOpen = false;
     f.remove();
     const m = S.data.formDone;

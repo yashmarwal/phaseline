@@ -8,6 +8,14 @@
   // Web3Forms access key (public by design; it can only send to the email it was created for). Set it in site.config.json, then run npm run config.
   const WEB3FORMS_KEY = '9e12a97a-d2f2-420a-820b-17f3acac00eb';
 
+  // STATE "scroll lock": the page scrolls only while nothing holds the lock. Every overlay (project popup, thank-you popup, chat drawer) holds it under its own name,
+  // so closing one cannot unlock the page while another is still open. motion.js watches body overflow to pause smooth scrolling.
+  const scrollHolders = new Set();
+  window.lockScroll = function (who, on) {
+    if (on) scrollHolders.add(who); else scrollHolders.delete(who);
+    document.body.style.overflow = scrollHolders.size ? 'hidden' : '';
+  };
+
   // 1. Toast Notification Utility
   window.showToast = function (message, type = 'info') {
     let container = document.getElementById('toast-container');
@@ -358,10 +366,13 @@
     const host = src ? (src.closest('article[id]') || src) : null;
     modalSrcVideo = host ? (host.matches('video') ? host : host.querySelector('video[data-brag]')) : null;
     modalClosing = false;
+    const session = ++bpSession;   // anything still pending from an earlier open or close is now out of date
+    bpTl?.kill(); bpTl = null;
+    document.querySelectorAll('body > .bp-ghost').forEach((e) => e.remove());
     window.__bpOpen = true; // background videos stay paused while a project is open
     document.querySelectorAll('video[data-brag]').forEach((v) => v.pause());
     modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    window.lockScroll('project', true);
     const g = window.gsap;
     const panel = modal.querySelector('.modal-content');
     const vbox = modal.querySelector('.bp-video');
@@ -372,7 +383,7 @@
     const P = panel.getBoundingClientRect(), V = vbox.getBoundingClientRect();
     const clean = () => g.set([modal, panel, vbox, ...q('.bp-head, .bp-item, .bp-foot')], { clearProps: 'all' });
     if (!S) { // no card to grow from: a soft rise
-      g.timeline({ defaults: { ease: 'power3.out' }, onComplete: clean })
+      bpTl = g.timeline({ defaults: { ease: 'power3.out' }, onComplete: clean })
         .fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0)
         .fromTo(panel, { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0);
       return;
@@ -387,8 +398,8 @@
     g.set(vbox, { opacity: 0 });
     g.set(q('.bp-head, .bp-item, .bp-foot'), { opacity: 0 });
     let landed = false;
-    const land = () => { if (landed) return; landed = true; g.set(vbox, { opacity: 1 }); g.to(ghost, { opacity: 0, duration: 0.2, ease: 'power1.out', onComplete: () => { ghost.remove(); clean(); } }); };
-    g.timeline({ onComplete: () => { if (real.readyState >= 2) land(); else { real.addEventListener('loadeddata', land, { once: true }); setTimeout(land, 800); } } })
+    const land = () => { if (landed || session !== bpSession) return; landed = true; g.set(vbox, { opacity: 1 }); g.to(ghost, { opacity: 0, duration: 0.2, ease: 'power1.out', onComplete: () => { ghost.remove(); clean(); } }); };
+    bpTl = g.timeline({ onComplete: () => { if (real.readyState >= 2) land(); else { real.addEventListener('loadeddata', land, { once: true }); setTimeout(land, 800); } } })
       .fromTo(modal, { opacity: 0, backdropFilter: 'blur(0px)' }, { opacity: 1, backdropFilter: 'blur(10px)', duration: 0.6, ease: 'power2.out' }, 0)
       .fromTo(panel, { clipPath: ins(S) }, { clipPath: 'inset(0px 0px 0px 0px round 12px)', duration: D, ease: E }, 0)
       .to(ghost, { left: V.left, top: V.top, width: V.width, height: V.height, borderRadius: 8, duration: D, ease: E }, 0)
@@ -426,7 +437,8 @@
     return gh;
   }
 
-  let modalClosing = false, modalSrcVideo = null;
+  // STATE "project popup": hidden -> opening -> open -> closing -> hidden. bpSession counts opens and closes; bpTl is the one animation that may be running.
+  let modalClosing = false, modalSrcVideo = null, bpSession = 0, bpTl = null;
   window.closeModal = function () {
     const modal = document.getElementById('blueprint-modal');
     if (!modal || modal.classList.contains('hidden') || modalClosing) return;
@@ -434,13 +446,15 @@
     const panel = modal.querySelector('.modal-content');
     const vbox = modal.querySelector('.bp-video');
     const q = (sel) => modal.querySelectorAll(sel);
-    const done = (gh) => { if (gh) gh.remove(); modal.classList.add('hidden'); document.body.style.overflow = ''; modalClosing = false; window.__bpOpen = false; document.querySelectorAll('video[data-brag]').forEach((v) => { if (visibleRect(v)) v.play().catch(() => {}); }); if (g) g.set([modal, panel, vbox, ...q('.bp-head, .bp-item, .bp-foot')], { clearProps: 'all' }); };
+    const done = (gh) => { if (gh) gh.remove(); document.querySelectorAll('body > .bp-ghost').forEach((e) => e.remove()); modal.classList.add('hidden'); window.lockScroll('project', false); modalClosing = false; window.__bpOpen = false; document.querySelectorAll('video[data-brag]').forEach((v) => { if (visibleRect(v)) v.play().catch(() => {}); }); if (g) g.set([modal, panel, vbox, ...q('.bp-head, .bp-item, .bp-foot')], { clearProps: 'all' }); };
     if (!g || matchMedia('(prefers-reduced-motion: reduce)').matches) { done(); return; }
     modalClosing = true;
+    bpSession++;
+    bpTl?.kill(); bpTl = null;   // an opening still playing must not fight the closing
     g.killTweensOf([modal, panel]);
     const S = visibleRect(modalSrcVideo), P = panel.getBoundingClientRect(), V = vbox.getBoundingClientRect();
     if (!S || V.bottom < 0 || V.top > innerHeight) {
-      g.timeline({ onComplete: () => done() })
+      bpTl = g.timeline({ onComplete: () => done() })
         .to(panel, { y: 30, opacity: 0, duration: 0.3, ease: 'power3.in' }, 0)
         .to(modal, { opacity: 0, duration: 0.32, ease: 'power2.in' }, 0.05);
       return;
@@ -449,7 +463,7 @@
     const ghost = makeGhost(vbox.querySelector('video'), V);
     const E = 'power3.inOut', D = 0.6;
     g.set(vbox, { opacity: 0 });
-    g.timeline({ onComplete: () => done(ghost) })
+    bpTl = g.timeline({ onComplete: () => done(ghost) })
       .to(q('.bp-head, .bp-item, .bp-foot'), { opacity: 0, duration: 0.2, ease: 'power2.in' }, 0)
       .to(panel, { opacity: 0, duration: 0.3, ease: 'power2.in' }, 0.02) // the card dissolves around the video as it lifts out
       .to(ghost, { left: S.left, top: S.top, width: S.width, height: S.height, duration: D, ease: E }, 0.04)
@@ -652,7 +666,7 @@
     `;
 
     confModal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    window.lockScroll('thanks', true);
 
     // Reset Form
     const form = document.getElementById('project-intake-form');
@@ -663,7 +677,7 @@
     const confModal = document.getElementById('confirmation-modal');
     if (confModal) {
       confModal.classList.add('hidden');
-      document.body.style.overflow = '';
+      window.lockScroll('thanks', false);
     }
   };
 
@@ -759,21 +773,26 @@
     overlayWasOpen = open;
   }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["class", "data-state"] });
 
+  // STATE MACHINE "page swap": idle -> leaving (fetching) -> swapped -> idle. Only the LATEST request may finish: each go() takes a number,
+  // and a swap whose number is no longer current stops quietly, so a slow earlier page can never replace the page asked for last.
+  let navSeq = 0, motionTimer = 0;
   async function go(url, push = true, restoreY = 0) {
+    const mine = ++navSeq;
     if (push) saveY();
     navigating = true;
-    try { await swap(url, push, restoreY); } finally { navigating = false; }
+    try { await swap(url, push, restoreY, () => mine === navSeq); } finally { if (mine === navSeq) navigating = false; }
   }
 
-  async function swap(url, push, restoreY) {
+  async function swap(url, push, restoreY, current) {
     const u = new URL(url, location.href);
     const root = document.documentElement;
     root.classList.add("leaving");
     let html;
     try {
       [html] = await Promise.all([load(u.href), new Promise((r) => setTimeout(r, 180))]);
-    } catch (_) { location.href = u.href; return; }
+    } catch (_) { if (current()) location.href = u.href; return; }
     if (overlayBack) await overlayBack;
+    if (!current()) return;   // a newer click or Back took over while this page was loading
     const doc = new DOMParser().parseFromString(html, "text/html");
     const main = doc.querySelector("main"), foot = doc.querySelector("footer");
     if (!main) { location.href = u.href; return; }
@@ -788,7 +807,7 @@
     document.title = doc.title;
     document.querySelector("meta[name=description]")?.setAttribute("content", doc.querySelector("meta[name=description]")?.content || "");
 
-    if (window.pageMotion) { root.classList.add("motion"); setTimeout(() => root.classList.remove("motion"), 2500); }
+    if (window.pageMotion) { root.classList.add("motion"); clearTimeout(motionTimer); motionTimer = setTimeout(() => root.classList.remove("motion"), 2500); }
     document.querySelector("main").replaceWith(main);
     if (foot) document.querySelector("footer")?.replaceWith(foot);
     syncChrome(doc);
